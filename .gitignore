@@ -216,3 +216,28 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ===== Project-specific ignores for Zemax ZOS-API learning =====
+
+# Local virtual environment
+.venv_zosapi38/
+
+# VS Code local settings
+.vscode/
+
+# Temporary output folders
+outputs/
+results/
+
+# Large or private Zemax model files
+models/
+*.zar
+*.zmx
+*.zos
+
+# Windows / system files
+Thumbs.db
+Desktop.ini
+
+# Streamlit secrets
+.streamlit/secrets.toml
