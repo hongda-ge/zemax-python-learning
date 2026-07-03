@@ -2,7 +2,7 @@ from pathlib import Path
 
 # ===== D15 dry-run：不调用 Zemax，只检查扫描点 =====
 
-project_dir = Path(r"C:\Users\20181\Desktop\Zemax\02_zosapi_python")
+project_dir = Path(r"Zemax\02_zosapi_python")
 
 output_dir = project_dir / "results" / "D15_sweep_define"
 output_dir.mkdir(parents=True, exist_ok=True)
