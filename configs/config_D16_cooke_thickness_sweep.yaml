@@ -11,7 +11,7 @@ software:
   language: Python
 
 model:
-  lens_file: 'C:\Users\20181\Documents\Zemax\Samples\Sequential\Objectives\Cooke 40 degree field.zmx'
+  lens_file: 'Cooke 40 degree field.zmx'
   model_type: Sequential
   keep_original: true
 
@@ -33,5 +33,5 @@ analysis:
   save_models: true
 
 outputs:
-  output_dir: 'C:\Users\20181\Desktop\Zemax\02_zosapi_python\results\D16_thickness_sweep'
+  output_dir: 'results\D16_thickness_sweep'
   summary_csv: 'D16_sweep_summary.csv'

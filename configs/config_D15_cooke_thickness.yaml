@@ -11,7 +11,7 @@ software:
   language: Python
 
 model:
-  lens_file: C:\Users\20181\Documents\Zemax\Samples\Sequential\Objectives\Cooke 40 degree field.zmx
+  lens_file: Cooke 40 degree field.zmx
   model_type: Sequential
   keep_original: true
 
@@ -31,7 +31,7 @@ analysis:
   - Standard_Spot
 
 outputs:
-  output_dir: C:\Users\20181\Desktop\Zemax\02_zosapi_python\results\D15_sweep_define
+  output_dir: results\D15_sweep_define
   save_models: true
   export_lde_csv: true
   export_mtf_txt: true
