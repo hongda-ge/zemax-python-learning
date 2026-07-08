@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/zemax_task_schema.json",
+  "title": "Zemax Automation Task Schema",
+  "description": "Schema for validating AI-generated YAML task files for Zemax automation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "software",
+    "task_type",
+    "model_file",
+    "target",
+    "metrics",
+    "outputs",
+    "safety"
+  ],
+  "properties": {
+    "software": {
+      "type": "string",
+      "enum": ["zemax"],
+      "description": "Simulation software."
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "parameter_sweep",
+        "single_analysis",
+        "before_after_comparison"
+      ],
+      "description": "Automation task type."
+    },
+    "model_file": {
+      "type": "string",
+      "pattern": ".*\\.(zmx|zos)$",
+      "description": "Zemax model file name."
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "surface",
+        "parameter",
+        "unit",
+        "start",
+        "end",
+        "step"
+      ],
+      "properties": {
+        "surface": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Surface number in the Lens Data Editor."
+        },
+        "parameter": {
+          "type": "string",
+          "enum": ["thickness", "radius", "curvature"],
+          "description": "Target parameter to be changed."
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["mm"],
+          "description": "Unit of the target parameter."
+        },
+        "start": {
+          "type": "number",
+          "description": "Sweep start value."
+        },
+        "end": {
+          "type": "number",
+          "description": "Sweep end value."
+        },
+        "step": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Sweep step size."
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "MTF_30lpmm",
+          "MTF_50lpmm",
+          "RMS_Spot",
+          "Merit_Function"
+        ]
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "csv",
+          "figures",
+          "best_design",
+          "report"
+        ]
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "read_only_original_model",
+        "output_dir",
+        "dry_run_first",
+        "max_runs"
+      ],
+      "properties": {
+        "read_only_original_model": {
+          "type": "boolean",
+          "description": "Whether the original model should remain unchanged."
+        },
+        "output_dir": {
+          "type": "string",
+          "pattern": "^results/.*",
+          "description": "Output directory must be inside results/."
+        },
+        "dry_run_first": {
+          "type": "boolean",
+          "description": "Whether to perform a dry run before actual simulation."
+        },
+        "max_runs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Maximum allowed number of sweep runs."
+        }
+      }
+    }
+  }
+}

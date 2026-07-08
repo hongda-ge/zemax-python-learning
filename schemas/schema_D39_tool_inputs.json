@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "D39 tool input schemas for Zemax-Agent tool registry.",
+  "tool_schemas": {
+    "load_task": {
+      "type": "object",
+      "properties": {
+        "task_file": {
+          "type": "string",
+          "description": "Path to a YAML task file inside the project."
+        }
+      },
+      "required": ["task_file"],
+      "additionalProperties": false
+    },
+
+    "validate_task": {
+      "type": "object",
+      "properties": {
+        "task_file": {
+          "type": "string"
+        },
+        "schema_file": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+
+    "check_safety": {
+      "type": "object",
+      "properties": {
+        "task_file": {
+          "type": "string"
+        },
+        "safety_policy_file": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+
+    "open_model": {
+      "type": "object",
+      "properties": {
+        "model_file": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["standalone", "interactive"]
+        },
+        "make_copy": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+
+    "set_parameter": {
+      "type": "object",
+      "properties": {
+        "surface": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "parameter": {
+          "type": "string",
+          "enum": ["thickness", "radius"]
+        },
+        "value": {
+          "type": ["number", "string"]
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["mm", "deg", "none"]
+        }
+      },
+      "required": ["surface", "parameter", "value"],
+      "additionalProperties": false
+    },
+
+    "run_analysis": {
+      "type": "object",
+      "properties": {
+        "analysis_type": {
+          "type": "string",
+          "enum": ["fft_mtf", "spot_diagram"]
+        },
+        "output_dir": {
+          "type": "string"
+        }
+      },
+      "required": ["analysis_type"],
+      "additionalProperties": false
+    },
+
+    "run_sweep": {
+      "type": "object",
+      "properties": {
+        "task_file": {
+          "type": "string"
+        },
+        "dry_run": {
+          "type": "boolean"
+        },
+        "max_runs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+
+    "analyze_results": {
+      "type": "object",
+      "properties": {
+        "results_file": {
+          "type": "string"
+        }
+      },
+      "required": ["results_file"],
+      "additionalProperties": false
+    },
+
+    "prepare_summary_input": {
+      "type": "object",
+      "properties": {
+        "results_file": {
+          "type": "string"
+        },
+        "figures_dir": {
+          "type": "string"
+        },
+        "log_file": {
+          "type": "string"
+        }
+      },
+      "required": ["results_file"],
+      "additionalProperties": false
+    },
+
+    "generate_report": {
+      "type": "object",
+      "properties": {
+        "report_title": {
+          "type": "string"
+        },
+        "output_file": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  }
+}
