@@ -1,0 +1,31 @@
+{
+  "run_id": "D41_20260707_211604_fab81824",
+  "task_name": "Case 3 - Dangerous path rejected",
+  "tool_name": "D41_agent_tool_demo",
+  "state": "success",
+  "created_at": "2026-07-07T21:16:04",
+  "started_at": "2026-07-07T21:16:04",
+  "ended_at": "2026-07-07T21:16:04",
+  "progress": {
+    "total_steps": 1,
+    "completed_steps": 1,
+    "percent": 100.0,
+    "current_step": "completed"
+  },
+  "args": {
+    "case_description": "This case intentionally sends a path outside the project directory to prove that path safety checking blocks dangerous file access.",
+    "expected_success": false
+  },
+  "last_message": "D41 case passed: invalid input was rejected as expected.",
+  "error": null,
+  "run_dir": "results\\runs\\D41_20260707_211604_fab81824",
+  "last_tool": "load_task",
+  "last_result": {
+    "status": "error",
+    "tool": "load_task",
+    "message": "Tool input validation failed.",
+    "validation_errors": [
+      "task_file points outside project directory: ../../secret_config.yaml"
+    ]
+  }
+}

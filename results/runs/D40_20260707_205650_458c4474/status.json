@@ -1,0 +1,30 @@
+{
+  "run_id": "D40_20260707_205650_458c4474",
+  "task_name": "D40 tracked pseudo Zemax-Agent workflow",
+  "tool_name": "tool_registry_workflow",
+  "state": "success",
+  "created_at": "2026-07-07T20:56:50",
+  "started_at": "2026-07-07T20:56:50",
+  "ended_at": "2026-07-07T20:56:53",
+  "progress": {
+    "total_steps": 6,
+    "completed_steps": 6,
+    "percent": 100.0,
+    "current_step": "completed"
+  },
+  "args": {
+    "demo": "D40_long_task_demo"
+  },
+  "last_message": "D40 demo completed successfully.",
+  "error": null,
+  "run_dir": "results\\runs\\D40_20260707_205650_458c4474",
+  "last_tool": "generate_report",
+  "last_result": {
+    "status": "success",
+    "tool": "generate_report",
+    "message": "Report generation simulated.",
+    "report_title": "D40 Long Task Demo Report",
+    "report_file": "reports/D40_long_task_demo_report.md",
+    "simulation_mode": true
+  }
+}

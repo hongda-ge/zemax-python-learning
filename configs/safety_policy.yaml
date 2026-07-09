@@ -1,0 +1,40 @@
+# D33 Safety Policy for AI-generated Zemax tasks
+
+project:
+  allowed_output_root: results
+  allowed_model_extensions:
+    - .zmx
+    - .zos
+
+execution:
+  require_dry_run_first: true
+  require_read_only_original_model: true
+  max_runs_hard_limit: 100
+
+target:
+  min_surface: 1
+  max_surface: 200
+
+allowed_parameters:
+  thickness:
+    unit: mm
+    min_value: -20.0
+    max_value: 20.0
+    min_step: 0.001
+
+  radius:
+    unit: mm
+    min_value: -1000.0
+    max_value: 1000.0
+    min_step: 0.001
+
+  curvature:
+    unit: mm
+    min_value: -10.0
+    max_value: 10.0
+    min_step: 0.000001
+
+path_rules:
+  forbid_absolute_paths: true
+  forbid_parent_directory: true
+  forbid_overwrite_original_model: true

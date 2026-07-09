@@ -1,0 +1,31 @@
+{
+  "run_id": "D41_20260707_211603_d833cd03",
+  "task_name": "Case 1 - Normal pseudo Zemax-Agent workflow",
+  "tool_name": "D41_agent_tool_demo",
+  "state": "success",
+  "created_at": "2026-07-07T21:16:03",
+  "started_at": "2026-07-07T21:16:03",
+  "ended_at": "2026-07-07T21:16:04",
+  "progress": {
+    "total_steps": 6,
+    "completed_steps": 6,
+    "percent": 100.0,
+    "current_step": "completed"
+  },
+  "args": {
+    "case_description": "This case simulates a normal tool-based workflow: validate task, check safety, run sweep, run analysis, prepare summary input, and generate report.",
+    "expected_success": true
+  },
+  "last_message": "D41 case completed successfully: Case 1 - Normal pseudo Zemax-Agent workflow",
+  "error": null,
+  "run_dir": "results\\runs\\D41_20260707_211603_d833cd03",
+  "last_tool": "generate_report",
+  "last_result": {
+    "status": "success",
+    "tool": "generate_report",
+    "message": "Report generation simulated.",
+    "report_title": "D41 Normal Tool Workflow Report",
+    "report_file": "reports/D41_case1_tool_workflow_report.md",
+    "simulation_mode": true
+  }
+}

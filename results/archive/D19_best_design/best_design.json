@@ -1,0 +1,24 @@
+{
+    "task": "D19_best_design_selection",
+    "selection_method": "MTF-only weighted score",
+    "score_formula": "final_score = 0.3*mtf_30_avg + 0.3*mtf_40_avg + 0.4*mtf_50_avg",
+    "note": "Spot penalty is reserved for future update. Current selection is based on averaged MTF metrics only.",
+    "weights": {
+        "mtf_30_avg": 0.3,
+        "mtf_40_avg": 0.3,
+        "mtf_50_avg": 0.4
+    },
+    "best_case": {
+        "case_index": 7,
+        "delta_mm": 0.2,
+        "actual_thickness_mm": 1.199974567,
+        "mtf_30_avg": 0.794333,
+        "mtf_40_avg": 0.710434,
+        "mtf_50_avg": 0.6288,
+        "mtf_score": 0.7029501,
+        "spot_penalty": 0.0,
+        "final_score": 0.7029501,
+        "mtf_txt_path": "C:\\Users\\20181\\Desktop\\Zemax\\02_zosapi_python\\results\\D16_thickness_sweep\\mtf_txt\\case_007_delta_p0p20_fft_mtf.txt",
+        "spot_txt_path": "C:\\Users\\20181\\Desktop\\Zemax\\02_zosapi_python\\results\\D16_thickness_sweep\\spot_txt\\case_007_delta_p0p20_standard_spot.txt"
+    }
+}

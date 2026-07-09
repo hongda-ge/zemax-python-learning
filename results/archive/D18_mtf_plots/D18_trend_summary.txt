@@ -1,0 +1,22 @@
+D18 MTF Trend Summary
+========================================
+
+Total valid cases: 9
+
+Best MTF@30:
+  delta_mm = 0.2
+  actual_thickness_mm = 1.199974567
+  mtf_30_avg = 0.794333
+
+Best MTF@40:
+  delta_mm = 0.2
+  actual_thickness_mm = 1.199974567
+  mtf_40_avg = 0.710434
+
+Best MTF@50:
+  delta_mm = 0.2
+  actual_thickness_mm = 1.199974567
+  mtf_50_avg = 0.6288
+
+Note:
+D18 only visualizes the trend. Formal scoring and best design selection will be done in D19.

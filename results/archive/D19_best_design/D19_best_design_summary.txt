@@ -1,0 +1,25 @@
+D19 Best Design Summary
+========================================
+
+Current score formula:
+final_score = 0.3*mtf_30_avg + 0.3*mtf_40_avg + 0.4*mtf_50_avg
+
+Best case:
+  case_index = 7
+  delta_mm = 0.2
+  actual_thickness_mm = 1.199974567
+  mtf_30_avg = 0.794333
+  mtf_40_avg = 0.710434
+  mtf_50_avg = 0.6288
+  final_score = 0.7029501
+
+Top cases:
+ case_index  delta_mm  actual_thickness_mm  final_score
+          7       0.2             1.199975     0.702950
+          8       0.4             1.399975     0.610883
+          9       0.6             1.599975     0.385304
+         10       0.8             1.799975     0.202431
+          5      -0.2             0.799975     0.194491
+
+Note:
+This is an MTF-only score. A more complete optical evaluation should include RMS Spot or other image quality metrics.

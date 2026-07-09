@@ -1,0 +1,31 @@
+{
+  "run_id": "D41_20260707_211604_f5703341",
+  "task_name": "Case 2 - Invalid analysis parameter rejected",
+  "tool_name": "D41_agent_tool_demo",
+  "state": "success",
+  "created_at": "2026-07-07T21:16:04",
+  "started_at": "2026-07-07T21:16:04",
+  "ended_at": "2026-07-07T21:16:04",
+  "progress": {
+    "total_steps": 1,
+    "completed_steps": 1,
+    "percent": 100.0,
+    "current_step": "completed"
+  },
+  "args": {
+    "case_description": "This case intentionally sends an unsupported analysis_type to prove that D39 input validation blocks invalid parameters.",
+    "expected_success": false
+  },
+  "last_message": "D41 case passed: invalid input was rejected as expected.",
+  "error": null,
+  "run_dir": "results\\runs\\D41_20260707_211604_f5703341",
+  "last_tool": "run_analysis",
+  "last_result": {
+    "status": "error",
+    "tool": "run_analysis",
+    "message": "Tool input validation failed.",
+    "validation_errors": [
+      "analysis_type: 'ray_fan' is not one of ['fft_mtf', 'spot_diagram']"
+    ]
+  }
+}
