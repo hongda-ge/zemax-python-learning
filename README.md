@@ -146,19 +146,19 @@ results/D20_before_after/D20_mtf_before_after_bar.png
 
 ### 5.1 MTF 随 Surface 3 Thickness 变化
 
-![MTF vs Surface 3 Thickness](figures/D18_mtf_vs_surface3_thickness.png)
+![MTF vs Surface 3 Thickness](figures/weekly03/D18_mtf_vs_surface3_thickness.png)
 
 该图用于观察不同厚度下 MTF@30/40/50 的变化趋势。
 
 ### 5.2 加权评分随 Surface 3 Thickness 变化
 
-![Weighted Score vs Surface 3 Thickness](figures/D19_weighted_score_vs_surface3_thickness.png)
+![Weighted Score vs Surface 3 Thickness](figures/weekly03/D19_weighted_score_vs_surface3_thickness.png)
 
 该图展示了当前 MTF-only 评分函数下，不同厚度对应的综合评分。
 
 ### 5.3 初始设计与最佳设计对比
 
-![Before After MTF Comparison](figures/D20_before_after_mtf_comparison.png)
+![Before After MTF Comparison](figures/weekly03/D20_before_after_mtf_comparison.png)
 
 该图用于展示初始设计和当前评分规则下最佳设计的 MTF 指标对比。
 
