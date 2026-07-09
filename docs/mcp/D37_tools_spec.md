@@ -85,7 +85,7 @@ D37 的目标是把前面已经跑通的 Zemax-Agent 自动化流程拆成一组
 │  ├─ D37_file_naming_rules.md
 │  └─ D37_tools_spec.md
 │
-├─ examples/
+├─ examples/tasks/
 ├─ figures/
 ├─ logs/
 │  ├─ weekly_log_02.md
@@ -114,7 +114,7 @@ D37 的目标是把前面已经跑通的 Zemax-Agent 自动化流程拆成一组
 │  ├─ D33_check_task_safety.py
 │  └─ D34_agent_demo.py
 │
-├─ scripts_old/
+├─ scripts/legacy/
 ├─ .gitignore
 ├─ main.py
 ├─ README.md
@@ -135,17 +135,17 @@ D37 的目标是把前面已经跑通的 Zemax-Agent 自动化流程拆成一组
 ↓
 AI 生成 YAML / JSON 任务
 ↓
-scripts/D30_validate_task_yaml.py 校验任务格式
+scripts/validation/D30_validate_task_yaml.py 校验任务格式
 ↓
-scripts/D33_check_task_safety.py 检查安全边界
+scripts/validation/D33_check_task_safety.py 检查安全边界
 ↓
-scripts/D31_run_from_task_yaml.py 调用自动化脚本
+scripts/agent/D31_run_from_task_yaml.py 调用自动化脚本
 ↓
 Python / ZOS-API 控制 Zemax
 ↓
 输出结果、图表和报告
 ↓
-scripts/D32_prepare_result_summary.py 准备结果总结输入
+scripts/agent/D32_prepare_result_summary.py 准备结果总结输入
 ↓
 AI 基于真实结果总结
 ```
@@ -207,10 +207,10 @@ scripts/D编号_功能说明.py
 示例：
 
 ```text
-scripts/D30_validate_task_yaml.py
-scripts/D31_run_from_task_yaml.py
-scripts/D34_agent_demo.py
-scripts/D38_tool_registry_demo.py
+scripts/validation/D30_validate_task_yaml.py
+scripts/agent/D31_run_from_task_yaml.py
+scripts/agent/D34_agent_demo.py
+scripts/demos/D38_tool_registry_demo.py
 ```
 
 ### 4.3 配置文件
@@ -318,14 +318,14 @@ modules/tool_registry.py
 | 工具名称 | 作用 | 当前对应已有文件 | 后续建议模块 |
 |---|---|---|---|
 | `load_task`             | 读取 YAML 任务配置          | `configs/config_D31_from_task.yaml`                               | `modules/task_loader.py` |
-| `validate_task`         | 检查任务格式是否合法         | `scripts/D30_validate_task_yaml.py`、`configs/task_schema.json`   | `modules/task_validator.py` |
-| `check_safety`          | 检查参数范围、路径和输出安全  | `scripts/D33_check_task_safety.py`、`configs/safety_policy.yaml`  | `modules/safety_checker.py` |
+| `validate_task`         | 检查任务格式是否合法         | `scripts/validation/D30_validate_task_yaml.py`、`configs/task_schema.json`   | `modules/task_validator.py` |
+| `check_safety`          | 检查参数范围、路径和输出安全  | `scripts/validation/D33_check_task_safety.py`、`configs/safety_policy.yaml`  | `modules/safety_checker.py` |
 | `open_model`            | 打开 Zemax 模型             | D31 / D34 流程中已有相关逻辑                                        | `modules/zemax_runner.py` |
 | `set_parameter`         | 修改 Zemax LDE 参数         | D31 / D34 流程中已有相关逻辑                                        | `modules/zemax_runner.py` |
 | `run_analysis`          | 运行 MTF / Spot 等分析      | 当前属于后续扩展重点                                                 | `modules/analysis_runner.py` |
 | `run_sweep`             | 执行参数扫描                | `configs/config_D16_cooke_thickness_sweep.yaml`                    | `modules/zemax_runner.py` 或 `modules/optimizer.py` |
 | `analyze_results`       | 读取结果并提取关键指标       | `reports/D32_result_summary_input.md`                              | `modules/result_analyzer.py` |
-| `prepare_summary_input` | 准备 AI 总结输入            | `scripts/D32_prepare_result_summary.py`                            | `modules/report_generator.py` |
+| `prepare_summary_input` | 准备 AI 总结输入            | `scripts/agent/D32_prepare_result_summary.py`                            | `modules/report_generator.py` |
 | `generate_report`       | 生成报告                    | `reports/D34_agent_demo_report.md`                                 | `modules/report_generator.py` |
 
 ---
@@ -396,7 +396,7 @@ validate_task
 ## 当前已有基础
 
 ```text
-scripts/D30_validate_task_yaml.py
+scripts/validation/D30_validate_task_yaml.py
 configs/task_schema.json
 ```
 
@@ -454,7 +454,7 @@ check_safety
 ## 当前已有基础
 
 ```text
-scripts/D33_check_task_safety.py
+scripts/validation/D33_check_task_safety.py
 configs/safety_policy.yaml
 ```
 
@@ -520,8 +520,8 @@ open_model
 
 ```text
 debug_zosapi_connection.py
-scripts/D31_run_from_task_yaml.py
-scripts/D34_agent_demo.py
+scripts/agent/D31_run_from_task_yaml.py
+scripts/agent/D34_agent_demo.py
 ```
 
 ## 建议后续模块
@@ -732,8 +732,8 @@ run_analysis
 
 ```text
 configs/config_D16_cooke_thickness_sweep.yaml
-scripts/D31_run_from_task_yaml.py
-scripts/D34_agent_demo.py
+scripts/agent/D31_run_from_task_yaml.py
+scripts/agent/D34_agent_demo.py
 ```
 
 ## 建议后续模块
@@ -867,7 +867,7 @@ prepare_summary_input
 ## 当前已有基础
 
 ```text
-scripts/D32_prepare_result_summary.py
+scripts/agent/D32_prepare_result_summary.py
 reports/D32_result_summary_input.md
 prompts/result_summary_prompt.md
 ```
@@ -994,10 +994,10 @@ AI 根据 reports/D32_result_summary_input.md 总结
 对应当前已有脚本：
 
 ```text
-scripts/D30_validate_task_yaml.py
-scripts/D33_check_task_safety.py
-scripts/D31_run_from_task_yaml.py
-scripts/D32_prepare_result_summary.py
+scripts/validation/D30_validate_task_yaml.py
+scripts/validation/D33_check_task_safety.py
+scripts/agent/D31_run_from_task_yaml.py
+scripts/agent/D32_prepare_result_summary.py
 ```
 
 ### 7.2 后续工具化流程
@@ -1088,7 +1088,7 @@ modules/tool_registry.py
 或者先写演示脚本：
 
 ```text
-scripts/D38_tool_registry_demo.py
+scripts/demos/D38_tool_registry_demo.py
 ```
 
 D38 的目标是让工具可以被统一管理，例如：

@@ -40,8 +40,8 @@
 
 ## 4. 输出文件
 
-- scripts/zemax_runner.py
-- scripts/D13_test_runner.py
+- modules/zemax_runner.py
+- scripts/legacy/D13_test_runner.py
 - results/D13_runner_test/D13_lde_before_modify.csv
 - results/D13_runner_test/D13_lde_after_modify.csv
 - results/D13_runner_test/D13_cooke_surface3_thickness_plus1.zmx

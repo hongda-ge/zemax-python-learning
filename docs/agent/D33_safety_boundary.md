@@ -48,7 +48,7 @@ AI 生成的 YAML 任务可能存在以下风险：
 
 - configs/safety_policy.yaml
 - modules/task_safety.py
-- scripts/D33_check_task_safety.py
+- scripts/validation/D33_check_task_safety.py
 - docs/D33_safety_boundary.md
 
 ## 今日理解

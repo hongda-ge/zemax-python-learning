@@ -1,6 +1,6 @@
 task_info:
   source: AI-generated YAML task
-  generated_by: scripts/D31_run_from_task_yaml.py
+  generated_by: scripts/agent/D31_run_from_task_yaml.py
   task_type: parameter_sweep
 zemax:
   model_file: Double_Gauss_28_degree_field.zmx

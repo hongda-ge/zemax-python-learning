@@ -9,7 +9,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 from modules.task_safety import load_yaml, run_all_safety_checks, estimate_sweep_values
 
 
-DEFAULT_TASK_PATH = PROJECT_ROOT / "examples" / "D30_task_example.yaml"
+DEFAULT_TASK_PATH = PROJECT_ROOT / "configs" / "agent_tasks" / "D30_task_example.yaml"
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs" / "safety_policy.yaml"
 
 

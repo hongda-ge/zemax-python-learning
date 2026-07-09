@@ -7,7 +7,7 @@ from jsonschema import Draft202012Validator
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 SCHEMA_PATH = PROJECT_ROOT / "configs" / "task_schema.json"
-TASK_PATH = PROJECT_ROOT / "examples" / "D30_task_example.yaml"
+TASK_PATH = PROJECT_ROOT / "configs" / "agent_tasks" / "D30_task_example.yaml"
 
 
 def load_json(path: Path) -> dict:

@@ -8,7 +8,7 @@ from jsonschema import Draft202012Validator
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 DEFAULT_SCHEMA_PATH = PROJECT_ROOT / "configs" / "task_schema.json"
-DEFAULT_TASK_PATH = PROJECT_ROOT / "examples" / "D30_task_example.yaml"
+DEFAULT_TASK_PATH = PROJECT_ROOT / "configs" / "agent_tasks" / "D30_task_example.yaml"
 DEFAULT_OUTPUT_CONFIG_PATH = PROJECT_ROOT / "configs" / "config_D31_from_task.yaml"
 
 
@@ -186,7 +186,7 @@ def convert_task_to_legacy_config(task: dict) -> dict:
     legacy_config = {
         "task_info": {
             "source": "AI-generated YAML task",
-            "generated_by": "scripts/D31_run_from_task_yaml.py",
+            "generated_by": "scripts/agent/D31_run_from_task_yaml.py",
             "task_type": task["task_type"]
         },
         "zemax": {

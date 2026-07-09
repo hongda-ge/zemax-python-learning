@@ -79,7 +79,7 @@ Python/ZOS-API 连接 OpticStudio
 - 导出 FFT MTF 分析结果；
 - 导出 Standard Spot Diagram 分析结果。
 
-### `scripts/D16_sweep_thickness.py`
+### `scripts/legacy/D16_sweep_thickness.py`
 
 读取 YAML 配置文件，循环修改 `Surface 3 Thickness`，并保存每组模型和分析结果。
 
@@ -91,7 +91,7 @@ results/D16_thickness_sweep/D16_sweep_summary.csv
 
 `D16_sweep_summary.csv` 是每个扫描 case 的索引表，记录参数、实际厚度、运行状态以及模型、LDE、MTF、Spot 文件路径。
 
-### `scripts/D17_extract_mtf_metrics.py`
+### `scripts/legacy/D17_extract_mtf_metrics.py`
 
 从 D16 批量导出的 FFT MTF txt 文件中提取 MTF@30/40/50 指标，生成可比较的指标表。
 
@@ -101,7 +101,7 @@ results/D16_thickness_sweep/D16_sweep_summary.csv
 results/D17_metric_extraction/sweep_results.csv
 ```
 
-### `scripts/D18_plot_mtf_vs_thickness.py`
+### `scripts/legacy/D18_plot_mtf_vs_thickness.py`
 
 读取 D17 的指标表，绘制 MTF 随 Surface 3 Thickness 变化的趋势曲线。
 
@@ -112,7 +112,7 @@ results/D18_mtf_plots/D18_mtf_vs_thickness.png
 results/D18_mtf_plots/D18_mtf_vs_delta.png
 ```
 
-### `scripts/D19_select_best_design.py`
+### `scripts/legacy/D19_select_best_design.py`
 
 构建 MTF-only 加权评分函数，筛选当前评分规则下的较优厚度参数。
 
@@ -129,7 +129,7 @@ results/D19_best_design/best_design.json
 results/D19_best_design/D19_score_vs_thickness.png
 ```
 
-### `scripts/D20_prepare_before_after.py`
+### `scripts/legacy/D20_prepare_before_after.py`
 
 根据 D19 选择出的最佳 case，整理初始设计和最佳设计的 before-after 对比结果。
 
@@ -189,11 +189,11 @@ results/D20_before_after/D20_mtf_before_after_bar.png
 在项目根目录运行：
 
 ```powershell
-python scripts/D16_sweep_thickness.py
-python scripts/D17_extract_mtf_metrics.py
-python scripts/D18_plot_mtf_vs_thickness.py
-python scripts/D19_select_best_design.py
-python scripts/D20_prepare_before_after.py
+python scripts/legacy/D16_sweep_thickness.py
+python scripts/legacy/D17_extract_mtf_metrics.py
+python scripts/legacy/D18_plot_mtf_vs_thickness.py
+python scripts/legacy/D19_select_best_design.py
+python scripts/legacy/D20_prepare_before_after.py
 ```
 
 注意：需要在项目根目录运行，例如：
@@ -289,7 +289,7 @@ before 不是最差结果，而是用于代表原始设计的基准结果。
   - [Agent Positioning](docs/D29_agent_positioning.md)
   - [Natural Language Task Template](docs/natural_language_task_template.md)
   - [Agent Boundary](docs/agent_boundary.md)
-  - [Example Natural Language Tasks](examples/D29_example_tasks.md)
+  - [Example Natural Language Tasks](examples/tasks/D29_example_tasks.md)
   
 
   ## D30：自然语言转 YAML，并使用 JSON Schema 校验
@@ -299,9 +299,9 @@ before 不是最差结果，而是用于代表原始设计的基准结果。
 主要文件：
 
 - `configs/task_schema.json`：任务结构和安全边界规则
-- `examples/D30_task_example.yaml`：AI 生成的 YAML 任务示例
-- `examples/D30_natural_language_request.md`：自然语言原始需求
-- `scripts/D30_validate_task_yaml.py`：YAML 任务校验脚本
+- `configs/agent_tasks/D30_task_example.yaml`：AI 生成的 YAML 任务示例
+- `examples/tasks/D30_natural_language_request.md`：自然语言原始需求
+- `scripts/validation/D30_validate_task_yaml.py`：YAML 任务校验脚本
 - `docs/D30_natural_language_to_yaml.md`：D30 学习说明
 
 ## D31：YAML 调用脚本
@@ -310,8 +310,8 @@ before 不是最差结果，而是用于代表原始设计的基准结果。
 
 主要文件：
 
-- `scripts/D31_run_from_task_yaml.py`：读取、校验、预览 YAML 任务，并生成 workflow 配置
-- `examples/D30_task_example.yaml`：AI 生成的 YAML 任务示例
+- `scripts/agent/D31_run_from_task_yaml.py`：读取、校验、预览 YAML 任务，并生成 workflow 配置
+- `configs/agent_tasks/D30_task_example.yaml`：AI 生成的 YAML 任务示例
 - `configs/task_schema.json`：任务 schema 校验规则
 - `configs/config_D31_from_task.yaml`：由 D31 脚本自动生成的工作流配置
 
@@ -320,7 +320,7 @@ before 不是最差结果，而是用于代表原始设计的基准结果。
 
 ## D32：结果自动总结
 
-本阶段完成了结果自动总结流程。脚本可以根据 D31 生成的工作流配置，自动查找结果目录中的 CSV、图像、JSON 和日志，并生成 `reports/D32_result_summary_input.md` 作为 AI 总结材料。
+本阶段完成了结果自动总结流程。脚本可以根据 D31 生成的工作流配置，自动查找结果目录中的 CSV、图像、JSON 和日志，并生成 `reports/workflow/D32_result_summary_input.md` 作为 AI 总结材料。
 
 当前结果目录中尚未检测到真实仿真输出，因此 D32 总结只记录流程状态和缺失信息，不编造 MTF、RMS Spot 或最优参数结论。
 
@@ -332,7 +332,7 @@ before 不是最差结果，而是用于代表原始设计的基准结果。
 
 - `configs/safety_policy.yaml`：项目级安全策略
 - `modules/task_safety.py`：安全检查函数库
-- `scripts/D33_check_task_safety.py`：D33 安全检查入口脚本
+- `scripts/validation/D33_check_task_safety.py`：D33 安全检查入口脚本
 - `docs/D33_safety_boundary.md`：D33 学习说明
 
 当前检查内容包括参数范围、单位、扫描次数、输出路径、只读模型和 dry-run 原则。任何 AI 生成任务在进入 Zemax 自动化执行前，都必须先通过 D33 安全检查。
@@ -347,10 +347,10 @@ before 不是最差结果，而是用于代表原始设计的基准结果。
 
 主要文件：
 
-- `examples/D30_natural_language_request.md`：自然语言需求记录
+- `examples/tasks/D30_natural_language_request.md`：自然语言需求记录
 - `prompts/nl_to_yaml_prompt.md`：自然语言转 YAML 的提示词模板
-- `examples/D30_task_example.yaml`：由 ChatGPT/人工生成的 YAML 任务
-- `scripts/D34_agent_demo.py`：Agent demo 总控脚本
+- `configs/agent_tasks/D30_task_example.yaml`：由 ChatGPT/人工生成的 YAML 任务
+- `scripts/agent/D34_agent_demo.py`：Agent demo 总控脚本
 - `reports/D34_agent_demo_report.md`：D34 自动生成的 demo 报告
 - `docs/D34_natural_language_gap.md`：当前自然语言识别缺口说明
 

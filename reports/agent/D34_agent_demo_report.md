@@ -36,7 +36,7 @@
 
 见：
 
-examples/D30_task_example.yaml
+configs/agent_tasks/D30_task_example.yaml
 ```
 
 ## 2. YAML 任务摘要
@@ -131,7 +131,7 @@ Log files found: 0
 
 ## 7. Demo 产物
 
-- `examples/D30_task_example.yaml`：存在
+- `configs/agent_tasks/D30_task_example.yaml`：存在
 - `configs/config_D31_from_task.yaml`：存在
 - `reports/D32_result_summary_input.md`：存在
 - `reports/D34_agent_demo_report.md`：存在

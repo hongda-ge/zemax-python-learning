@@ -11,13 +11,13 @@ from jsonschema import Draft202012Validator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-DEFAULT_TASK_PATH = PROJECT_ROOT / "examples" / "D30_task_example.yaml"
+DEFAULT_TASK_PATH = PROJECT_ROOT / "configs" / "agent_tasks" / "D30_task_example.yaml"
 DEFAULT_SCHEMA_PATH = PROJECT_ROOT / "configs" / "task_schema.json"
 DEFAULT_POLICY_PATH = PROJECT_ROOT / "configs" / "safety_policy.yaml"
-DEFAULT_NL_REQUEST_PATH = PROJECT_ROOT / "examples" / "D30_natural_language_request.md"
-DEFAULT_D31_CONFIG_PATH = PROJECT_ROOT / "configs" / "config_D31_from_task.yaml"
-DEFAULT_D32_SUMMARY_INPUT_PATH = PROJECT_ROOT / "reports" / "D32_result_summary_input.md"
-DEFAULT_D34_REPORT_PATH = PROJECT_ROOT / "reports" / "D34_agent_demo_report.md"
+DEFAULT_NL_REQUEST_PATH = PROJECT_ROOT / "examples" / "tasks" / "D30_natural_language_request.md"
+DEFAULT_D31_CONFIG_PATH = PROJECT_ROOT / "configs" / "generated" / "config_D31_from_task.yaml"
+DEFAULT_D32_SUMMARY_INPUT_PATH = PROJECT_ROOT / "reports" / "workflow" / "D32_result_summary_input.md"
+DEFAULT_D34_REPORT_PATH = PROJECT_ROOT / "reports" / "agent" / "D34_agent_demo_report.md"
 
 
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -344,7 +344,7 @@ def main() -> None:
 
                 print("Step 4: Run D31 to generate workflow config.")
                 d31_result = run_python_script(
-                    PROJECT_ROOT / "scripts" / "D31_run_from_task_yaml.py",
+                    PROJECT_ROOT / "scripts" / "agent" / "D31_run_from_task_yaml.py",
                     extra_args=[
                         "--task",
                         str(task_path),

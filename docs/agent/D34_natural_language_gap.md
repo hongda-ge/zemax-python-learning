@@ -11,4 +11,4 @@ D34 demo 已经完成了低配版 AI Agent 工作流的主要骨架：
 当前自然语言输入文件是：
 
 ```text
-examples/D30_natural_language_request.md
+examples/tasks/D30_natural_language_request.md

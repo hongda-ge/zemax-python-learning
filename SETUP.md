@@ -44,7 +44,7 @@ Python 3.8.x
 
 ## 6. 测试 ZOS-API
 
-python examples/debug_zosapi_connection.py
+python examples/debug/debug_zosapi_connection.py
 
 如果输出：
 

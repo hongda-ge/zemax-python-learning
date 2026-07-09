@@ -1,4 +1,4 @@
-# D30 Natural Language to YAML
+Zemax。# D30 Natural Language to YAML
 
 ## 今日目标
 
@@ -43,6 +43,6 @@ AI 不负责：
 ## D30 产物
 
 - configs/task_schema.json
-- examples/D30_task_example.yaml
-- examples/D30_natural_language_request.md
-- scripts/D30_validate_task_yaml.py
+- configs/agent_tasks/D30_task_example.yaml
+- examples/tasks/D30_natural_language_request.md
+- scripts/validation/D30_validate_task_yaml.py

@@ -7,9 +7,9 @@ import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
-DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "config_D31_from_task.yaml"
+DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "generated" / "config_D31_from_task.yaml"
 DEFAULT_PROMPT_PATH = PROJECT_ROOT / "prompts" / "result_summary_prompt.md"
-DEFAULT_REPORT_PATH = PROJECT_ROOT / "reports" / "D32_result_summary_input.md"
+DEFAULT_REPORT_PATH = PROJECT_ROOT / "reports" / "workflow" / "D32_result_summary_input.md"
 
 
 def load_yaml(path: Path) -> dict:
