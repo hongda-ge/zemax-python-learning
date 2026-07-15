@@ -157,10 +157,10 @@ def write_trend_summary(df, output_path):
 def main():
     print("===== D18 Plot MTF vs Thickness Started =====")
 
-    project_dir = Path(__file__).resolve().parents[1]
+    project_dir = Path(__file__).resolve().parents[2]
 
-    input_csv = project_dir / "results" / "D17_metric_extraction" / "sweep_results.csv"
-    output_dir = project_dir / "results" / "D18_mtf_plots"
+    input_csv = project_dir / "results" / "archive" / "D17_metric_extraction" / "sweep_results.csv"
+    output_dir = project_dir / "results" / "archive" / "D18_mtf_plots"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     clean_csv = output_dir / "D18_clean_sweep_results.csv"

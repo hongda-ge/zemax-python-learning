@@ -33,5 +33,5 @@ analysis:
   save_models: true
 
 outputs:
-  output_dir: '02_zosapi_python\results\D16_thickness_sweep'
+  output_dir: 'results\archive\D16_thickness_sweep'
   summary_csv: 'D16_sweep_summary.csv'
