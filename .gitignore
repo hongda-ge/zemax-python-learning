@@ -5,6 +5,7 @@ __pycache__/
 # Virtual Environment
 .venv_zosapi38/
 .venv/
+.conda_zosapi38/
 
 # VSCode
 .vscode/*.log
