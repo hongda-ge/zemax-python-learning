@@ -59,7 +59,7 @@ if __name__ == "__main__":
     print("===== D16 Thickness Sweep Started =====")
 
     # 1. 项目根目录
-    project_dir = Path(__file__).resolve().parents[1]
+    project_dir = Path(__file__).resolve().parents[2]
 
     # 2. 读取 D16 配置文件
     config_path = project_dir / "configs" / "config_D16_cooke_thickness_sweep.yaml"
@@ -193,8 +193,8 @@ if __name__ == "__main__":
                 "status": status,
                 "model_path": str(model_path),
                 "lde_csv_path": str(lde_csv_path),
-                "mtf_txt_path": str(mtf_path),
-                "spot_txt_path": str(spot_path),
+                "mtf_txt_path": str(mtf_path.relative_to(project_dir)),
+                "spot_txt_path": str(spot_path.relative_to(project_dir)),
                 "error_message": error_message,
             })
 

@@ -25,41 +25,79 @@ def read_text_auto(path):
 
 def extract_numeric_rows_from_mtf_txt(text):
     """
-    从 FFT MTF txt 中提取数值行。
+    从 Zemax FFT MTF txt 中提取频率-MTF数据。
 
-    目标格式大致是：
-    frequency   curve1   curve2   curve3 ...
+    支持格式:
 
-    这里不强行判断每条曲线代表哪个视场/方向，
-    先提取所有曲线，并计算平均 MTF，作为 D17 的入门指标。
+    空间频率    子午    弧矢
+
+    0.000000  1.000000  1.000000
+    5.000000  0.898800  0.898800
+    ...
+
+    返回:
+    [
+        [freq, mtf1, mtf2],
+        ...
+    ]
     """
+
     rows = []
 
     for line in text.splitlines():
-        nums = re.findall(r"[-+]?\d*\.?\d+(?:[Ee][-+]?\d+)?", line)
 
-        if len(nums) >= 2:
-            values = [float(x) for x in nums]
-            freq = values[0]
-            mtf_values = values[1:]
+        line = line.strip()
 
-            # 基本过滤：空间频率应为非负，MTF 通常在 0~1 之间
-            if 0 <= freq <= 1000 and all(-0.05 <= y <= 1.05 for y in mtf_values):
-                rows.append(values)
+        if not line:
+            continue
 
-    if not rows:
-        return []
+        # 只处理纯数字行
+        nums = re.findall(
+            r"[-+]?\d*\.\d+(?:[Ee][-+]?\d+)?",
+            line
+        )
 
-    # 保留出现次数最多的列数，避免标题或零散数字混入
-    col_count = {}
-    for row in rows:
-        col_count[len(row)] = col_count.get(len(row), 0) + 1
+        # FFT MTF 数据至少三列
+        if len(nums) < 3:
+            continue
 
-    main_cols = max(col_count, key=col_count.get)
-    rows = [row for row in rows if len(row) == main_cols]
 
-    # 按频率排序
-    rows.sort(key=lambda r: r[0])
+        values = [
+            float(x)
+            for x in nums
+        ]
+
+
+        freq = values[0]
+        mtf_values = values[1:]
+
+
+        # 过滤
+        #
+        # 空间频率:
+        # 0~200 lp/mm
+        #
+        # MTF:
+        # 0~1
+        #
+        if not (0 <= freq <= 200):
+            continue
+
+
+        if not all(
+            -0.05 <= x <= 1.05
+            for x in mtf_values
+        ):
+            continue
+
+
+        rows.append(values)
+
+
+    rows.sort(
+        key=lambda x:x[0]
+    )
+
 
     return rows
 
@@ -126,10 +164,10 @@ def extract_mtf_metrics(mtf_txt_path):
 def main():
     print("===== D17 MTF Metric Extraction Started =====")
 
-    project_dir = Path(__file__).resolve().parents[1]
+    project_dir = Path(__file__).resolve().parents[2]
 
-    d16_summary_csv = project_dir / "results" / "D16_thickness_sweep" / "D16_sweep_summary.csv"
-    output_dir = project_dir / "results" / "D17_metric_extraction"
+    d16_summary_csv = project_dir / "results" / "archive" /"D16_thickness_sweep" / "D16_sweep_summary.csv"
+    output_dir = project_dir / "results"/ "archive" / "D17_metric_extraction"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     output_csv = output_dir / "sweep_results.csv"
@@ -148,7 +186,7 @@ def main():
             actual_thickness_mm = row.get("actual_thickness_mm", "")
             status = row.get("status", "")
 
-            mtf_txt_path = row.get("mtf_txt_path", "")
+            mtf_txt_path = project_dir / row.get("mtf_txt_path", "")
             spot_txt_path = row.get("spot_txt_path", "")
 
             print(f"\nProcessing case {case_index}, delta = {delta_mm}")

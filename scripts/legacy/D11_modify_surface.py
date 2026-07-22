@@ -103,7 +103,7 @@ if __name__ == '__main__':
     print("SamplesDir:", TheApplication.SamplesDir, flush=True)
 
     # 2. 打开 Cooke 示例镜头
-    cooke_file = r"C:\Users\20181\Documents\Zemax\Samples\Sequential\Objectives\Cooke 40 degree field.zmx"
+    cooke_file = r"models\Cooke 40 degree field.zmx"
     print("\nSTEP 2: loading lens file", flush=True)
     print("Lens file:", cooke_file, flush=True)
 
@@ -141,7 +141,7 @@ if __name__ == '__main__':
 
     import csv
 
-    csv_path = r"C:\Users\20181\Desktop\Zemax\02_zosapi_python\results\D11_cooke_lde_after_modify.csv"
+    csv_path = r"results\D11_cooke_lde_after_modify.csv"
     csv_file = open(csv_path, "w", newline="", encoding="utf-8-sig")
     writer = csv.writer(csv_file)
     writer.writerow(["Surface", "Radius", "Thickness", "Material", "Comment"])
@@ -181,7 +181,7 @@ if __name__ == '__main__':
     print("\nCSV saved to:", csv_path)
 
     # 6. 保存修改后的 Zemax 模型，不覆盖原始文件
-    save_path = r"C:\Users\20181\Desktop\Zemax\02_zosapi_python\results\D11_cooke_surface3_thickness_plus1.zmx"
+    save_path = r"results\D11_cooke_surface3_thickness_plus1.zmx"
     TheSystem.SaveAs(save_path)
 
     print("\nModified Zemax file saved to:", save_path)
