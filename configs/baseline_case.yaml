@@ -30,12 +30,13 @@ outer_parameter:
   property: "thickness"
   physical_meaning: "第一片与第二片镜片之间的空气间隔"
   unit: "mm"
-  baseline_value: 6.008
+  baseline_value: 6.0075511
+  displayed_baseline_value: 6.008
 
   exploration:
     mode: "delta_from_baseline"
     deltas: [-1.0, -0.5, 0.0, 0.5, 1.0]
-    values: [5.008, 5.508, 6.008, 6.508, 7.008]
+    values: [5.0075511, 5.5075511, 6.0075511, 6.5075511, 7.0075511]
 
   safety:
     medium: "air"
