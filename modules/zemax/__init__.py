@@ -1,10 +1,16 @@
 """Zemax ZOS-API integration modules for Project-X."""
 
+from modules.zemax.analysis_ops import (
+    AnalysisOperationError,
+    export_standard_spot_text,
+    parse_standard_spot_text,
+)
 from modules.zemax.connection import (
     DEFAULT_ZEMAX_INSTALL_DIR,
     StandaloneZemaxConnection,
     ZemaxConnectionError,
 )
+from modules.zemax.focus_ops import FocusOperationError, run_quick_focus
 from modules.zemax.model_ops import (
     ModelOperationError,
     copy_baseline_model,
@@ -16,9 +22,14 @@ from modules.zemax.model_ops import (
 )
 
 __all__ = [
+    "AnalysisOperationError",
+    "export_standard_spot_text",
+    "parse_standard_spot_text",
     "DEFAULT_ZEMAX_INSTALL_DIR",
     "StandaloneZemaxConnection",
     "ZemaxConnectionError",
+    "FocusOperationError",
+    "run_quick_focus",
     "ModelOperationError",
     "copy_baseline_model",
     "open_working_model",
