@@ -187,6 +187,7 @@ python scripts/demos/day11_requirement_scenario_plan.py
 4. [Day 9：Spot/MTF 交叉验证](docs/learning_notes/DAY9_SPOT_MTF_CROSS_VALIDATION.md)
 5. [Day 10：Merit Function 验证](docs/learning_notes/DAY10_MERIT_FUNCTION_VALIDATION.md)
 6. [Day 11：需求驱动决策](docs/learning_notes/DAY11_REQUIREMENT_DRIVEN_DECISION.md)
+7. [Day 12：决策门槛敏感性分析](docs/learning_notes/DAY12_DECISION_SENSITIVITY.md)
 
 ## 当前边界
 

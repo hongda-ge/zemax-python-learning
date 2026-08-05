@@ -1,0 +1,44 @@
+# Day 12：检查“均衡成像”教学门槛对推荐结果的影响。
+
+schema_version: "decision_sensitivity/v1"
+
+case:
+  id: "cooke_surface2_balanced_threshold_sensitivity_v1"
+  name: "Cooke面2厚度均衡决策门槛敏感性分析"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  # 第一步计划已人工复核，允许只读分析已有 Day 11 指标。
+  allow_sensitivity_evaluation: true
+
+source:
+  day11_output_root: "outputs/day11_requirement_scenarios"
+  day11_report_name: "scenario_decision_report.json"
+  expected_task: "day11_requirement_scenario_evaluation"
+  expected_candidate_ids: ["fine_003", "fine_004", "fine_005"]
+  expected_day11_balanced_recommendation: "fine_004"
+  expected_day11_threshold_percent: 2.0
+
+# Spot 与 Merit 使用同一个教学门槛，便于第一版敏感性实验解释。
+sensitivity:
+  variable: "shared_spot_and_merit_penalty_limit_percent"
+  values_percent: [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0]
+  eligibility:
+    maximum_spot_penalty_field: "spot_penalty_vs_best_percent"
+    maximum_merit_penalty_field: "merit_penalty_vs_best_percent"
+  ranking:
+    primary: "mtf_50_overall_mean"
+    secondary: "mtf_30_overall_mean"
+    direction: "maximize"
+
+guardrails:
+  hidden_weighted_score_allowed: false
+  unique_engineering_winner_allowed: false
+  label_results_as_teaching_sensitivity: true
+  require_at_least_one_eligible_candidate: true
+
+output:
+  root: "outputs/day12_decision_sensitivity"
