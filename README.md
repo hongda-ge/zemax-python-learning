@@ -1,357 +1,212 @@
-# Zemax ZOS-API 自动化参数扫描与性能评估
+# Zemax 自动化实验编排与决策支持系统
 
-## 1. 项目简介
+> 使用 Python 与真实 ZOS-API，把一次性的手动光学试验转化为安全、可重复、可审计的参数研究与候选决策流程。
 
-本项目基于 Python 与 Zemax ZOS-API，搭建了一个面向光学系统的自动化参数扫描与性能评估流程。项目以 Zemax 示例镜头 `Cooke 40 degree field.zmx` 为对象，选择 LDE 中 `Surface 3 Thickness` 作为扫描参数，实现了模型读取、参数修改、批量分析导出、MTF 指标提取、性能曲线绘制、评分筛选和 before-after 对比。
+## 项目定位
 
-项目目标是将传统手动仿真流程转化为可重复、可批量、可评价的自动化流程。
+传统 Zemax 优化通常给出某套评价函数下的一个低值解，但工程设计还需要回答更多问题：
 
----
+- 参数在附近变化时，性能规律是什么？
+- 最低点是尖锐最优点，还是存在更容易加工和装调的近优平台？
+- Spot、MTF 与 Merit Function 给出不同倾向时，应该怎样解释？
+- 不同候选是否使用了相同模型、分析设置和评价规则？
+- 在没有明确需求时，怎样避免制造一个缺乏依据的“唯一最优解”？
 
-## 2. 技术路线
+本项目让 Zemax 负责真实光学计算，让 Python 负责实验编排、安全边界、批量执行、证据校验和决策报告。
 
 ```text
-Zemax 示例镜头
-↓
-Python/ZOS-API 连接 OpticStudio
-↓
-读取 LDE 表面参数
-↓
-循环修改 Surface 3 Thickness
-↓
-导出每组 zmx / LDE CSV / FFT MTF txt / Spot txt
-↓
-提取 MTF@30/40/50
-↓
-生成 sweep_results.csv
-↓
-绘制 MTF_vs_thickness 曲线
-↓
-构建 MTF-only 评分函数
-↓
-输出 best_design.json
-↓
-整理 before-after 对比结果
+工程问题与约束
+      ↓
+YAML 实验配置与执行授权
+      ↓
+模型副本、哈希校验与 ZOS-API 连接
+      ↓
+参数扫描 → 重新对焦 → Spot / FFT MTF / Merit Function
+      ↓
+稳健区间、Pareto 候选与透明决策规则
+      ↓
+带适用条件的候选建议，而不是无条件的“最优值”
 ```
 
----
+## 项目价值
 
-## 3. 项目结构
+### 1. 从单点优化转向性能规律
+
+Python 可以在受控范围内系统改变光学参数，记录完整性能剖面。这样不仅能看到哪个采样点较好，还能观察趋势、敏感度和近优区域。
+
+### 2. 从数学最优转向工程候选
+
+单个最低点可能对制造误差非常敏感。本项目更关注性能良好、约束合法且局部变化相对平缓的候选区域，为后续公差、加工和装调分析提供依据。
+
+### 3. 从脚本运行转向可审计实验
+
+每次正式运行都保留配置、模型 SHA256、分析设置、原始 Zemax 文本、结构化 JSON/CSV 和连接关闭状态。异常会停止批量任务，而不是静默生成不可信结果。
+
+### 4. 从隐藏总分转向透明决策
+
+项目不使用缺乏依据的隐藏加权分数。候选先经过明确门槛，再按指定指标排序；推荐结果必须说明适用场景、比较规则和局限性。
+
+### 5. 兼顾光学学习与自动化工程
+
+学习过程按照“计划检查 → 单案例验证 → 小批量执行 → 结果解释”推进。每个阶段都有中文学习记录，适合光学背景、编程经验较少的学习者理解 ZOS-API 的真实工作流程。
+
+## 当前 V1 实验
+
+当前主线使用 Zemax 示例 Cooke Triplet，研究 LDE 面 2 的 `Thickness`：
+
+- 物理含义：第一片与第二片透镜之间的空气间隔；
+- 基准值：`6.0075511 mm`；
+- 三个视场：`0° / 14° / 20°`；
+- 三个波长：`0.480 / 0.550 / 0.650 μm`；
+- 补偿动作：Quick Focus 调整像面距离；
+- 评价证据：Standard Spot、FFT MTF、Zemax Merit Function；
+- 数据来源：真实 OpticStudio Standalone ZOS-API，不接受 mock 结果进入正式结论。
+
+选择空气间隔而不是旧实验中的面 3 玻璃中心厚度，是为了避免凹面负透镜在扰动后出现零厚度或负厚度，并使参数更容易解释为装配间隔或隔圈长度。
+
+## 已完成的研究链路
+
+| 阶段 | 主要问题 | 当前成果 |
+|---|---|---|
+| 环境与连接 | Python 能否稳定连接真实 OpticStudio？ | 固定 Python 3.8 环境，验证许可证与连接生命周期 |
+| 基准定义 | 实验对象、参数、视场、波长和安全边界是什么？ | 冻结 YAML 配置、源模型 SHA256 和只读规则 |
+| 单案例扰动 | 写入参数时还会触发哪些 Zemax Solve？ | 记录主动参数与依赖表面变化，验证内存写入和副本保存 |
+| Quick Focus | 厚度变化后离焦影响有多大？ | 对每个候选重新对焦并审计像面位移 |
+| 粗扫描 | 合法范围内的整体趋势是什么？ | 完成 5 点扫描并发现边界拒绝案例 |
+| 局部精细扫描 | 最佳采样点附近是否存在近优平台？ | 完成 9 点、0.1 mm 步长扫描与局部敏感度分析 |
+| FFT MTF 交叉验证 | Spot 结论是否代表频域成像性能？ | 提取 30/50 cycles/mm 的 T/S MTF，形成 Pareto 候选 |
+| Merit Function 验证 | 候选是否使用同一套 Zemax 综合评价规则？ | 冻结并校验 1602 行 `.MF` 配方，完成三候选只读比较 |
+| 需求场景决策 | 没有真实探测器时能否宣布唯一最优？ | 建立三种透明教学场景，明确不产生唯一工程赢家 |
+
+## 当前教学结论
+
+在现有模型和分析设置下，三个候选分别适用于不同目标：
+
+| 场景 | 候选厚度 | 解释 |
+|---|---:|---|
+| 几何像质优先 | `6.0075511 mm` | Spot 与当前 RMS Spot Merit Function 更优 |
+| 均衡成像 | `5.9075511 mm` | Spot/Merit 仅损失约 1%，同时获得更高 MTF |
+| 精细结构优先 | `5.8075511 mm` | 当前候选中 MTF30/MTF50 更高 |
+
+这些是教学场景结论，不是产品设计结论。由于尚未指定探测器像元、目标空间频率、加工公差和验收门槛，本项目当前不宣称存在唯一工程最优厚度。
+
+## 安全与数据可信性
+
+项目遵循以下执行原则：
+
+1. 源模型只读，所有操作从独立副本开始；
+2. 正式批量执行前先运行 `PLAN ONLY`；
+3. 先验证单个基准案例，再批准完整批量；
+4. 输入模型、工作副本和配方均使用 SHA256 校验；
+5. 主动参数、依赖 Solve、焦移和安全边界全部记录；
+6. 意外失败立即停止后续案例；
+7. `CalculateMeritFunction()` 与执行优化严格区分；
+8. 原始输出保存在本地 `outputs/`，不直接提交到 GitHub；
+9. mock、placeholder 或无法追溯的数据不得进入正式光学结论；
+10. AI/Agent 不能绕过配置授权和安全检查修改模型。
+
+## 项目结构
 
 ```text
 02_zosapi_python/
-├─ configs/
-│  ├─ config_D15_cooke_thickness.yaml
-│  └─ config_D16_cooke_thickness_sweep.yaml
-├─ scripts/
-│  ├─ zemax_runner.py
-│  ├─ D16_sweep_thickness.py
-│  ├─ D17_extract_mtf_metrics.py
-│  ├─ D18_plot_mtf_vs_thickness.py
-│  ├─ D19_select_best_design.py
-│  └─ D20_prepare_before_after.py
-├─ results/
-│  ├─ D16_thickness_sweep/
-│  ├─ D17_metric_extraction/
-│  ├─ D18_mtf_plots/
-│  ├─ D19_best_design/
-│  └─ D20_before_after/
-├─ figures/
-├─ notes/
-├─ docs/
-├─ reports/
+├─ configs/                 # 基准、扫描、评价函数和决策规则
+│  └─ merit_functions/      # 冻结的 Zemax .MF 配方
+├─ modules/zemax/           # 连接、模型、对焦、分析和 MFE 通用操作
+├─ scripts/demos/           # 当前真实实验与教学步骤
+├─ scripts/legacy/          # 早期 D16–D20 探索脚本，仅作历史参考
+├─ docs/project_plan/       # 项目章程、基准定义和功能边界
+├─ docs/learning_notes/     # 分阶段中文学习记录
+├─ outputs/                 # 本地运行产物，默认不进入 Git
+├─ environment-zosapi38.yml # 可复现 Conda 环境
+├─ SETUP.md                 # 环境创建与 VS Code 配置
 └─ README.md
 ```
 
----
+核心模块职责：
 
-## 4. 主要脚本说明
+- `connection.py`：Standalone ZOS-API 初始化、许可证检查和安全关闭；
+- `model_ops.py`：模型副本、表面读写、保存边界和文件哈希；
+- `focus_ops.py`：Quick Focus；
+- `analysis_ops.py`：Standard Spot 与 FFT MTF 导出、解析；
+- `merit_ops.py`：Merit Function 配方加载、定义指纹和只读计算。
 
-### `scripts/zemax_runner.py`
+## 环境要求
 
-封装可复用的 Zemax 操作函数，包括：
+- Windows 11 64-bit；
+- Ansys Zemax OpticStudio 2024 R1.03；
+- 有效的 ZOS-API 许可证；
+- Python 3.8.20 64-bit；
+- Python.NET 2.5.2；
+- Conda 项目环境：`.conda_zosapi38`。
 
-- 连接 OpticStudio；
-- 打开 Zemax 镜头文件；
-- 读取和导出 LDE 数据；
-- 修改指定表面厚度；
-- 保存模型；
-- 导出 FFT MTF 分析结果；
-- 导出 Standard Spot Diagram 分析结果。
-
-### `scripts/legacy/D16_sweep_thickness.py`
-
-读取 YAML 配置文件，循环修改 `Surface 3 Thickness`，并保存每组模型和分析结果。
-
-主要输出：
-
-```text
-results/D16_thickness_sweep/D16_sweep_summary.csv
-```
-
-`D16_sweep_summary.csv` 是每个扫描 case 的索引表，记录参数、实际厚度、运行状态以及模型、LDE、MTF、Spot 文件路径。
-
-### `scripts/legacy/D17_extract_mtf_metrics.py`
-
-从 D16 批量导出的 FFT MTF txt 文件中提取 MTF@30/40/50 指标，生成可比较的指标表。
-
-主要输出：
-
-```text
-results/D17_metric_extraction/sweep_results.csv
-```
-
-### `scripts/legacy/D18_plot_mtf_vs_thickness.py`
-
-读取 D17 的指标表，绘制 MTF 随 Surface 3 Thickness 变化的趋势曲线。
-
-主要输出：
-
-```text
-results/D18_mtf_plots/D18_mtf_vs_thickness.png
-results/D18_mtf_plots/D18_mtf_vs_delta.png
-```
-
-### `scripts/legacy/D19_select_best_design.py`
-
-构建 MTF-only 加权评分函数，筛选当前评分规则下的较优厚度参数。
-
-当前评分函数：
-
-```text
-final_score = 0.3*mtf_30_avg + 0.3*mtf_40_avg + 0.4*mtf_50_avg
-```
-
-主要输出：
-
-```text
-results/D19_best_design/best_design.json
-results/D19_best_design/D19_score_vs_thickness.png
-```
-
-### `scripts/legacy/D20_prepare_before_after.py`
-
-根据 D19 选择出的最佳 case，整理初始设计和最佳设计的 before-after 对比结果。
-
-主要输出：
-
-```text
-results/D20_before_after/D20_before_after_metrics.csv
-results/D20_before_after/D20_mtf_before_after_bar.png
-```
-
----
-
-## 5. 结果展示
-
-### 5.1 MTF 随 Surface 3 Thickness 变化
-
-![MTF vs Surface 3 Thickness](figures/weekly03/D18_mtf_vs_surface3_thickness.png)
-
-该图用于观察不同厚度下 MTF@30/40/50 的变化趋势。
-
-### 5.2 加权评分随 Surface 3 Thickness 变化
-
-![Weighted Score vs Surface 3 Thickness](figures/weekly03/D19_weighted_score_vs_surface3_thickness.png)
-
-该图展示了当前 MTF-only 评分函数下，不同厚度对应的综合评分。
-
-### 5.3 初始设计与最佳设计对比
-
-![Before After MTF Comparison](figures/weekly03/D20_before_after_mtf_comparison.png)
-
-该图用于展示初始设计和当前评分规则下最佳设计的 MTF 指标对比。
-
----
-
-## 6. 当前结果
-
-在当前扫描范围和 MTF-only 评分函数下，Surface 3 Thickness 附近存在一个较优区间。评分曲线显示，较优厚度大约出现在 `1.2 mm` 附近。
-
-需要注意的是，当前结果只代表“在当前 MTF-only 评分函数下的较优厚度”，不能等同于完整光学设计意义上的最终最优设计。
-
----
-
-## 7. 如何运行
-
-### 7.1 环境要求
-
-- Windows
-- Ansys Zemax OpticStudio
-- Python 3.8
-- ZOS-API / pywin32
-- pandas
-- matplotlib
-- PyYAML
-
-### 7.2 运行顺序
-
-在项目根目录运行：
+创建环境：
 
 ```powershell
-python scripts/legacy/D16_sweep_thickness.py
-python scripts/legacy/D17_extract_mtf_metrics.py
-python scripts/legacy/D18_plot_mtf_vs_thickness.py
-python scripts/legacy/D19_select_best_design.py
-python scripts/legacy/D20_prepare_before_after.py
+conda env create --prefix .\.conda_zosapi38 --file environment-zosapi38.yml
+conda activate .\.conda_zosapi38
+python --version
 ```
 
-注意：需要在项目根目录运行，例如：
+详细说明见 [SETUP.md](SETUP.md)。
+
+## 快速验证
+
+所有命令均在项目根目录执行。
+
+### 1. 检查环境
 
 ```powershell
-C:\Users\20181\Desktop\Zemax\02_zosapi_python>
+python scripts/validation/D59_check_environment.py
 ```
 
-不要进入 `scripts` 文件夹内部运行。
+### 2. 验证真实 ZOS-API 连接
 
----
-
-## 8. 核心理解
-
-### 8.1 YAML 配置文件的作用
-
-`.yaml` 文件相当于任务说明书，用来记录模型路径、扫描表面、扫描范围、步长和输出目录。这样后续修改扫描范围或目标表面时，可以优先修改配置文件，而不是频繁改主程序代码。
-
-### 8.2 `zemax_runner.py` 的作用
-
-`zemax_runner.py` 是工具箱，负责封装可复用的 Zemax 操作函数。后续的 D16、D17、D18、D19、D20 脚本不需要重复定义连接、打开模型、导出分析等底层操作，而是直接调用这些函数或读取前一步生成的结果。
-
-### 8.3 参数扫描的关键原则
-
-参数扫描时不能一直在当前厚度基础上累加，否则厚度会不断偏离。正确做法是：
-
-```text
-actual_thickness = original_thickness + delta
+```powershell
+python scripts/demos/D59_zemax_connection_demo.py
 ```
 
-也就是每一组扫描都基于原始厚度计算实际厚度。
+### 3. 查看当前模型安全操作 Demo
 
-### 8.4 before-after 对比的定义
+```powershell
+python scripts/demos/D60_model_operations_demo.py
+```
 
-- before：初始设计，即 `delta_mm` 最接近 0 的 case；
-- after：D19 根据当前评分函数筛选出的最佳 case。
+### 4. 查看需求场景计划
 
-before 不是最差结果，而是用于代表原始设计的基准结果。
+```powershell
+python scripts/demos/day11_requirement_scenario_plan.py
+```
 
----
+如果使用 VS Code，请选择项目内的 `.conda_zosapi38\python.exe`，之后可以直接打开脚本并点击右上角运行按钮。
 
-## 9. 当前局限
+## 推荐阅读顺序
 
-1. 当前评分函数是 MTF-only 版本，尚未加入 RMS Spot、焦距、畸变等指标。
-2. 当前 MTF 指标来自 txt 文件解析，后续更严谨的方式是直接从 ZOS-API DataSeries 中提取。
-3. 当前 MTF 使用多条曲线平均值，尚未区分不同视场和 Tangential/Sagittal 方向。
-4. 当前只扫描了一个参数，后续可以扩展到多个关键结构参数。
-5. 当前扫描步长为固定步长，不能保证得到全局最优结果。
-6. 当前结果只能表述为“当前评分规则下的较优设计”，不能称为完整意义上的最终最优光学设计。
+1. [项目章程](docs/project_plan/PROJECT_CHARTER.md)
+2. [Cooke 基准实验定义](docs/project_plan/BASELINE_DEFINITION.md)
+3. [Day 8：局部稳健性](docs/learning_notes/DAY8_LOCAL_ROBUSTNESS.md)
+4. [Day 9：Spot/MTF 交叉验证](docs/learning_notes/DAY9_SPOT_MTF_CROSS_VALIDATION.md)
+5. [Day 10：Merit Function 验证](docs/learning_notes/DAY10_MERIT_FUNCTION_VALIDATION.md)
+6. [Day 11：需求驱动决策](docs/learning_notes/DAY11_REQUIREMENT_DRIVEN_DECISION.md)
 
----
+## 当前边界
 
-## 10. 后续计划
+- 当前只完成一个真实模型、一个外层参数的研究链路；
+- 当前补偿动作为 Quick Focus，尚未形成受限变量的完整内层再优化实验；
+- 5% 近优平台和 2% 均衡门槛均为公开的项目教学规则，不是加工公差；
+- MTF 当前从 Zemax 原始文本中解析，而不是直接读取全部 DataSeries；
+- 当前尚未加入真实探测器、成本、材料批次、热环境和装调误差；
+- 当前结论只对冻结的模型、配置、视场、波长和分析设置有效；
+- 仓库不包含 OpticStudio、许可证或 Ansys 专有程序文件。
 
-- 加入 RMS Spot 指标；
-- 区分不同视场和 Tangential/Sagittal 方向；
-- 在较优厚度附近进行更小步长二次扫描；
-- 将扫描、评价、绘图和报告生成整合到统一主程序；
-- 尝试让 AI 根据自然语言需求生成 JSON/YAML 扫描配置；
-- 后续扩展到 COMSOL 参数化光场/散射仿真。
+## 后续路线
 
----
+1. 引入探测器像元和目标空间频率，将教学门槛升级为工程验收规则；
+2. 加入制造公差与 Monte Carlo，验证候选区域的真实稳健性；
+3. 在每个外层参数案例中授权少量内层变量再优化，并审计变量边界；
+4. 从单参数扩展到经过筛选的少量关键参数，而不是直接进行无约束高维穷举；
+5. 建立统一的任务配置、执行器、报告和恢复机制；
+6. 让 AI Agent 生成候选实验计划，但始终由 Schema、安全策略和人工授权控制执行。
 
-## 11. 项目收获
+## 一句话总结
 
-通过本项目，我初步掌握了使用 Python/ZOS-API 控制 Zemax 的自动化流程，理解了从单次仿真到批量参数扫描、从分析结果导出到指标提取、从曲线绘制到最优参数筛选的完整工程链路。
-
-相比手动仿真，该流程具有更好的重复性、可追溯性和扩展性，为后续引入更复杂评分函数、COMSOL 参数化仿真以及 AI Agent 生成配置文件打下基础。
-
----
-
-## D22-D27 自动化工作流阶段说明
-
-本阶段完成了 Zemax 自动化项目的工程化重构，主要目标是将前期零散脚本整理为配置文件驱动的一键运行流程。
-
-当前 workflow 支持：
-
-- 读取 `configs/config_zemax.yaml`
-- 根据配置生成扫描参数列表
-- 自动创建 `results/YYYYMMDD_task/` 结果目录
-- 自动备份本次配置文件
-- 自动生成运行日志 `run.log`
-- 自动生成扫描结果 CSV 和运行状态 CSV
-- 自动绘制 MTF_50 曲线图
-- 自动生成 Markdown 报告草稿 `report.md`
-
-当前阶段仍为 dry-run demo，尚未真正调用 Zemax ZOS-API。后续需要将 `workflow_runner.py` 中的模拟指标生成函数替换为真实 Zemax API 调用函数。
-
-
-## 第 5 周：AI Agent 低配版
-
-## D29：明确 AI Agent 在 Zemax 自动化项目中的定位
-  - [Agent Positioning](docs/D29_agent_positioning.md)
-  - [Natural Language Task Template](docs/natural_language_task_template.md)
-  - [Agent Boundary](docs/agent_boundary.md)
-  - [Example Natural Language Tasks](examples/tasks/D29_example_tasks.md)
-  
-
-  ## D30：自然语言转 YAML，并使用 JSON Schema 校验
-
-本阶段将自然语言 Zemax 自动化需求转化为 YAML 任务文件，并使用 JSON Schema 对字段、类型、单位、输出路径和安全约束进行校验。
-
-主要文件：
-
-- `configs/task_schema.json`：任务结构和安全边界规则
-- `configs/agent_tasks/D30_task_example.yaml`：AI 生成的 YAML 任务示例
-- `examples/tasks/D30_natural_language_request.md`：自然语言原始需求
-- `scripts/validation/D30_validate_task_yaml.py`：YAML 任务校验脚本
-- `docs/D30_natural_language_to_yaml.md`：D30 学习说明
-
-## D31：YAML 调用脚本
-
-本阶段实现从 AI 生成的 YAML 任务文件到 Python 脚本输入的转换流程。
-
-主要文件：
-
-- `scripts/agent/D31_run_from_task_yaml.py`：读取、校验、预览 YAML 任务，并生成 workflow 配置
-- `configs/agent_tasks/D30_task_example.yaml`：AI 生成的 YAML 任务示例
-- `configs/task_schema.json`：任务 schema 校验规则
-- `configs/config_D31_from_task.yaml`：由 D31 脚本自动生成的工作流配置
-
-当前阶段默认 dry-run，不直接运行 Zemax，避免 AI 任务未经确认就修改模型。
-
-
-## D32：结果自动总结
-
-本阶段完成了结果自动总结流程。脚本可以根据 D31 生成的工作流配置，自动查找结果目录中的 CSV、图像、JSON 和日志，并生成 `reports/workflow/D32_result_summary_input.md` 作为 AI 总结材料。
-
-当前结果目录中尚未检测到真实仿真输出，因此 D32 总结只记录流程状态和缺失信息，不编造 MTF、RMS Spot 或最优参数结论。
-
-## D33：安全边界
-
-本阶段为 AI 生成的 Zemax 自动化任务增加安全检查。
-
-主要文件：
-
-- `configs/safety_policy.yaml`：项目级安全策略
-- `modules/task_safety.py`：安全检查函数库
-- `scripts/validation/D33_check_task_safety.py`：D33 安全检查入口脚本
-- `docs/D33_safety_boundary.md`：D33 学习说明
-
-当前检查内容包括参数范围、单位、扫描次数、输出路径、只读模型和 dry-run 原则。任何 AI 生成任务在进入 Zemax 自动化执行前，都必须先通过 D33 安全检查。
-
-## D34：Agent Demo 演示
-
-本阶段完成低配版 AI Agent 工作流 demo。
-
-当前 demo 的准确流程为：
-
-自然语言需求 → ChatGPT/人工生成 YAML 任务 → Schema 校验 → Safety Policy 校验 → D31 workflow config 生成 → D32 结果总结材料生成 → D34 demo 报告生成
-
-主要文件：
-
-- `examples/tasks/D30_natural_language_request.md`：自然语言需求记录
-- `prompts/nl_to_yaml_prompt.md`：自然语言转 YAML 的提示词模板
-- `configs/agent_tasks/D30_task_example.yaml`：由 ChatGPT/人工生成的 YAML 任务
-- `scripts/agent/D34_agent_demo.py`：Agent demo 总控脚本
-- `reports/D34_agent_demo_report.md`：D34 自动生成的 demo 报告
-- `docs/D34_natural_language_gap.md`：当前自然语言识别缺口说明
-
-当前版本中，Python 并不会直接理解自然语言；自然语言到 YAML 的转换暂时由 ChatGPT/人工完成。Python 从 YAML 开始接管，负责结构校验、安全校验、工作流配置生成和结果总结材料生成。
+这个项目的意义不是让 Python 取代 Zemax，而是让 Zemax 的真实光学计算变成一套可以重复、比较、追溯并支持工程决策的实验系统。
