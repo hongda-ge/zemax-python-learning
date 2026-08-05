@@ -1,0 +1,58 @@
+# Day 13：复用 Day 8 数据，检查三个候选在 ±0.1 mm 空气间隔误差下的局部稳健性。
+
+schema_version: "local_neighborhood_robustness/v1"
+
+case:
+  id: "cooke_surface2_candidate_neighborhood_v1"
+  name: "Cooke面2空气间隔候选邻域稳健性"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  # 第一步计划已人工复核，允许只读统计已有 Day 8 数据。
+  allow_neighborhood_evaluation: true
+
+source:
+  day8_output_root: "outputs/day8_local_fine_scan"
+  day8_batch_report_name: "batch_summary.json"
+  day8_expected_task: "day8_local_fine_scan"
+  day8_expected_case_count: 9
+  day11_output_root: "outputs/day11_requirement_scenarios"
+  day11_report_name: "scenario_decision_report.json"
+  day11_expected_task: "day11_requirement_scenario_evaluation"
+  expected_candidate_ids: ["fine_003", "fine_004", "fine_005"]
+
+parameter:
+  editor: "LDE"
+  surface: 2
+  property: "thickness"
+  physical_meaning: "第一片与第二片镜片之间的空气间隔"
+  unit: "mm"
+
+# ±0.1 mm 只是教学装调误差，不是正式加工公差。
+neighborhood:
+  half_width_mm: 0.1
+  offsets_mm: [-0.1, 0.0, 0.1]
+  expected_points_per_candidate: 3
+  reuse_quick_focused_day8_results: true
+  refocus_compensator_available: true
+
+metrics:
+  preserve_each_field_rms: true
+  calculate_neighborhood_mean_rms: true
+  calculate_worst_sample_mean_rms: true
+  calculate_worst_field_rms: true
+  calculate_focus_compensation_span: true
+  hidden_weighted_score_allowed: false
+
+guardrails:
+  require_day8_batch_success: true
+  require_individual_case_safety_checks: true
+  require_exact_neighbor_spacing: true
+  unique_engineering_winner_allowed: false
+  label_results_as_teaching_assembly_robustness: true
+
+output:
+  root: "outputs/day13_local_neighborhood_robustness"

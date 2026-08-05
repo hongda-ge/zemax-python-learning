@@ -188,6 +188,7 @@ python scripts/demos/day11_requirement_scenario_plan.py
 5. [Day 10：Merit Function 验证](docs/learning_notes/DAY10_MERIT_FUNCTION_VALIDATION.md)
 6. [Day 11：需求驱动决策](docs/learning_notes/DAY11_REQUIREMENT_DRIVEN_DECISION.md)
 7. [Day 12：决策门槛敏感性分析](docs/learning_notes/DAY12_DECISION_SENSITIVITY.md)
+8. [Day 13：候选局部邻域稳健性](docs/learning_notes/DAY13_LOCAL_NEIGHBORHOOD_ROBUSTNESS.md)
 
 ## 当前边界
 
