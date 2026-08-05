@@ -1,0 +1,58 @@
+# Day 10：使用现有 Zemax Merit Function 验证 Day 9 Pareto 候选。
+
+schema_version: "merit_function_candidate_validation/v1"
+
+case:
+  id: "cooke_surface2_pareto_merit_function_v1"
+  name: "Cooke面2空气间隔Pareto候选评价函数验证"
+  status: "draft"
+
+execution:
+  enabled: false
+  plan_allow_zosapi_connection: false
+  allow_merit_recipe_export: true
+  allow_single_baseline_validation: true
+  allow_reviewed_candidate_execution: true
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  day8_output_root: "outputs/day8_local_fine_scan"
+  day9_output_root: "outputs/day9_fft_mtf_validation"
+  day9_tradeoff_report_name: "day9_spot_mtf_tradeoff_report.json"
+  day9_tradeoff_csv_name: "day9_spot_mtf_tradeoff.csv"
+  merit_recipe_source_model: "outputs/day2_baseline_inspection/cooke_day2_working.zmx"
+  merit_recipe_source_sha256: "FC3A3636F015B688A0043CC601D350E4CC71A8228A80BABE60F2788ABF734F1F"
+  merit_recipe_file: "configs/merit_functions/cooke_spot_rms_centroid.MF"
+  merit_recipe_sha256: "7C5D9C3A915A3A8EEFF61EE615535CA7DF68D4CB1EBF083392EA6FFBE34FF4CC"
+  merit_recipe_definition_sha256: "91D20EA3DCD27030C16583AA707C391EB436EF094C798CFD8E7224AB9A720606"
+  merit_recipe_loaded_definition_sha256: "B3263185E5BADC31B788CE77F50AADF852880F59DDA05D7CE7903260E14D3EE9"
+  merit_recipe_operand_count: 1602
+
+selection:
+  source_rule: "day9_spot_mtf_pareto_set"
+  expected_candidate_count: 3
+  expected_candidate_ids: ["fine_003", "fine_004", "fine_005"]
+  reject_dominated_candidates: true
+
+evaluation:
+  type: "existing_merit_function"
+  source: "frozen_mf_recipe_loaded_in_memory"
+  operation: "calculate_only"
+  lower_is_better: true
+  require_same_operand_definition: true
+  optimization_allowed: false
+
+guardrails:
+  require_day8_model_hash_match: true
+  require_day9_tradeoff_success: true
+  require_source_unchanged: true
+  require_working_copy_unchanged: true
+  require_connection_closed: true
+  do_not_refocus_models: true
+  allow_in_memory_recipe_load: true
+  do_not_modify_merit_function: true
+  do_not_run_optimization: true
+  do_not_overwrite_input_models: true
+
+output:
+  root: "outputs/day10_merit_function_validation"

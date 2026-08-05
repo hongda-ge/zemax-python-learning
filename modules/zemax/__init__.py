@@ -13,6 +13,11 @@ from modules.zemax.connection import (
     ZemaxConnectionError,
 )
 from modules.zemax.focus_ops import FocusOperationError, run_quick_focus
+from modules.zemax.merit_ops import (
+    calculate_existing_merit_function,
+    load_merit_recipe,
+    read_merit_definition,
+)
 from modules.zemax.model_ops import (
     ModelOperationError,
     copy_baseline_model,
@@ -35,6 +40,9 @@ __all__ = [
     "ZemaxConnectionError",
     "FocusOperationError",
     "run_quick_focus",
+    "calculate_existing_merit_function",
+    "load_merit_recipe",
+    "read_merit_definition",
     "ModelOperationError",
     "copy_baseline_model",
     "copy_output_model",
