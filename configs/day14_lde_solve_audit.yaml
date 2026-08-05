@@ -1,0 +1,49 @@
+# Day 14：审计 Cooke 基准模型中活动的 LDE Solve。
+
+schema_version: "lde_solve_audit/v1"
+
+case:
+  id: "cooke_baseline_lde_solve_audit_v1"
+  name: "Cooke基准模型LDE求解审计"
+  status: "draft"
+
+execution:
+  enabled: false
+  # 第一步计划已人工复核，仅允许只读连接和 Solve 查询。
+  allow_zosapi_connection: true
+  allow_read_only_solve_audit: true
+  allow_model_write: false
+  allow_optimization: false
+  allow_quick_focus: false
+  allow_save_as: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  day8_output_root: "outputs/day8_local_fine_scan"
+  day8_batch_report_name: "batch_summary.json"
+  day8_expected_task: "day8_local_fine_scan"
+  day8_expected_case_count: 9
+
+evidence:
+  changed_surface_id: 2
+  observed_response_surface_id: 6
+  observed_response_property: "radius"
+  require_nonzero_observed_radius_range: true
+
+audit:
+  editor: "LDE"
+  surface_scope: "all"
+  cell_types: ["radius", "thickness"]
+  include_numeric_values: true
+  include_solve_type: true
+  include_solve_data_properties: true
+
+guardrails:
+  copy_source_to_outputs: true
+  preserve_source_hash: true
+  preserve_working_copy_hash: true
+  require_connection_closed: true
+  classify_before_tolerance_work: true
+
+output:
+  root: "outputs/day14_lde_solve_audit"

@@ -18,9 +18,36 @@ Day 12 检查了决策规则的敏感性。Day 13 开始检查另一个问题：
 - 教学误差：`-0.1、0、+0.1 mm`；
 - 每个误差点都复用 Day 8 执行 Quick Focus 后的 Standard Spot；
 - 假设像面移动可以作为补偿器；
+- 保留原始模型中面6曲率的 `MarginalRayAngle` Solve；
 - 三个采样点没有被赋予概率分布。
 
-因此，本次分析描述的是“允许重新对焦时的三点局部邻域”，不是固定像面公差，也不是正式 Monte Carlo。
+因此，本次分析描述的是“保留原始曲率 Solve、并允许重新对焦时的三点局部邻域”，不是其他曲率全部冻结的纯空气间隔公差、固定像面公差或正式 Monte Carlo。
+
+## Day 14 对模型行为的补充审计
+
+Day 14 使用 ZOS-API 只读检查了基准模型的 LDE Solve，确认：
+
+- 面1至面5的曲率和厚度为 `Variable`；
+- 面6厚度为 `Variable`；
+- 面6曲率使用 `MarginalRayAngle` 依赖型 Solve；
+- `MarginalRayAngle` 的目标值为 `-0.100000001`；
+- Day 8/13 没有运行优化器，因此普通 `Variable` 不会自行优化；
+- 面6曲率会因依赖型 Solve 在面2间隔改变后自动重新计算；
+- Quick Focus 随后显式调整面6厚度，即像面距离。
+
+Day 8/13 的真实执行链应准确写成：
+
+```text
+修改面2空气间隔
+        ↓
+MarginalRayAngle Solve 自动重算面6曲率
+        ↓
+Quick Focus 调整面6厚度
+        ↓
+计算 Standard Spot
+```
+
+因此 Day 13 的结果仍然是有效的已执行模型响应，但它回答的是“当前 Zemax Solve 与重新对焦补偿策略下的局部响应”，不能隔离出面2空气间隔本身的纯制造敏感度。
 
 ## 三个候选邻域
 
@@ -102,6 +129,7 @@ fine_003 → fine_004 → fine_005
 - 没有真实装调误差分布；
 - 没有调焦机构的允许行程与精度要求；
 - 邻域 Spot 数据允许每个误差点重新对焦；
+- 面6曲率的 `MarginalRayAngle` Solve 在每个误差点保持活动；
 - 当前没有邻域 MTF 和邻域 Merit Function 数据；
 - `±0.1 mm` 是教学范围，不是经过机械设计确认的公差。
 
