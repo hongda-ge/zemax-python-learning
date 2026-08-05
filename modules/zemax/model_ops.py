@@ -117,6 +117,59 @@ def copy_baseline_model(
     }
 
 
+def copy_output_model(
+    source_file: Union[str, Path],
+    run_dir: Union[str, Path],
+    working_name: str = "working_model.zmx",
+) -> Dict[str, Any]:
+    """Copy one verified output model into a new output run directory."""
+
+    source = _require_inside(
+        _resolved(source_file),
+        OUTPUT_ROOT,
+        "Source output model",
+    )
+    if not source.is_file():
+        raise ModelOperationError("Output model not found: {0}".format(source))
+    _require_model_suffix(source)
+
+    output_dir = _require_inside(
+        _resolved(run_dir),
+        OUTPUT_ROOT,
+        "Run directory",
+    )
+    output_dir.mkdir(parents=True, exist_ok=True)
+    working_file = _require_inside(
+        (output_dir / working_name).resolve(),
+        output_dir,
+        "Working model",
+    )
+    _require_model_suffix(working_file)
+
+    if working_file.exists():
+        raise ModelOperationError(
+            "Working model already exists; refusing to overwrite: {0}".format(
+                working_file
+            )
+        )
+    if source == working_file:
+        raise ModelOperationError("Source and working output models must differ.")
+
+    source_hash = sha256_file(source)
+    shutil.copy2(str(source), str(working_file))
+    working_hash = sha256_file(working_file)
+    if working_hash != source_hash:
+        raise ModelOperationError("Copied output model hash does not match.")
+
+    return {
+        "source_file": str(source),
+        "source_sha256": source_hash,
+        "working_file": str(working_file),
+        "working_sha256_after_copy": working_hash,
+        "copy_verified": True,
+    }
+
+
 def open_working_model(system: Any, model_file: Union[str, Path]) -> Path:
     """Open a model only when it is a writable copy under ``outputs``."""
     model_path = _require_inside(
@@ -227,6 +280,7 @@ __all__ = [
     "OUTPUT_ROOT",
     "ModelOperationError",
     "copy_baseline_model",
+    "copy_output_model",
     "open_working_model",
     "read_surface",
     "save_model_as",
