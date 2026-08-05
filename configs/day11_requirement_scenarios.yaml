@@ -1,0 +1,68 @@
+# Day 11：没有真实探测器时使用的教学决策场景。
+
+schema_version: "requirement_scenario_decision/v1"
+
+case:
+  id: "cooke_surface2_teaching_decision_v1"
+  name: "Cooke面2厚度教学场景决策"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_scenario_evaluation: true
+
+source:
+  day10_output_root: "outputs/day10_merit_function_validation"
+  day10_batch_report_name: "batch_summary.json"
+  expected_loaded_definition_sha256: "B3263185E5BADC31B788CE77F50AADF852880F59DDA05D7CE7903260E14D3EE9"
+  expected_operand_count: 1602
+
+candidate_set:
+  expected_ids: ["fine_003", "fine_004", "fine_005"]
+  require_all_safety_checks: true
+
+metrics:
+  spot_mean_rms_um:
+    direction: "minimize"
+  merit_value:
+    direction: "minimize"
+  mtf_30_overall_mean:
+    direction: "maximize"
+  mtf_50_overall_mean:
+    direction: "maximize"
+
+# 以下规则仅用于教学，不能替代真实探测器和成像任务需求。
+scenarios:
+  geometry_priority:
+    name: "几何像质优先"
+    purpose: "优先获得更小的点列图和更低的RMS Spot评价函数"
+    ranking:
+      primary: "merit_value"
+      secondary: "spot_mean_rms_um"
+
+  balanced_imaging:
+    name: "均衡成像"
+    purpose: "只接受很小的Spot和Merit损失，再争取更高的MTF50"
+    teaching_limits:
+      maximum_spot_penalty_vs_best_percent: 2.0
+      maximum_merit_penalty_vs_best_percent: 2.0
+    ranking:
+      primary: "mtf_50_overall_mean"
+      secondary: "mtf_30_overall_mean"
+
+  fine_detail_priority:
+    name: "精细结构优先"
+    purpose: "在当前教学频率中优先保持50 cycles/mm对比度"
+    ranking:
+      primary: "mtf_50_overall_mean"
+      secondary: "mtf_30_overall_mean"
+
+decision_policy:
+  hidden_weighted_score_allowed: false
+  unique_engineering_winner_allowed_without_real_requirements: false
+  report_metric_tradeoffs: true
+  label_results_as_teaching_scenarios: true
+
+output:
+  root: "outputs/day11_requirement_scenarios"
