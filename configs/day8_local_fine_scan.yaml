@@ -1,0 +1,69 @@
+# Day 8 local fine-scan plan around the balanced Day 7 candidate.
+
+schema_version: "local_fine_scan/v1"
+
+case:
+  id: "cooke_surface2_local_fine_scan_v1"
+  name: "Cooke面2空气间隔局部精细扫描"
+  status: "draft"
+
+# Step 1 is plan-only. It must not open Zemax.
+execution:
+  enabled: false
+  plan_allow_zosapi_connection: false
+  allow_single_center_validation: true
+  allow_reviewed_nine_case_execution: true
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  selected_from_batch: "five_case_20260803_170548"
+  selected_case: "case_003"
+
+parameter:
+  editor: "LDE"
+  surface: 2
+  property: "thickness"
+  physical_meaning: "第一片与第二片镜片之间的空气间隔"
+  unit: "mm"
+  center_value: 6.0075511
+
+scan:
+  mode: "local_delta_from_center"
+  start_delta_mm: -0.4
+  end_delta_mm: 0.4
+  step_mm: 0.1
+  expected_case_count: 9
+  deltas_mm: [-0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4]
+  values_mm:
+    - 5.6075511
+    - 5.7075511
+    - 5.8075511
+    - 5.9075511
+    - 6.0075511
+    - 6.1075511
+    - 6.2075511
+    - 6.3075511
+    - 6.4075511
+
+guardrails:
+  require_center_case: true
+  require_unique_values: true
+  require_strictly_increasing_values: true
+  # Day 7 showed both endpoints below are focus-feasible.
+  stay_inside_day7_successful_bracket: true
+  day7_successful_bracket_mm: [5.5075511, 6.5075511]
+  preserve_baseline_source: true
+
+output:
+  root: "outputs/day8_local_fine_scan"
+
+# Frozen Day 7 center-case values used only for reproducibility checking.
+reference:
+  source_batch: "five_case_20260803_170548"
+  focused_image_distance_mm: 42.207788473485415
+  focus_tolerance_mm: 0.0001
+  rms_tolerance_um: 0.01
+  rms_radius_um:
+    field_0_deg: 4.98760565
+    field_14_deg: 16.0807172
+    field_20_deg: 12.0308313

@@ -109,7 +109,12 @@ def get_focus_bounds(config):
     raise ValueError("Surface 6 focus bounds are missing from the YAML.")
 
 
-def execute_one_case(config, case, batch_dir):
+def execute_one_case(
+    config,
+    case,
+    batch_dir,
+    task_name="day7_five_case_sweep",
+):
     """Execute one isolated real-Zemax case and always write a report."""
 
     source_file = PROJECT_ROOT / config["model"]["source_file"]
@@ -120,7 +125,7 @@ def execute_one_case(config, case, batch_dir):
     lower_focus, upper_focus = get_focus_bounds(config)
 
     result = {
-        "task": "day7_five_case_sweep",
+        "task": task_name,
         "status": "failed",
         "case": case,
         "time_local": datetime.now().astimezone().isoformat(),
@@ -335,7 +340,12 @@ def result_to_summary_row(result):
     }
 
 
-def write_batch_summary(batch_dir, batch_id, results):
+def write_batch_summary(
+    batch_dir,
+    batch_id,
+    results,
+    task_name="day7_five_case_sweep",
+):
     """Write a complete summary, including safely rejected design points."""
 
     for result in results:
@@ -371,7 +381,7 @@ def write_batch_summary(batch_dir, batch_id, results):
         "completed_with_rejections" if rejected_count else "success"
     )
     batch_summary = {
-        "task": "day7_five_case_sweep",
+        "task": task_name,
         "batch_id": batch_id,
         "time_local": datetime.now().astimezone().isoformat(),
         "status": batch_status,
