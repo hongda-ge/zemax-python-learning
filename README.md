@@ -190,6 +190,7 @@ python scripts/demos/day11_requirement_scenario_plan.py
 7. [Day 12：决策门槛敏感性分析](docs/learning_notes/DAY12_DECISION_SENSITIVITY.md)
 8. [Day 13：候选局部邻域稳健性](docs/learning_notes/DAY13_LOCAL_NEIGHBORHOOD_ROBUSTNESS.md)
 9. [Day 14：LDE Solve 只读审计](docs/learning_notes/DAY14_LDE_SOLVE_AUDIT.md)
+10. [Day 15：保留 Solve 与冻结曲率的双分支验证](docs/learning_notes/DAY15_SOLVE_BRANCH_VALIDATION.md)
 
 ## 当前边界
 

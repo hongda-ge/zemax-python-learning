@@ -1,0 +1,63 @@
+# Day 15：在独立工作副本中验证“保留 Solve”和“冻结曲率”两个分支。
+
+schema_version: "solve_branch_validation/v1"
+
+case:
+  id: "cooke_surface6_solve_branch_validation_v1"
+  name: "Cooke面6曲率Solve双分支验证"
+  status: "draft"
+
+execution:
+  enabled: false
+  # 第一步计划已人工复核，仅允许两个分支所需的内存操作。
+  allow_zosapi_connection: true
+  allow_surface2_in_memory_write: true
+  allow_surface6_make_solve_fixed: true
+  allow_quick_focus: false
+  allow_optical_analysis: false
+  allow_optimization: false
+  allow_save_as: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  day14_output_root: "outputs/day14_lde_solve_audit"
+  day14_report_name: "lde_solve_audit.json"
+  day14_expected_task: "day14_lde_solve_audit"
+  expected_surface6_radius_solve: "MarginalRayAngle"
+  expected_surface6_angle: -0.100000001
+
+parameter:
+  changed_surface_id: 2
+  property: "thickness"
+  physical_meaning: "第一片与第二片镜片之间的空气间隔"
+  nominal_value_mm: 6.0075511
+  test_delta_mm: -0.1
+  test_value_mm: 5.9075511
+
+dependent_cell:
+  surface_id: 6
+  cell: "radius"
+  nominal_radius_mm: -18.395332603040327
+
+branches:
+  preserve_solve:
+    working_name: "preserve_solve_working.zmx"
+    expected_solve_before: "MarginalRayAngle"
+    expected_solve_after: "MarginalRayAngle"
+  freeze_radius:
+    working_name: "freeze_radius_working.zmx"
+    expected_solve_before: "MarginalRayAngle"
+    expected_solve_after: "Fixed"
+
+guardrails:
+  use_independent_working_copies: true
+  memory_only_changes: true
+  preserve_source_hash: true
+  preserve_both_working_copy_hashes: true
+  require_connection_closed: true
+  no_spot_or_mtf_conclusion: true
+  minimum_expected_preserve_radius_change_mm: 0.000001
+  maximum_allowed_frozen_radius_change_mm: 0.000000001
+
+output:
+  root: "outputs/day15_solve_branch_validation"

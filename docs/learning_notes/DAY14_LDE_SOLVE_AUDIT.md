@@ -117,6 +117,8 @@ Quick Focus 调整面6厚度
 
 冻结 Solve 属于模型写操作，必须只对 `outputs` 下的副本执行，并先进行单案例验证，不能直接修改原始模型。
 
+该单案例验证已在 [Day 15：Solve 双分支验证](DAY15_SOLVE_BRANCH_VALIDATION.md) 中完成：保留 `MarginalRayAngle` 时面6曲率随面2厚度联动，转为 `Fixed` 后同样的面2厚度变化不再改变面6曲率。
+
 ## 今天掌握的核心概念
 
 - Variable 与依赖型 Solve 的行为不同；
