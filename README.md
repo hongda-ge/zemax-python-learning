@@ -192,6 +192,7 @@ python scripts/demos/day11_requirement_scenario_plan.py
 9. [Day 14：LDE Solve 只读审计](docs/learning_notes/DAY14_LDE_SOLVE_AUDIT.md)
 10. [Day 15：保留 Solve 与冻结曲率的双分支验证](docs/learning_notes/DAY15_SOLVE_BRANCH_VALIDATION.md)
 11. [Day 16：Solve 双分支的 Quick Focus 与 Spot 比较](docs/learning_notes/DAY16_SOLVE_BRANCH_SPOT_COMPARISON.md)
+12. [Day 17：Solve 双分支的局部区间趋势](docs/learning_notes/DAY17_SOLVE_BRANCH_TREND.md)
 
 ## 当前边界
 

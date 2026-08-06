@@ -137,7 +137,13 @@ def summarize_spot(spot_metrics):
     }
 
 
-def execute_branch(config, branch_name, working_file, branch_dir):
+def execute_branch(
+    config,
+    branch_name,
+    working_file,
+    branch_dir,
+    task_name="day16_solve_branch_spot_comparison",
+):
     """Execute one isolated branch and always leave an audit report."""
 
     source_file = Path(config["_source_file"])
@@ -145,7 +151,7 @@ def execute_branch(config, branch_name, working_file, branch_dir):
     working_hash_before = sha256_file(working_file).upper()
     result_file = branch_dir / "result.json"
     result = {
-        "task": "day16_solve_branch_spot_comparison",
+        "task": task_name,
         "status": "failed",
         "branch": branch_name,
         "time_local": datetime.now().astimezone().isoformat(),

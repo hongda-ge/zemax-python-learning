@@ -1,0 +1,105 @@
+# Day 17：在局部厚度区间比较保留 Solve 与冻结曲率分支的 Spot 趋势。
+
+schema_version: "solve_branch_trend/v1"
+
+case:
+  id: "cooke_surface6_solve_branch_trend_v1"
+  name: "Cooke面6曲率Solve双分支区间趋势"
+  status: "draft"
+
+execution:
+  enabled: false
+  # 第一步计划已人工复核，仅授权中心空白对照所需操作。
+  allow_zosapi_connection: true
+  allow_surface2_in_memory_write: true
+  allow_surface6_make_solve_fixed: true
+  allow_quick_focus: true
+  allow_standard_spot: true
+  allow_baseline_control_execution: true
+  # 中心空白对照已通过，允许执行剩余四个厚度点的双分支趋势实验。
+  allow_trend_evaluation: true
+  allow_optimization: false
+  allow_save_as: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  expected_source_sha256: "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585"
+  day8_output_root: "outputs/day8_local_fine_scan"
+  day8_report_name: "batch_summary.json"
+  day8_expected_task: "day8_local_fine_scan"
+  day8_expected_case_count: 9
+  day16_output_root: "outputs/day16_solve_branch_spot_comparison"
+  day16_report_name: "solve_branch_spot_comparison.json"
+  day16_expected_task: "day16_solve_branch_spot_comparison"
+
+parameter:
+  surface_id: 2
+  property: "thickness"
+  unit: "mm"
+  baseline_value_mm: 6.0075511
+  selected_deltas_mm: [-0.4, -0.2, 0.0, 0.2, 0.4]
+  selected_values_mm: [5.6075511, 5.8075511, 6.0075511, 6.2075511, 6.4075511]
+  day16_anchor_delta_mm: -0.1
+  day16_anchor_value_mm: 5.9075511
+
+dependent_cell:
+  surface_id: 6
+  cell: "radius"
+  nominal_radius_mm: -18.395332603040327
+
+branches:
+  preserve_solve:
+    expected_radius_solve: "MarginalRayAngle"
+    working_suffix: "preserve_solve_working.zmx"
+  freeze_radius:
+    expected_radius_solve: "Fixed"
+    working_suffix: "freeze_radius_working.zmx"
+
+compensation:
+  tool: "QuickFocus"
+  criterion: "spot_size_radial"
+  use_centroid: true
+  focus_surface_id: 6
+  approved_thickness_range_mm: [40.0, 44.5]
+
+analysis:
+  type: "Standard_Spot"
+  ray_density: 6
+  pattern: "hexapolar"
+  fields: "all"
+  wavelengths: "all"
+  surface: "image"
+  reference: "centroid"
+  polarization: false
+  expected_field_y_degrees: [0.0, 14.0, 20.0]
+
+comparison:
+  new_thickness_points: 5
+  new_branch_runs: 10
+  reuse_day16_anchor: true
+  descriptive_outputs:
+    - "surface6_radius_difference_mm"
+    - "focus_shift_difference_mm"
+    - "field_rms_difference_um"
+    - "equal_field_mean_rms_difference_um"
+    - "worst_field_rms_difference_um"
+  hidden_weighted_score: false
+  allow_unique_engineering_winner: false
+
+guardrails:
+  run_sequentially: true
+  stop_on_first_unexpected_failure: true
+  use_independent_working_copy_per_branch: true
+  preserve_source_hash: true
+  preserve_all_working_copy_hashes: true
+  require_every_connection_closed: true
+  forbid_model_save: true
+  forbid_optimization: true
+  baseline_control_max_radius_difference_mm: 0.000000001
+  baseline_control_max_focus_difference_mm: 0.000001
+  baseline_control_max_field_rms_difference_um: 0.001
+  preserve_reproduction_max_focus_difference_mm: 0.000001
+  preserve_reproduction_max_field_rms_difference_um: 0.001
+
+output:
+  root: "outputs/day17_solve_branch_trend"
