@@ -1,0 +1,89 @@
+# Day 16：比较保留 Solve 与冻结曲率分支在相同 Quick Focus 后的 Spot 表现。
+
+schema_version: "solve_branch_spot_comparison/v1"
+
+case:
+  id: "cooke_surface6_solve_branch_spot_comparison_v1"
+  name: "Cooke面6曲率Solve双分支Spot比较"
+  status: "draft"
+
+execution:
+  enabled: false
+  # 第一步计划已人工复核，仅授权双分支比较所需的内存操作与Spot文本导出。
+  allow_zosapi_connection: true
+  allow_surface2_in_memory_write: true
+  allow_surface6_make_solve_fixed: true
+  allow_quick_focus: true
+  allow_standard_spot: true
+  allow_optimization: false
+  allow_save_as: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  day15_output_root: "outputs/day15_solve_branch_validation"
+  day15_report_name: "solve_branch_validation.json"
+  day15_expected_task: "day15_solve_branch_validation"
+  day15_expected_status: "success"
+  expected_source_sha256: "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585"
+
+parameter:
+  surface_id: 2
+  property: "thickness"
+  physical_meaning: "第一片与第二片镜片之间的空气间隔"
+  nominal_value_mm: 6.0075511
+  test_delta_mm: -0.1
+  test_value_mm: 5.9075511
+
+dependent_cell:
+  surface_id: 6
+  cell: "radius"
+  nominal_radius_mm: -18.395332603040327
+
+branches:
+  preserve_solve:
+    working_name: "preserve_solve_spot_working.zmx"
+    expected_radius_solve: "MarginalRayAngle"
+  freeze_radius:
+    working_name: "freeze_radius_spot_working.zmx"
+    expected_radius_solve: "Fixed"
+
+compensation:
+  tool: "QuickFocus"
+  criterion: "spot_size_radial"
+  use_centroid: true
+  focus_surface_id: 6
+  approved_thickness_range_mm: [40.0, 44.5]
+
+analysis:
+  type: "Standard_Spot"
+  ray_density: 6
+  pattern: "hexapolar"
+  fields: "all"
+  wavelengths: "all"
+  surface: "image"
+  reference: "centroid"
+  polarization: false
+  expected_field_y_degrees: [0.0, 14.0, 20.0]
+
+comparison:
+  descriptive_metrics:
+    - "surface6_radius_after_surface2_write_mm"
+    - "quick_focus_shift_mm"
+    - "focused_surface6_thickness_mm"
+    - "rms_spot_radius_by_field_um"
+    - "equal_field_mean_rms_um"
+    - "worst_field_rms_um"
+  lower_spot_is_better: true
+  allow_unique_engineering_winner: false
+
+guardrails:
+  use_independent_working_copies: true
+  recreate_both_branches_from_frozen_source: true
+  preserve_source_hash: true
+  preserve_both_working_copy_hashes: true
+  require_connection_closed: true
+  forbid_model_save: true
+  forbid_optimization: true
+
+output:
+  root: "outputs/day16_solve_branch_spot_comparison"

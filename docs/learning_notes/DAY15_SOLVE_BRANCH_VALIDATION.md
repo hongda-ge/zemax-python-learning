@@ -164,6 +164,8 @@ Day 16 可以在两个分支中采用相同的补偿和分析设置：
 
 > 保留设计 Solve 与冻结制造后曲率，对最终成像质量的影响有多大？
 
+该比较已在 [Day 16：Solve 双分支的 Quick Focus 与 Spot 比较](DAY16_SOLVE_BRANCH_SPOT_COMPARISON.md) 中完成。单个 `−0.1 mm` 案例显示：冻结曲率会增加所需焦移，但在允许 Quick Focus 后，两个分支的最终 RMS Spot 非常接近。
+
 ## 运行入口
 
 ### 1. 只检查实验计划
