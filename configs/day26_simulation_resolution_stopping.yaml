@@ -1,0 +1,77 @@
+# Day 26：比较仿真边界分辨率与教学机构误差尺度，建立透明的停止准则。
+schema_version: "simulation_resolution_stopping/v1"
+
+case:
+  id: "cooke_simulation_resolution_stopping_v1"
+  name: "Cooke仿真分辨率与机构误差停止准则教学评估"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_offline_evaluation: true
+  allow_additional_boundary_scan: false
+  allow_continuous_tolerance_claim: false
+  allow_engineering_recommendation: false
+
+source:
+  day25_report: "outputs/day25_balanced_acceptance_boundary_scan/offline_analysis_20260807_152301/boundary_analysis_report.json"
+  day25_report_sha256: "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C"
+  day25_expected_task: "day25_boundary_scan_offline_analysis"
+  day22_report: "outputs/day22_focus_position_error_budget/error_budget_20260807_132039/focus_position_error_budget_report.json"
+  day22_report_sha256: "3E13417EEA134AAFCEE379E9E45A1916B4B7D4981FF3705B9549511E398DA2DD"
+  day22_expected_task: "day22_focus_position_error_budget_evaluation"
+
+boundary_evidence:
+  negative_side:
+    fail_offset_mm: -0.010
+    pass_offset_mm: -0.008
+    unresolved_width_mm: 0.002
+    limiting_metric: "mtf50_minimum"
+  positive_side:
+    pass_offset_mm: 0.035
+    fail_offset_mm: 0.040
+    unresolved_width_mm: 0.005
+    limiting_metric: "mtf30_minimum"
+
+# 三种规则回答的是不同问题，不能偷偷合并成一个分数。
+teaching_stopping_policies:
+  - id: "numerical_1um"
+    name: "1微米数值分辨率"
+    maximum_unresolved_width_mm: 0.001
+    physical_basis: false
+    meaning: "仅用于演示更严格的数值目标，不代表机构能力"
+  - id: "positioning_accuracy_matched"
+    name: "匹配定位精度"
+    maximum_unresolved_width_mm: 0.010
+    physical_basis: "day22_teaching_positioning_accuracy"
+    meaning: "边界夹区不宽于教学定位精度时停止继续加密"
+  - id: "backlash_matched"
+    name: "匹配回差尺度"
+    maximum_unresolved_width_mm: 0.020
+    physical_basis: "day22_teaching_backlash"
+    meaning: "边界夹区不宽于教学回差尺度时停止继续加密"
+
+evaluation:
+  compare_each_side_independently: true
+  report_width_to_positioning_accuracy_ratio: true
+  report_required_bisection_count: true
+  bisection_is_planning_only: true
+  measured_points_only: true
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  optical_curve_fit_allowed: false
+  hidden_weighted_score_allowed: false
+  unique_stopping_rule_allowed: false
+  engineering_tolerance_claim_allowed: false
+
+planned_outputs:
+  - "policy_by_boundary_decision"
+  - "boundary_width_to_error_scale_ratio"
+  - "additional_bisections_needed_by_policy"
+  - "teaching_stopping_interpretation"
+
+output:
+  root: "outputs/day26_simulation_resolution_stopping"
