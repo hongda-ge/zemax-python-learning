@@ -1,0 +1,108 @@
+# Day 18：比较 Solve 双分支在 Quick Focus 前后的 Spot，量化补偿器作用。
+
+schema_version: "focus_compensation_effect/v1"
+
+case:
+  id: "cooke_solve_branch_focus_compensation_v1"
+  name: "Cooke双分支QuickFocus补偿效果"
+  status: "draft"
+
+execution:
+  enabled: false
+  # 两个端点均已验证通过；关闭全部 Zemax 动作，仅开放离线汇总。
+  allow_zosapi_connection: false
+  allow_surface2_in_memory_write: false
+  allow_surface6_make_solve_fixed: false
+  allow_uncompensated_standard_spot: false
+  allow_quick_focus: false
+  allow_compensated_standard_spot: false
+  allow_endpoint_001_execution: false
+  allow_endpoint_002_execution: false
+  allow_offline_analysis: true
+  allow_optimization: false
+  allow_save_as: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  expected_source_sha256: "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585"
+  day17_output_root: "outputs/day17_solve_branch_trend"
+  day17_batch_report_name: "trend_batch_report.json"
+  day17_analysis_report_name: "trend_analysis_report.json"
+  day17_expected_batch_task: "day17_solve_branch_trend"
+  day17_expected_analysis_task: "day17_solve_branch_trend_analysis"
+
+parameter:
+  surface_id: 2
+  property: "thickness"
+  unit: "mm"
+  baseline_value_mm: 6.0075511
+  endpoint_deltas_mm: [-0.4, 0.4]
+  endpoint_values_mm: [5.6075511, 6.4075511]
+
+dependent_cell:
+  surface_id: 6
+  cell: "radius"
+  nominal_radius_mm: -18.395332603040327
+
+branches:
+  preserve_solve:
+    expected_radius_solve: "MarginalRayAngle"
+    working_suffix: "preserve_solve_working.zmx"
+  freeze_radius:
+    expected_radius_solve: "Fixed"
+    working_suffix: "freeze_radius_working.zmx"
+
+observation_states:
+  uncompensated:
+    quick_focus_used: false
+    image_distance_mm: 42.2077801
+    physical_meaning: "保持基准像面位置，包含由厚度变化产生的离焦"
+  compensated:
+    quick_focus_used: true
+    tool: "QuickFocus"
+    criterion: "spot_size_radial"
+    use_centroid: true
+    focus_surface_id: 6
+    approved_thickness_range_mm: [40.0, 44.5]
+    physical_meaning: "允许像面轴向移动，观察重新对焦后的残余像差"
+
+analysis:
+  type: "Standard_Spot"
+  ray_density: 6
+  pattern: "hexapolar"
+  fields: "all"
+  wavelengths: "all"
+  surface: "image"
+  reference: "centroid"
+  polarization: false
+  expected_field_y_degrees: [0.0, 14.0, 20.0]
+
+comparison:
+  endpoint_count: 2
+  branch_model_count: 4
+  standard_spot_export_count: 8
+  quick_focus_run_count: 4
+  descriptive_outputs:
+    - "uncompensated_branch_spot_difference_by_field"
+    - "compensated_branch_spot_difference_by_field"
+    - "quick_focus_improvement_within_each_branch"
+    - "focus_shift_difference_between_branches"
+    - "branch_difference_attenuation_after_focus"
+  hidden_weighted_score: false
+  allow_unique_engineering_winner: false
+
+guardrails:
+  run_sequentially: true
+  stop_on_first_unexpected_failure: true
+  use_independent_working_copy_per_branch: true
+  preserve_source_hash: true
+  preserve_all_working_copy_hashes: true
+  require_every_connection_closed: true
+  forbid_model_save: true
+  forbid_optimization: true
+  uncompensated_image_distance_tolerance_mm: 0.000000001
+  compensated_reproduction_max_focus_difference_mm: 0.000001
+  compensated_reproduction_max_field_rms_difference_um: 0.001
+
+output:
+  root: "outputs/day18_focus_compensation_effect"
