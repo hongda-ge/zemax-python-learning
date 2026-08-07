@@ -1,0 +1,78 @@
+# Day 22：把调焦行程余量拆分为教学误差预算。
+schema_version: "focus_position_error_budget/v1"
+
+case:
+  id: "cooke_focus_position_error_budget_v1"
+  name: "Cooke调焦机构误差预算教学评估"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_model_copy: false
+  allow_offline_evaluation: true
+  allow_engineering_recommendation: false
+
+source:
+  day21_output_root: "outputs/day21_focus_travel_safety_margin"
+  day21_report_name: "focus_travel_safety_margin_report.json"
+  day21_expected_task: "day21_focus_travel_safety_margin_evaluation"
+  selected_evidence_policy: "dual_branch_robust"
+  expected_case_count: 6
+  expected_margin_policy_count: 4
+
+teaching_mechanism:
+  symmetric_half_travel_mm: 1.0
+  total_travel_mm: 2.0
+  is_real_mechanism_specification: false
+
+teaching_error_sources:
+  - id: "positioning_accuracy"
+    name: "定位精度"
+    symmetric_allowance_mm: 0.01
+    physical_meaning: "命令位置与实际位置之间的偏差"
+  - id: "repeatability"
+    name: "重复性"
+    symmetric_allowance_mm: 0.01
+    physical_meaning: "多次回到同一命令位置时的离散"
+  - id: "backlash"
+    name: "回差"
+    symmetric_allowance_mm: 0.02
+    physical_meaning: "改变运动方向时传动空程造成的误差"
+  - id: "thermal_drift"
+    name: "温漂"
+    symmetric_allowance_mm: 0.02
+    physical_meaning: "温度变化导致的机构或像面位置变化"
+
+combination_policies:
+  - id: "worst_case_linear"
+    name: "最坏情况绝对值相加"
+    formula: "sum(abs(error_allowance))"
+    statistical_claim: false
+  - id: "rss_teaching"
+    name: "教学RSS合成"
+    formula: "sqrt(sum(error_allowance^2))"
+    statistical_claim: false
+    independence_verified: false
+
+evaluation:
+  scope: "measured_dual_branch_cases_only"
+  available_margin_definition: "half_travel - measured_focus_requirement"
+  total_requirement_definition: "measured_focus_requirement + combined_error_allowance"
+  compare_error_budget_with_remaining_travel: true
+  convert_position_error_to_spot_or_mtf: false
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  hidden_weighted_score: false
+  unique_engineering_winner_allowed: false
+
+planned_outputs:
+  - "combined_error_allowance_by_policy"
+  - "case_margin_after_error_budget"
+  - "failed_measured_cases_by_policy"
+  - "half_travel_required_after_error_budget"
+  - "unallocated_margin_or_shortfall"
+
+output:
+  root: "outputs/day22_focus_position_error_budget"
