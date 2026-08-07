@@ -1,0 +1,78 @@
+# Day 28：比较 Day 27 通过候选在四项验收阈值上的独立最小余量。
+schema_version: "acceptance_margin_audit/v1"
+
+case:
+  id: "cooke_acceptance_margin_audit_v1"
+  name: "Cooke定位误差包络验收余量教学审计"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_offline_evaluation: true
+  allow_hidden_weighted_score: false
+  allow_unique_engineering_winner: false
+
+source:
+  day27_report: "outputs/day27_positioning_uncertainty_envelope/envelope_evaluation_20260807_161329/positioning_uncertainty_envelope_report.json"
+  day27_report_sha256: "7F09E061AD09D04A9F6FA9BFB3B0FA795D9D715D6ED1066C4FD6FC7C926D886F"
+  day27_expected_task: "day27_positioning_uncertainty_envelope_evaluation"
+  expected_passing_candidates: ["command_002", "command_003"]
+  expected_detail_count: 12
+  expected_summary_count: 4
+
+balanced_acceptance:
+  combination_rule: "all_required_metrics_must_pass"
+  limits:
+    spot_mean_rms_um_max: 11.3
+    spot_worst_rms_um_max: 16.5
+    mtf30_minimum_min: 0.16
+    mtf50_minimum_min: 0.05
+
+margin_definitions:
+  spot_mean_rms_um:
+    direction: "upper_limit_minus_value"
+    unit: "um"
+    positive_is_passing: true
+  spot_worst_rms_um:
+    direction: "upper_limit_minus_value"
+    unit: "um"
+    positive_is_passing: true
+  mtf30_minimum:
+    direction: "value_minus_lower_limit"
+    unit: "dimensionless"
+    positive_is_passing: true
+  mtf50_minimum:
+    direction: "value_minus_lower_limit"
+    unit: "dimensionless"
+    positive_is_passing: true
+
+candidate_evaluation:
+  include_only_day27_sampled_envelope_pass_candidates: true
+  require_three_sampled_states_per_candidate: true
+  candidate_margin_is_minimum_across_three_states: true
+  report_limiting_state_per_metric: true
+  compare_each_metric_separately: true
+  cross_unit_margin_sum_allowed: false
+  normalized_margin_score_allowed: false
+  rank_candidates_by_one_total_score: false
+
+guardrails:
+  measured_points_only: true
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  optical_curve_fit_allowed: false
+  continuous_interval_claim_allowed: false
+  hidden_weighted_score_allowed: false
+  unique_engineering_winner_allowed: false
+
+planned_outputs:
+  - "state_level_signed_margins"
+  - "candidate_worst_sampled_margin_by_metric"
+  - "limiting_sampled_state_by_metric"
+  - "separate_metric_margin_leaders"
+
+output:
+  root: "outputs/day28_acceptance_margin_audit"
