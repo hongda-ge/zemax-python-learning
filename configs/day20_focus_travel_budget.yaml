@@ -1,0 +1,76 @@
+# Day 20：复用既有证据，评估教学调焦行程预算。
+
+schema_version: "focus_travel_budget/v1"
+
+case:
+  id: "cooke_focus_travel_budget_v1"
+  name: "Cooke面2空气间隔调焦行程预算"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_model_copy: false
+  allow_offline_evaluation: true
+  allow_engineering_recommendation: false
+
+source:
+  day8_output_root: "outputs/day8_local_fine_scan"
+  day8_report_name: "batch_summary.json"
+  day8_expected_task: "day8_local_fine_scan"
+  day17_output_root: "outputs/day17_solve_branch_trend"
+  day17_report_name: "trend_batch_report.json"
+  day17_expected_task: "day17_solve_branch_trend"
+  day19_output_root: "outputs/day19_focus_compensation_mtf"
+  day19_report_name: "focus_compensation_mtf_report.json"
+  day19_expected_task: "day19_focus_compensation_mtf_analysis"
+  expected_source_sha256: "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585"
+
+parameter:
+  surface_id: 2
+  property: "thickness"
+  unit: "mm"
+  baseline_value_mm: 6.0075511
+  sampled_delta_range_mm: [-0.4, 0.4]
+
+compensator:
+  name: "image_plane_axial_focus"
+  zemax_tool: "QuickFocus"
+  focus_surface_id: 6
+  travel_definition: "absolute_focus_shift_from_baseline"
+  unit: "mm"
+  teaching_symmetric_half_travel_limits_mm: [0.25, 0.50, 1.00]
+  limits_are_engineering_requirements: false
+
+coverage:
+  preserve_solve_grid:
+    source: "Day 8"
+    expected_point_count: 9
+    delta_step_mm: 0.1
+    rule: "abs(preserve_focus_shift_mm) <= half_travel_limit_mm"
+  dual_branch_audit:
+    source: "Day 17"
+    expected_point_count: 6
+    sampled_deltas_mm: [-0.4, -0.2, -0.1, 0.0, 0.2, 0.4]
+    rule: "max(abs(preserve_shift), abs(frozen_shift)) <= half_travel_limit_mm"
+  interpolation_allowed: false
+  extrapolation_allowed: false
+
+planned_outputs:
+  - "sampled_case_coverage_by_limit"
+  - "remaining_travel_margin_mm"
+  - "preserve_only_coverage_count"
+  - "dual_branch_robust_coverage_count"
+  - "uncovered_sampled_cases"
+
+guardrails:
+  require_day8_nine_successful_cases: true
+  require_day17_six_audited_rows: true
+  require_day19_compensation_evidence: true
+  forbid_hidden_weighted_score: true
+  forbid_unique_engineering_winner: true
+  forbid_unsampled_boundary_claim: true
+
+output:
+  root: "outputs/day20_focus_travel_budget"
