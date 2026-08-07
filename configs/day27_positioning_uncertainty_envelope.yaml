@@ -1,0 +1,74 @@
+# Day 27：用已测离散点检查教学定位误差包络，不宣称连续区间通过。
+schema_version: "positioning_uncertainty_envelope/v1"
+
+case:
+  id: "cooke_positioning_uncertainty_envelope_v1"
+  name: "Cooke定位误差包络离散验收教学评估"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_offline_evaluation: true
+  allow_new_boundary_case: false
+  allow_continuous_interval_claim: false
+  allow_engineering_recommendation: false
+
+source:
+  day25_report: "outputs/day25_balanced_acceptance_boundary_scan/offline_analysis_20260807_152301/boundary_analysis_report.json"
+  day25_report_sha256: "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C"
+  day25_expected_task: "day25_boundary_scan_offline_analysis"
+  day22_report: "outputs/day22_focus_position_error_budget/error_budget_20260807_132039/focus_position_error_budget_report.json"
+  day22_report_sha256: "3E13417EEA134AAFCEE379E9E45A1916B4B7D4981FF3705B9549511E398DA2DD"
+  day22_expected_task: "day22_focus_position_error_budget_evaluation"
+  expected_measured_point_count: 16
+
+teaching_positioning_uncertainty:
+  source_error_id: "positioning_accuracy"
+  symmetric_allowance_mm: 0.010
+  is_real_mechanism_specification: false
+
+balanced_acceptance:
+  combination_rule: "all_required_metrics_must_pass"
+  limits:
+    spot_mean_rms_um_max: 11.3
+    spot_worst_rms_um_max: 16.5
+    mtf30_minimum_min: 0.16
+    mtf50_minimum_min: 0.05
+
+candidate_command_offsets_mm: [0.000, 0.010, 0.020, 0.030]
+
+envelope_sampling:
+  relative_positions:
+    - id: "negative_endpoint"
+      relative_offset_mm: -0.010
+    - id: "command_center"
+      relative_offset_mm: 0.000
+    - id: "positive_endpoint"
+      relative_offset_mm: 0.010
+  require_all_three_sampled_states_pass: true
+  require_exact_existing_measurements: true
+
+evaluation:
+  measured_points_only: true
+  compare_candidates_independently: true
+  report_failed_sampled_states: true
+  report_failed_metrics: true
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  optical_curve_fit_allowed: false
+  assume_unmeasured_interior_passes: false
+  hidden_weighted_score_allowed: false
+  unique_engineering_winner_allowed: false
+  continuous_acceptance_interval_claim_allowed: false
+
+planned_outputs:
+  - "candidate_sampled_envelope_details"
+  - "failed_sampled_states_and_metrics"
+  - "sampled_envelope_pass_candidates"
+  - "discrete_evidence_limitations"
+
+output:
+  root: "outputs/day27_positioning_uncertainty_envelope"
