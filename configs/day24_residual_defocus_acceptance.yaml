@@ -1,0 +1,82 @@
+# Day 24：把 Day 23 的实测残余离焦响应转换为透明的教学验收判断。
+schema_version: "residual_defocus_acceptance/v1"
+
+case:
+  id: "cooke_residual_defocus_acceptance_v1"
+  name: "Cooke残余离焦光学验收教学实验"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_acceptance_evaluation: true
+  allow_engineering_recommendation: false
+
+source:
+  day23_output_root: "outputs/day23_residual_defocus_optical_impact"
+  day23_report_name: "residual_defocus_analysis_report.json"
+  expected_task: "day23_residual_defocus_offline_analysis"
+  expected_report_sha256: "BF6B1026345CD0F1A9883A22FE746BB06D0B64486DBA6C2336519E7115021F78"
+  expected_source_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  expected_case_ids:
+    - "defocus_001"
+    - "defocus_002"
+    - "defocus_003"
+    - "defocus_004"
+    - "defocus_005"
+    - "defocus_006"
+    - "defocus_007"
+  expected_offsets_mm: [-0.05, -0.02, -0.01, 0.0, 0.01, 0.02, 0.05]
+
+# 三档数值仅用于学习“如何写清验收规则”，不是真实产品规格。
+acceptance:
+  combination_rule: "all_required_metrics_must_pass"
+  required_metrics:
+    spot_mean_rms_um: "maximum"
+    spot_worst_rms_um: "maximum"
+    mtf30_minimum: "minimum"
+    mtf50_minimum: "minimum"
+  diagnostic_only_metrics:
+    - "mtf30_mean"
+    - "mtf50_mean"
+  scenarios:
+    - id: "strict_protection"
+      name: "严格保护"
+      teaching_purpose: "用较紧的Spot和最差MTF约束检查残余离焦"
+      limits:
+        spot_mean_rms_um_max: 11.1
+        spot_worst_rms_um_max: 16.0
+        mtf30_minimum_min: 0.18
+        mtf50_minimum_min: 0.06
+    - id: "balanced_acceptance"
+      name: "均衡验收"
+      teaching_purpose: "适度放宽四项约束并保持短板指标可见"
+      limits:
+        spot_mean_rms_um_max: 11.3
+        spot_worst_rms_um_max: 16.5
+        mtf30_minimum_min: 0.16
+        mtf50_minimum_min: 0.05
+    - id: "relaxed_teaching"
+      name: "宽松教学"
+      teaching_purpose: "展示阈值放宽后合格离焦点如何扩展"
+      limits:
+        spot_mean_rms_um_max: 11.5
+        spot_worst_rms_um_max: 17.0
+        mtf30_minimum_min: 0.13
+        mtf50_minimum_min: 0.04
+
+guardrails:
+  require_seven_measured_points: true
+  require_zero_offset_control: true
+  measured_points_only: true
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  curve_fit_allowed: false
+  hidden_weighted_score_allowed: false
+  unique_engineering_winner_allowed: false
+  label_thresholds_as_teaching_only: true
+  preserve_mean_and_minimum_mtf_separation: true
+
+output:
+  root: "outputs/day24_residual_defocus_acceptance"
