@@ -1,0 +1,111 @@
+# Day 19：把 Day 18 的固定像面/重新对焦对照扩展到 FFT MTF。
+
+schema_version: "focus_compensation_mtf/v1"
+
+case:
+  id: "cooke_solve_branch_focus_compensation_mtf_v1"
+  name: "Cooke双分支QuickFocus前后FFT MTF"
+  status: "draft"
+
+execution:
+  enabled: false
+  # 两个端点均已验证通过；关闭全部 Zemax 动作，仅开放离线汇总。
+  allow_zosapi_connection: false
+  allow_surface2_in_memory_write: false
+  allow_surface6_make_solve_fixed: false
+  allow_uncompensated_fft_mtf: false
+  allow_quick_focus: false
+  allow_compensated_fft_mtf: false
+  allow_endpoint_001_execution: false
+  allow_endpoint_002_execution: false
+  allow_offline_analysis: true
+  allow_optimization: false
+  allow_save_as: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  expected_source_sha256: "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585"
+  day18_output_root: "outputs/day18_focus_compensation_effect"
+  negative_report_name: "negative_endpoint_validation_report.json"
+  positive_report_name: "positive_endpoint_validation_report.json"
+  analysis_report_name: "focus_compensation_report.json"
+  expected_negative_task: "day18_negative_endpoint_validation"
+  expected_positive_task: "day18_positive_endpoint_validation"
+  expected_analysis_task: "day18_focus_compensation_analysis"
+
+parameter:
+  surface_id: 2
+  property: "thickness"
+  unit: "mm"
+  baseline_value_mm: 6.0075511
+  endpoint_deltas_mm: [-0.4, 0.4]
+  endpoint_values_mm: [5.6075511, 6.4075511]
+
+dependent_cell:
+  surface_id: 6
+  cell: "radius"
+  nominal_radius_mm: -18.395332603040327
+
+branches:
+  preserve_solve:
+    expected_radius_solve: "MarginalRayAngle"
+    working_suffix: "preserve_solve_working.zmx"
+  freeze_radius:
+    expected_radius_solve: "Fixed"
+    working_suffix: "freeze_radius_working.zmx"
+
+observation_states:
+  uncompensated:
+    quick_focus_used: false
+    image_distance_mm: 42.2077801
+    physical_meaning: "固定基准像面，包含离焦对MTF的影响"
+  compensated:
+    quick_focus_used: true
+    tool: "QuickFocus"
+    criterion: "spot_size_radial"
+    use_centroid: true
+    focus_surface_id: 6
+    approved_thickness_range_mm: [40.0, 44.5]
+    physical_meaning: "允许像面轴向移动，观察重新对焦后的MTF"
+
+analysis:
+  type: "FFT_MTF"
+  inherit_settings_from: "analysis.fft_mtf"
+  sampling: "64x64"
+  maximum_frequency_cyc_per_mm: 100.0
+  evaluation_frequencies_cyc_per_mm: [30.0, 50.0]
+  components: ["tangential", "sagittal"]
+  fields: "all"
+  wavelengths: "all"
+  surface: "image"
+  polarization: false
+
+comparison:
+  endpoint_count: 2
+  branch_model_count: 4
+  fft_mtf_export_count: 8
+  quick_focus_run_count: 4
+  descriptive_outputs:
+    - "fixed_image_branch_mtf_difference"
+    - "focused_branch_mtf_difference"
+    - "within_branch_mtf_recovery_after_focus"
+    - "branch_difference_attenuation_after_focus"
+  hidden_weighted_score: false
+  allow_unique_engineering_winner: false
+
+guardrails:
+  run_sequentially: true
+  stop_on_first_unexpected_failure: true
+  use_independent_working_copy_per_branch: true
+  preserve_source_hash: true
+  preserve_all_working_copy_hashes: true
+  require_every_connection_closed: true
+  require_day18_evidence_success: true
+  forbid_model_save: true
+  forbid_optimization: true
+  uncompensated_image_distance_tolerance_mm: 0.000000001
+  day18_reproduction_max_radius_difference_mm: 0.000000001
+  day18_reproduction_max_focus_difference_mm: 0.000001
+
+output:
+  root: "outputs/day19_focus_compensation_mtf"
