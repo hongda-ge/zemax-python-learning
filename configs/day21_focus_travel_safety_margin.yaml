@@ -1,0 +1,70 @@
+# Day 21：在 Day 20 行程覆盖基础上加入教学安全裕度。
+
+schema_version: "focus_travel_safety_margin/v1"
+
+case:
+  id: "cooke_focus_travel_safety_margin_v1"
+  name: "Cooke调焦行程安全裕度教学评估"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_model_copy: false
+  allow_offline_evaluation: true
+  allow_engineering_recommendation: false
+
+source:
+  day20_output_root: "outputs/day20_focus_travel_budget"
+  day20_report_name: "focus_travel_budget_report.json"
+  day20_expected_task: "day20_focus_travel_budget_evaluation"
+  expected_policies: ["preserve_solve_grid", "dual_branch_robust"]
+  expected_case_counts:
+    preserve_solve_grid: 9
+    dual_branch_robust: 6
+
+teaching_mechanism:
+  symmetric_half_travel_mm: 1.0
+  total_travel_mm: 2.0
+  is_real_mechanism_specification: false
+
+margin_policies:
+  - id: "bare_coverage"
+    name: "仅不超行程"
+    type: "minimum_remaining_margin"
+    minimum_remaining_margin_mm: 0.0
+  - id: "reserve_0p05mm"
+    name: "至少保留0.05mm"
+    type: "minimum_remaining_margin"
+    minimum_remaining_margin_mm: 0.05
+  - id: "reserve_0p10mm"
+    name: "至少保留0.10mm"
+    type: "minimum_remaining_margin"
+    minimum_remaining_margin_mm: 0.10
+  - id: "utilization_80pct"
+    name: "行程利用率不超过80%"
+    type: "maximum_utilization"
+    maximum_utilization_fraction: 0.80
+
+evaluation:
+  coverage_scope: "measured_cases_only"
+  utilization_definition: "required_half_travel / available_half_travel"
+  remaining_margin_definition: "available_half_travel - required_half_travel"
+  full_coverage_required_travel:
+    minimum_margin_policy: "max_sampled_requirement + required_margin"
+    maximum_utilization_policy: "max_sampled_requirement / utilization_limit"
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  hidden_weighted_score: false
+  unique_engineering_winner_allowed: false
+
+planned_outputs:
+  - "case_pass_fail_by_margin_policy"
+  - "coverage_count_by_policy"
+  - "travel_utilization_and_remaining_margin"
+  - "required_half_travel_for_full_sampled_coverage"
+  - "failed_sampled_cases"
+
+output:
+  root: "outputs/day21_focus_travel_safety_margin"
