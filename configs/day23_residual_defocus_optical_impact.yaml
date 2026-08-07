@@ -1,0 +1,120 @@
+# Day 23：把教学调焦位置误差转换为 Spot 与 FFT MTF 影响。
+schema_version: "residual_defocus_optical_impact/v1"
+
+case:
+  id: "cooke_residual_defocus_optical_impact_v1"
+  name: "Cooke残余离焦光学影响教学实验"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_focus_surface_in_memory_write: false
+  allow_standard_spot: false
+  allow_fft_mtf: false
+  allow_baseline_control: false
+  allow_residual_cases: false
+  allow_offline_analysis: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_engineering_recommendation: false
+
+source:
+  baseline_config: "configs/baseline_case.yaml"
+  day8_batch_report: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/batch_summary.json"
+  day8_case_report: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/result.json"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  expected_day8_task: "day8_local_fine_scan"
+  expected_case_id: "fine_005"
+  day9_baseline_report: "outputs/day9_fft_mtf_validation/baseline_check_20260805_120104/fine_005/mtf_result.json"
+  expected_day9_task: "day9_baseline_fft_mtf_validation"
+  day22_output_root: "outputs/day22_focus_position_error_budget"
+  day22_report_name: "focus_position_error_budget_report.json"
+  expected_day22_task: "day22_focus_position_error_budget_evaluation"
+  day23_control_output_root: "outputs/day23_residual_defocus_optical_impact"
+  day23_control_report_name: "baseline_control_report.json"
+  expected_day23_control_task: "day23_residual_defocus_baseline_control"
+
+reference_state:
+  surface2_id: 2
+  surface2_thickness_mm: 6.0075511
+  focus_surface_id: 6
+  focused_image_distance_mm: 42.207788473485415
+  surface6_radius_mm: -18.395332603040327
+  surface6_radius_solve: "MarginalRayAngle"
+  quick_focus_already_applied: true
+
+residual_defocus:
+  property: "focus_surface_thickness"
+  physical_meaning: "实际像面相对Quick Focus最佳像面的残余轴向位置误差"
+  unit: "mm"
+  offsets_mm: [-0.05, -0.02, -0.01, 0.0, 0.01, 0.02, 0.05]
+  baseline_offset_mm: 0.0
+  symmetric_about_baseline: true
+  refocus_each_case: false
+  relationship_to_day22:
+    component_allowances_mm: [0.01, 0.02]
+    teaching_stress_offset_mm: 0.05
+
+analysis:
+  expected_field_y_degrees: [0.0, 14.0, 20.0]
+  standard_spot:
+    type: "Standard_Spot"
+    ray_density: 6
+    pattern: "hexapolar"
+    fields: "all"
+    wavelengths: "all"
+    surface: "image"
+    reference: "centroid"
+    primary_metric: "rms_radius_um"
+    diagnostic_metric: "geometric_radius_um"
+    polarization: false
+  fft_mtf:
+    type: "FFT_MTF"
+    sampling: "64x64"
+    maximum_frequency_cyc_per_mm: 100.0
+    evaluation_frequencies_cyc_per_mm: [30.0, 50.0]
+    fields: "all"
+    wavelengths: "all"
+    surface: "image"
+    components: ["tangential", "sagittal"]
+    polarization: false
+
+comparison:
+  case_count: 7
+  baseline_control_count: 1
+  residual_case_count: 6
+  independent_working_copy_count: 7
+  standard_spot_export_count: 7
+  fft_mtf_export_count: 7
+  quick_focus_run_count: 0
+  descriptive_outputs:
+    - "spot_change_from_best_focus"
+    - "mtf30_change_from_best_focus"
+    - "mtf50_change_from_best_focus"
+    - "positive_negative_defocus_asymmetry"
+  hidden_weighted_score: false
+  allow_unique_engineering_winner: false
+
+guardrails:
+  run_sequentially: true
+  stop_on_first_unexpected_failure: true
+  use_independent_working_copy_per_case: true
+  preserve_input_model_hash: true
+  preserve_every_disk_working_copy_hash: true
+  require_every_connection_closed: true
+  require_day8_evidence_success: true
+  require_day22_evidence_success: true
+  forbid_quick_focus: true
+  forbid_optimization: true
+  forbid_save_as: true
+  approved_focus_surface_thickness_range_mm: [40.0, 44.5]
+  numeric_tolerance_mm: 0.000000001
+  baseline_spot_max_absolute_difference_um: 0.000001
+  baseline_mtf_max_absolute_difference: 0.000001
+
+output:
+  root: "outputs/day23_residual_defocus_optical_impact"
