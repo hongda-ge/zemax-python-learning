@@ -1,0 +1,86 @@
+# Day 33：把 Day32 的理论依赖波次转换为教学资源可行的复核调度槽。
+schema_version: "resource_feasible_review_schedule/v1"
+
+case:
+  id: "day33_teaching_resource_feasible_schedule_v1"
+  name: "单ZOS-API通道约束下的复核调度"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day32只说明任务何时在依赖上就绪；Day33进一步加入许可证和计算通道约束。"
+  relation_to_previous_day: "输入是Day32的三个理论波次方案，调度不能改变其中的依赖先后关系。"
+  concepts:
+    - "资源容量：同一调度槽内某类任务允许占用的最大通道数"
+    - "串行化：依赖上可并行的ZOS-API任务因单通道限制被拆到不同槽"
+    - "调度槽：表达执行先后，不代表固定时长或真实完成时间"
+  completion_standard: "每个复核节点恰好出现一次，依赖波次顺序不倒退，每槽最多一个ZOS-API任务和两个离线任务。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_schedule_report_generation: true
+  allow_automatic_execution: false
+  allow_source_file_modification: false
+
+source:
+  day32_wave_report: "outputs/day32_review_wave_planning/wave_plan_20260810_204332/review_wave_plan.json"
+  day32_wave_sha256: "9CB0652AAB9FA9ECDE5BCA75018907A808657BA58E70E53A0314BB3F5ACF1106"
+  expected_task: "day32_review_wave_plan_generation"
+  expected_status: "success"
+  expected_scenario_count: 3
+  expected_task_row_count: 30
+
+teaching_resources:
+  zosapi_capacity_per_slot: 1
+  offline_capacity_per_slot: 2
+  slot_is_order_group_not_duration: true
+  capacity_is_teaching_assumption_not_benchmark: true
+  manual_approval_required_before_execution: true
+
+scheduling_policy:
+  preserve_scenario_independence: true
+  preserve_day32_wave_order: true
+  split_wave_when_resource_capacity_exceeded: true
+  allow_zosapi_and_offline_in_same_slot: true
+  deterministic_day_order_within_wave: true
+  automatic_execution_allowed: false
+
+expected_scenarios:
+  change_day8_foundation_evidence:
+    task_count: 21
+    theoretical_wave_count: 15
+    resource_slot_count: 17
+    extra_slots_due_to_zosapi_capacity: 2
+    maximum_slot_width: 3
+  change_day22_error_budget:
+    task_count: 7
+    theoretical_wave_count: 6
+    resource_slot_count: 6
+    extra_slots_due_to_zosapi_capacity: 0
+    maximum_slot_width: 2
+  change_day27_envelope_report:
+    task_count: 2
+    theoretical_wave_count: 2
+    resource_slot_count: 2
+    extra_slots_due_to_zosapi_capacity: 0
+    maximum_slot_width: 1
+
+validation:
+  require_day32_hash_match: true
+  require_every_task_exactly_once: true
+  require_non_decreasing_wave_order: true
+  require_zosapi_capacity_respected: true
+  require_offline_capacity_respected: true
+  duration_claim_allowed: false
+  resource_benchmark_claim_allowed: false
+  hidden_priority_score_allowed: false
+  automatic_execution_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day33_resource_feasible_review_schedule"
+  json: "resource_feasible_schedule.json"
+  csv: "resource_schedule_tasks.csv"
+  markdown: "RESOURCE_FEASIBLE_SCHEDULE.md"
+  figure: "day33_resource_feasible_schedule.png"

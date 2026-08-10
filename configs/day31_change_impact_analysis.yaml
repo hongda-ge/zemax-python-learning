@@ -1,0 +1,66 @@
+# Day 31：基于 Day30 DAG 规划上游证据变化后的最小下游复核集合。
+schema_version: "change_impact_analysis/v1"
+
+case:
+  id: "day31_teaching_change_impact_v1"
+  name: "证据变化影响传播与复核顺序"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_impact_report_generation: true
+  allow_source_file_modification: false
+
+source:
+  day30_graph_report: "outputs/day30_evidence_dependency_graph/dependency_graph_20260810_202048/evidence_dependency_graph.json"
+  day30_graph_sha256: "3B45DB6A09B62A9331EE32B252C9173607A57C9CE9DE6D11BF0C5665DF025B5D"
+  expected_task: "day30_evidence_dependency_graph_generation"
+  expected_status: "success"
+  expected_node_count: 26
+  expected_edge_count: 35
+
+impact_policy:
+  include_changed_node: true
+  include_all_transitive_descendants: true
+  order_by_day30_topology: true
+  exclude_unrelated_branches: true
+  classify_by_execution_class: true
+  affected_does_not_mean_automatic_zosapi_rerun: true
+
+teaching_change_scenarios:
+  - id: "change_day8_foundation_evidence"
+    changed_day: 8
+    changed_artifact: "Day8九点局部扫描报告或聚焦模型"
+    expected_descendant_count: 20
+    expected_review_set_count: 21
+  - id: "change_day22_error_budget"
+    changed_day: 22
+    changed_artifact: "Day22教学定位误差预算"
+    expected_descendant_count: 6
+    expected_review_set_count: 7
+  - id: "change_day27_envelope_report"
+    changed_day: 27
+    changed_artifact: "Day27定位不确定度包络报告"
+    expected_descendant_count: 1
+    expected_review_set_count: 2
+
+validation:
+  require_day30_hash_match: true
+  require_day29_registry_hash_match: true
+  require_unique_scenario_ids: true
+  require_changed_nodes_in_graph: true
+  require_no_ancestors_in_review_set: true
+  require_topological_review_order: true
+  hidden_impact_score_allowed: false
+  automatic_execution_allowed: false
+  engineering_rerun_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day31_change_impact_analysis"
+  json: "change_impact_analysis.json"
+  csv: "change_impact_review_sets.csv"
+  markdown: "CHANGE_IMPACT_ANALYSIS.md"
+  figure: "day31_change_impact_analysis.png"

@@ -1,0 +1,74 @@
+# Day 32：把 Day31 复核集合按 Day30 依赖关系拆分为理论复核波次。
+schema_version: "review_wave_planning/v1"
+
+case:
+  id: "day32_teaching_review_wave_planning_v1"
+  name: "变化影响复核波次与依赖并行"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day31只给出受影响节点集合；Day32进一步回答这些节点应分几批复核。"
+  relation_to_previous_day: "输入是Day31的三个保守复核集合，依赖约束来自Day30 DAG。"
+  concepts:
+    - "依赖波次：同一波节点的受影响上游都已在更早波次完成"
+    - "理论并行：依赖关系允许同时复核，不代表许可证和计算资源允许同时运行"
+    - "诱导子图：只保留本场景复核集合中的节点和它们之间的边"
+  completion_standard: "三个场景的每个节点恰好出现一次，所有受影响依赖边均由早波次指向晚波次。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_wave_report_generation: true
+  allow_automatic_execution: false
+  allow_source_file_modification: false
+
+source:
+  day31_impact_report: "outputs/day31_change_impact_analysis/impact_analysis_20260810_202924/change_impact_analysis.json"
+  day31_impact_sha256: "53F1D00BDCF11EA1D4C73264255A933F07DB50E0532AD3BE84362BE49B59543C"
+  day31_expected_task: "day31_change_impact_analysis_generation"
+  day31_expected_status: "success"
+  day31_expected_scenario_count: 3
+  day31_expected_review_row_count: 30
+  day30_graph_sha256: "3B45DB6A09B62A9331EE32B252C9173607A57C9CE9DE6D11BF0C5665DF025B5D"
+
+wave_policy:
+  use_induced_review_subgraph: true
+  treat_unaffected_upstream_as_already_available: true
+  start_with_changed_source: true
+  release_node_only_after_all_affected_upstream_complete: true
+  allow_same_wave_only_without_affected_dependency: true
+  preserve_execution_class_labels: true
+  theoretical_parallelism_only: true
+
+expected_scenarios:
+  change_day8_foundation_evidence:
+    review_node_count: 21
+    wave_count: 15
+    maximum_wave_width: 3
+  change_day22_error_budget:
+    review_node_count: 7
+    wave_count: 6
+    maximum_wave_width: 2
+  change_day27_envelope_report:
+    review_node_count: 2
+    wave_count: 2
+    maximum_wave_width: 1
+
+validation:
+  require_day31_hash_match: true
+  require_day30_hash_match: true
+  require_every_review_node_exactly_once: true
+  require_all_affected_edges_forward_across_waves: true
+  require_changed_source_in_first_wave: true
+  hidden_priority_score_allowed: false
+  resource_parallelism_claim_allowed: false
+  automatic_execution_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day32_review_wave_planning"
+  json: "review_wave_plan.json"
+  csv: "review_wave_tasks.csv"
+  markdown: "REVIEW_WAVE_PLAN.md"
+  figure: "day32_review_waves.png"

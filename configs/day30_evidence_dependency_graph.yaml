@@ -1,0 +1,86 @@
+# Day 30：审计 Day3-Day28 教学主线中的先修关系与科学证据依赖。
+schema_version: "evidence_dependency_graph/v1"
+
+case:
+  id: "day30_teaching_evidence_dependency_graph_v1"
+  name: "教学实验依赖图与证据追溯"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_graph_generation: true
+  allow_source_file_modification: false
+
+source:
+  day29_registry_root: "outputs/day29_experiment_registry"
+  day29_registry_name: "experiment_registry.json"
+  expected_registered_day_count: 26
+  expected_documentation_gaps: []
+
+graph_scope:
+  first_day: 3
+  last_day: 28
+  node_count: 26
+  include_day29_as_audit_tool: false
+  edge_direction: "upstream_to_downstream"
+
+# 这些边描述学习顺序，不声称下游脚本直接读取了上游结果文件。
+teaching_prerequisite_edges:
+  - {from: 3, to: 4, reason: "先完成干运行安全检查，再连接真实ZOS-API"}
+  - {from: 4, to: 5, reason: "先验证基准写入链路，再执行非基准扰动"}
+  - {from: 5, to: 6, reason: "先确认单次厚度写入和Solve联动，再加入对焦与Spot"}
+  - {from: 6, to: 7, reason: "先验证单案例分析，再扩展为五案例扫描"}
+
+# 这些边表示下游实验明确复用了上游的报告、模型、指标或审核结论。
+evidence_dependency_edges:
+  - {from: 7, to: 8, evidence: "Day7成功粗扫描区间"}
+  - {from: 8, to: 9, evidence: "Day8近优平台候选与聚焦模型"}
+  - {from: 8, to: 10, evidence: "Day8候选聚焦模型"}
+  - {from: 9, to: 10, evidence: "Day9 Spot/MTF Pareto候选"}
+  - {from: 10, to: 11, evidence: "Day10统一Merit Function结果"}
+  - {from: 11, to: 12, evidence: "Day11场景阈值与候选指标"}
+  - {from: 8, to: 13, evidence: "Day8九点局部扫描结果"}
+  - {from: 11, to: 13, evidence: "Day11三个候选身份"}
+  - {from: 8, to: 14, evidence: "Day8中观察到的面6半径响应"}
+  - {from: 14, to: 15, evidence: "Day14面6 MarginalRayAngle Solve审计"}
+  - {from: 15, to: 16, evidence: "Day15保留Solve与冻结半径的结构分支"}
+  - {from: 8, to: 17, evidence: "Day8保留Solve趋势基准"}
+  - {from: 16, to: 17, evidence: "Day16两分支Spot方法与锚点"}
+  - {from: 17, to: 18, evidence: "Day17两分支端点与趋势结果"}
+  - {from: 18, to: 19, evidence: "Day18固定像面和对焦后Spot证据"}
+  - {from: 8, to: 20, evidence: "Day8九点保留Solve焦移"}
+  - {from: 17, to: 20, evidence: "Day17六点双分支焦移"}
+  - {from: 19, to: 20, evidence: "Day19对焦后MTF恢复证据"}
+  - {from: 20, to: 21, evidence: "Day20焦移行程覆盖结果"}
+  - {from: 21, to: 22, evidence: "Day21行程安全余量"}
+  - {from: 8, to: 23, evidence: "Day8基准聚焦模型与Spot"}
+  - {from: 9, to: 23, evidence: "Day9基准FFT MTF"}
+  - {from: 22, to: 23, evidence: "Day22教学定位误差尺度"}
+  - {from: 23, to: 24, evidence: "Day23七点残余离焦光学指标"}
+  - {from: 23, to: 25, evidence: "Day23边界锚点和聚焦模型"}
+  - {from: 24, to: 25, evidence: "Day24均衡验收阈值和通过状态"}
+  - {from: 22, to: 26, evidence: "Day22教学机械误差尺度"}
+  - {from: 25, to: 26, evidence: "Day25未解析边界宽度"}
+  - {from: 22, to: 27, evidence: "Day22正负0.010mm定位不确定度"}
+  - {from: 25, to: 27, evidence: "Day25精细边界采样状态"}
+  - {from: 27, to: 28, evidence: "Day27两个采样包络通过候选"}
+
+validation:
+  require_every_node_in_registry: true
+  require_unique_edges: true
+  require_forward_day_direction: true
+  require_acyclic_graph: true
+  require_all_nonroot_nodes_have_upstream: true
+  verify_evidence_day_token_in_downstream_config_from_day8: true
+  forbid_filename_only_scientific_conclusions: true
+  hidden_dependency_score_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day30_evidence_dependency_graph"
+  json: "evidence_dependency_graph.json"
+  csv: "evidence_dependency_edges.csv"
+  markdown: "EVIDENCE_DEPENDENCY_GRAPH.md"
+  figure: "day30_evidence_dependency_graph.png"

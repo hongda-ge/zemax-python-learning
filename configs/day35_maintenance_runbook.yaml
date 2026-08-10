@@ -1,0 +1,162 @@
+# Day 35：把 Day29-Day34 的审计工具封装成项目维护运行手册。
+schema_version: "maintenance_runbook/v1"
+
+case:
+  id: "day35_teaching_maintenance_runbook_v1"
+  name: "证据驱动的项目维护运行手册"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day29-Day34分别解决了维护环节；Day35把它们串成一条可重复、可审批、可停止的完整流程。"
+  relation_to_previous_day: "Day34提供失败传播和分支隔离规则；Day35将其作为维护流程的最终安全门。"
+  concepts:
+    - "运行手册：把入口、证据、操作、审批和停止条件写成固定步骤"
+    - "证据门：上一步证据未通过时，不释放下一步"
+    - "恢复条件：修复失败证据并重新验证后，BLOCKED节点才可重新进入复核"
+  completion_standard: "六份冻结证据指纹全部匹配，十个检查点覆盖完整维护链，手册不自动执行任何科学任务。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_runbook_generation: true
+  allow_automatic_execution: false
+  allow_existing_source_modification: false
+
+sources:
+  - day: 29
+    role: "experiment_registry"
+    path: "outputs/day29_experiment_registry/registry_20260810_201153/experiment_registry.json"
+    sha256: "ECB6D9102774CD2456317A85FD2D5DD57E3C2539CF1DAF4CC835E03EDF192183"
+    expected_task: "day29_experiment_registry_generation"
+    expected_count_key: "registered_day_count"
+    expected_count: 26
+  - day: 30
+    role: "evidence_dependency_graph"
+    path: "outputs/day30_evidence_dependency_graph/dependency_graph_20260810_202048/evidence_dependency_graph.json"
+    sha256: "3B45DB6A09B62A9331EE32B252C9173607A57C9CE9DE6D11BF0C5665DF025B5D"
+    expected_task: "day30_evidence_dependency_graph_generation"
+    expected_count_key: "edge_count"
+    expected_count: 35
+  - day: 31
+    role: "change_impact_analysis"
+    path: "outputs/day31_change_impact_analysis/impact_analysis_20260810_202924/change_impact_analysis.json"
+    sha256: "53F1D00BDCF11EA1D4C73264255A933F07DB50E0532AD3BE84362BE49B59543C"
+    expected_task: "day31_change_impact_analysis_generation"
+    expected_count_key: "scenario_count"
+    expected_count: 3
+  - day: 32
+    role: "dependency_ready_waves"
+    path: "outputs/day32_review_wave_planning/wave_plan_20260810_204332/review_wave_plan.json"
+    sha256: "9CB0652AAB9FA9ECDE5BCA75018907A808657BA58E70E53A0314BB3F5ACF1106"
+    expected_task: "day32_review_wave_plan_generation"
+    expected_count_key: "task_row_count"
+    expected_count: 30
+  - day: 33
+    role: "resource_feasible_schedule"
+    path: "outputs/day33_resource_feasible_review_schedule/resource_schedule_20260810_205517/resource_feasible_schedule.json"
+    sha256: "E20237113DD98E90B70FBA2F2BB514840A9756A06614269CB4ADA82A2A61F32E"
+    expected_task: "day33_resource_feasible_schedule_generation"
+    expected_count_key: "task_row_count"
+    expected_count: 30
+  - day: 34
+    role: "failure_gate_propagation"
+    path: "outputs/day34_failure_gate_propagation/failure_gate_20260810_212203/failure_gate_propagation.json"
+    sha256: "ECA84856BA926E5FAA31194D1E59D0DE3ACC98CD27DE91ECBD5D1D3AC33681D5"
+    expected_task: "day34_failure_gate_propagation_generation"
+    expected_count_key: "state_row_count"
+    expected_count: 51
+
+maintenance_policy:
+  registry_is_entrypoint: true
+  fingerprints_checked_before_interpretation: true
+  impact_scope_approved_before_rerun: true
+  dependency_order_preserved: true
+  resource_capacity_applied_after_dependency_order: true
+  manual_gate_after_each_resource_slot: true
+  failure_blocks_only_transitive_descendants: true
+  reviewable_branch_requires_manual_resume: true
+  blocked_nodes_require_repaired_upstream_evidence: true
+  automatic_scientific_rerun_allowed: false
+
+checkpoints:
+  - id: "CP01_change_intake"
+    stage: "intake"
+    title: "记录变化对象与变化原因"
+    evidence_role: "experiment_registry"
+    pass_condition: "变化对象能够映射到已登记Day或明确标记为新实验"
+    fail_action: "停止并补充登记信息"
+  - id: "CP02_registry_lookup"
+    stage: "intake"
+    title: "核对配置、脚本和学习笔记"
+    evidence_role: "experiment_registry"
+    pass_condition: "目标Day的核心资产路径完整"
+    fail_action: "停止并修复资产缺口"
+  - id: "CP03_fingerprint_gate"
+    stage: "provenance"
+    title: "验证冻结证据指纹"
+    evidence_role: "evidence_dependency_graph"
+    pass_condition: "所引用报告SHA256与配置一致"
+    fail_action: "禁止解释旧报告并重新审核来源"
+  - id: "CP04_dependency_trace"
+    stage: "scope"
+    title: "追踪直接与传递下游"
+    evidence_role: "evidence_dependency_graph"
+    pass_condition: "依赖图无环且变化节点存在"
+    fail_action: "停止并修复依赖定义"
+  - id: "CP05_impact_scope"
+    stage: "scope"
+    title: "形成保守复核集合"
+    evidence_role: "change_impact_analysis"
+    pass_condition: "变化源与所有传递下游已纳入且无关祖先被排除"
+    fail_action: "停止并重新计算影响集合"
+  - id: "CP06_scope_approval"
+    stage: "approval"
+    title: "人工批准复核范围"
+    evidence_role: "change_impact_analysis"
+    pass_condition: "维护者确认需要复核的ZOS-API与离线节点"
+    fail_action: "保持所有任务未运行"
+  - id: "CP07_dependency_waves"
+    stage: "ordering"
+    title: "生成依赖安全波次"
+    evidence_role: "dependency_ready_waves"
+    pass_condition: "每个节点恰好一次且所有依赖边指向更晚波次"
+    fail_action: "停止并检查DAG或波次算法"
+  - id: "CP08_resource_schedule"
+    stage: "scheduling"
+    title: "应用资源容量并生成顺序槽"
+    evidence_role: "resource_feasible_schedule"
+    pass_condition: "每槽最多一个ZOS-API任务和两个离线任务"
+    fail_action: "停止并重新拆分资源槽"
+  - id: "CP09_slot_gate"
+    stage: "execution_gate"
+    title: "每槽结束后人工审核"
+    evidence_role: "resource_feasible_schedule"
+    pass_condition: "本槽证据完整、指纹稳定且复核结果通过"
+    fail_action: "不得释放后续依赖节点"
+  - id: "CP10_failure_recovery"
+    stage: "recovery"
+    title: "隔离失败分支并定义恢复条件"
+    evidence_role: "failure_gate_propagation"
+    pass_condition: "FAIL、BLOCKED与REVIEWABLE分区完整且恢复需人工批准"
+    fail_action: "维持下游锁定并修复失败上游证据"
+
+validation:
+  require_all_source_hashes_match: true
+  require_unique_source_roles: true
+  require_checkpoint_ids_unique: true
+  require_all_source_roles_used: true
+  require_exact_checkpoint_count: 10
+  require_manual_gate_and_recovery: true
+  real_execution_claim_allowed: false
+  automatic_rerun_allowed: false
+  hidden_completion_score_allowed: false
+  engineering_approval_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day35_maintenance_runbook"
+  json: "maintenance_runbook.json"
+  csv: "maintenance_checkpoints.csv"
+  markdown: "PROJECT_MAINTENANCE_RUNBOOK.md"
+  figure: "day35_maintenance_runbook.png"
