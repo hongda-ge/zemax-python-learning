@@ -1,0 +1,95 @@
+# Day 29：建立 Day3-Day28 光学教学实验注册表的范围与审计规则。
+schema_version: "experiment_registry/v1"
+
+case:
+  id: "zosapi_teaching_experiment_registry_v1"
+  name: "ZOS-API光学教学实验注册表"
+  status: "draft"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_registry_generation: true
+  allow_source_file_modification: false
+
+registry_scope:
+  first_day: 3
+  last_day: 28
+  day_count: 26
+  include_current_optical_teaching_track_only: true
+  exclude_architecture_demo_prefixes: ["D30", "D37", "D38", "D39", "D40", "D41", "D58", "D59", "D60"]
+
+source_directories:
+  configs: "configs"
+  scripts: "scripts/demos"
+  learning_notes: "docs/learning_notes"
+
+file_rules:
+  config_patterns:
+    - "day{day}_*.yaml"
+  script_patterns:
+    - "day{day}_*.py"
+  note_patterns:
+    - "DAY{day}_*.md"
+  case_insensitive_day_matching: true
+  require_at_least_one_script_per_day: true
+  require_exactly_one_primary_config_from_day8: true
+  require_exactly_one_learning_note_every_day: true
+
+shared_config_exceptions:
+  - days: [3, 4, 5, 6, 7]
+    config: "configs/baseline_case.yaml"
+    reason: "早期教学步骤围绕同一个冻结基准配置逐步增加真实执行能力"
+
+early_day_metadata:
+  3:
+    title: "基准配置干运行与安全检查"
+  4:
+    title: "真实Zemax单点基线验证"
+  5:
+    title: "单个非基准厚度扰动实验"
+  6:
+    title: "Quick Focus与点列图比较"
+  7:
+    title: "五点厚度扫描与结果分析"
+
+execution_classification:
+  zosapi_days: [4, 5, 6, 7, 8, 9, 10, 14, 15, 16, 17, 18, 19, 23, 25]
+  offline_only_days: [3, 11, 12, 13, 20, 21, 22, 24, 26, 27, 28]
+  require_complete_partition: true
+
+phase_definitions:
+  - id: "foundation_and_scan"
+    name: "安全执行与参数扫描"
+    days: [3, 4, 5, 6, 7, 8, 9, 10]
+  - id: "decision_and_solve"
+    name: "指标决策与Solve因果分析"
+    days: [11, 12, 13, 14, 15, 16, 17, 18, 19]
+  - id: "mechanism_and_acceptance"
+    name: "机构误差、残余离焦与验收证据"
+    days: [20, 21, 22, 23, 24, 25, 26, 27, 28]
+
+audit_policy:
+  read_only_inventory: true
+  report_missing_files: true
+  report_multiple_primary_files: true
+  report_documentation_gaps: true
+  infer_scientific_conclusion_from_filename: false
+  modify_existing_day_files: false
+  hidden_completion_score_allowed: false
+
+planned_registry_fields:
+  - "day"
+  - "phase_id"
+  - "title"
+  - "execution_class"
+  - "primary_config"
+  - "scripts"
+  - "learning_note"
+  - "artifact_coverage_status"
+  - "documentation_gap"
+
+output:
+  root: "outputs/day29_experiment_registry"
