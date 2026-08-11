@@ -1,0 +1,100 @@
+# Day 36：使用 Day22 变化场景对 Day35 维护手册做端到端桌面推演。
+schema_version: "maintenance_tabletop_drill/v1"
+
+case:
+  id: "day36_teaching_maintenance_tabletop_drill_v1"
+  name: "Day22变化的维护手册桌面推演"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day35已经写出维护手册；Day36通过具体变化场景检查手册是否能够从入口走到失败恢复。"
+  relation_to_previous_day: "输入是Day35的十个检查点及其六份冻结来源，演练不新增维护规则。"
+  concepts:
+    - "桌面推演：不执行真实任务，只按规则演练决策和状态"
+    - "正常路线：假想检查点依次通过，用于检查流程完整性"
+    - "失败路线：在指定审批门注入假想失败，用于检查锁定和恢复条件"
+  completion_standard: "两条路线覆盖十个检查点，Day23假想失败正确锁定Day24-Day28，所有状态明确标记为SIMULATED。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_tabletop_report_generation: true
+  allow_automatic_execution: false
+  allow_existing_source_modification: false
+
+source:
+  day35_runbook: "outputs/day35_maintenance_runbook/maintenance_runbook_20260810_212741/maintenance_runbook.json"
+  day35_runbook_sha256: "9D0813A53B390A4A59422851637771FA3D37CBDCB402E74BF06F767E1AE466B9"
+  expected_task: "day35_maintenance_runbook_generation"
+  expected_status: "success"
+  expected_source_count: 6
+  expected_checkpoint_count: 10
+
+drill_scenario:
+  id: "tabletop_change_day22_error_budget"
+  changed_day: 22
+  changed_artifact: "Day22教学定位误差预算中的误差源数值"
+  change_is_hypothetical: true
+  selected_impact_scenario: "change_day22_error_budget"
+  expected_review_days: [22, 23, 24, 25, 26, 27, 28]
+  expected_resource_slots:
+    - slot: 1
+      days: [22]
+    - slot: 2
+      days: [23]
+    - slot: 3
+      days: [24]
+    - slot: 4
+      days: [25]
+    - slot: 5
+      days: [26, 27]
+    - slot: 6
+      days: [28]
+
+routes:
+  normal_route:
+    id: "simulated_all_gates_pass"
+    checkpoint_status: "SIMULATED_PASS"
+    expected_checkpoint_count: 10
+    real_execution: false
+  failure_route:
+    id: "simulated_day23_failure_at_slot2"
+    failed_day: 23
+    failed_slot: 2
+    failed_status: "SIMULATED_FAIL"
+    expected_pass_days: [22]
+    expected_blocked_days: [24, 25, 26, 27, 28]
+    expected_reviewable_days: []
+    recovery_status: "SIMULATED_NOT_APPROVED"
+    real_execution: false
+
+tabletop_policy:
+  use_day35_checkpoints_in_order: true
+  use_frozen_day31_impact_scenario: true
+  use_frozen_day33_resource_slots: true
+  use_frozen_day34_failure_partition: true
+  label_every_route_state_simulated: true
+  require_manual_decision_at_cp06_cp09_cp10: true
+  do_not_resume_blocked_without_repair: true
+  real_task_execution_allowed: false
+
+validation:
+  require_day35_hash_match: true
+  require_embedded_source_hashes_match: true
+  require_all_ten_checkpoints_covered: true
+  require_review_set_and_slots_reproduced: true
+  require_failure_partition_reproduced: true
+  require_simulated_labels: true
+  real_result_claim_allowed: false
+  automatic_execution_allowed: false
+  hidden_readiness_score_allowed: false
+  engineering_approval_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day36_maintenance_tabletop_drill"
+  json: "maintenance_tabletop_drill.json"
+  csv: "tabletop_checkpoint_states.csv"
+  markdown: "MAINTENANCE_TABLETOP_DRILL.md"
+  figure: "day36_maintenance_tabletop_drill.png"
