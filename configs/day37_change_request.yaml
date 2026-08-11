@@ -1,0 +1,84 @@
+# Day 37：在维护流程开始前，标准化记录一项假想实验变化。
+schema_version: "maintenance_change_request/v1"
+
+case:
+  id: "day37_teaching_change_request_v1"
+  name: "Day22定位精度教学值变化申请"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day36验证了维护路线；Day37补上维护入口，规定任何变化在影响分析前必须记录哪些信息。"
+  relation_to_previous_day: "Day36直接使用了预设的Day22变化；Day37把该变化转换成可检查、可拒绝、需人工批准的正式申请。"
+  concepts:
+    - "变化申请：执行前记录变化对象、原因、当前证据和风险"
+    - "申请人预估范围：待核实假设，不是最终依赖分析结论"
+    - "证据指纹：用SHA256确认申请针对的是哪一个文件版本"
+    - "审批状态：申请完整不等于允许执行或修改"
+  completion_standard: "目标资产可映射到Day29注册表，当前SHA256匹配，必填字段完整，申请保持DRAFT且禁止自动执行。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_change_request_generation: true
+  allow_existing_source_modification: false
+  allow_automatic_impact_analysis: false
+  allow_automatic_task_execution: false
+
+source:
+  day35_runbook: "outputs/day35_maintenance_runbook/maintenance_runbook_20260810_212741/maintenance_runbook.json"
+  day35_runbook_sha256: "9D0813A53B390A4A59422851637771FA3D37CBDCB402E74BF06F767E1AE466B9"
+  expected_runbook_task: "day35_maintenance_runbook_generation"
+  expected_change_intake_checkpoint: "CP01_change_intake"
+  expected_scope_approval_checkpoint: "CP06_scope_approval"
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+change_request:
+  request_id: "CR-DAY37-001"
+  request_status: "DRAFT"
+  created_date: "2026-08-11"
+  requester_role: "teaching_maintainer"
+  change_is_hypothetical: true
+  changed_day: 22
+  change_type: "teaching_error_budget_value"
+  target_artifact: "configs/day22_focus_position_error_budget.yaml"
+  target_field: "teaching_error_sources.positioning_accuracy.symmetric_allowance_mm"
+  current_value: 0.010
+  proposed_value: 0.012
+  unit: "mm"
+  change_reason: "演练定位精度教学假设变化时，项目应怎样登记、复核和批准。"
+  expected_benefit: "验证维护入口是否能够提供足够信息，而不是声称光学性能会改善。"
+  risk_hypotheses:
+    - "Day22误差合成和剩余行程结论可能变化"
+    - "引用Day22证据的下游报告可能需要复核"
+    - "若未更新证据指纹，旧报告可能被错误沿用"
+  requester_estimated_impact_days: [22, 23, 24, 25, 26, 27, 28]
+  requester_scope_is_unverified: true
+  rollback_description: "不修改源配置；若申请不获批准，关闭申请并保留现有Day22证据。"
+
+approval:
+  manual_approval_required: true
+  approval_status: "NOT_REVIEWED"
+  approved_by: null
+  approved_at: null
+  execution_released: false
+
+validation:
+  require_day35_hash_match: true
+  require_registry_mapping: true
+  require_target_hash_match: true
+  require_complete_request_fields: true
+  require_current_value_match: true
+  require_proposed_value_different: true
+  requester_scope_may_be_treated_as_final: false
+  automatic_approval_allowed: false
+  automatic_execution_allowed: false
+  real_change_claim_allowed: false
+  engineering_impact_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day37_change_request"
+  json: "maintenance_change_request.json"
+  markdown: "MAINTENANCE_CHANGE_REQUEST.md"

@@ -1,0 +1,75 @@
+# Day 38：审查 Day37 变化申请，并只批准进入正式影响分析。
+schema_version: "impact_analysis_approval/v1"
+
+case:
+  id: "day38_teaching_impact_analysis_approval_v1"
+  name: "Day37变化申请的分级人工审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day37已经把变化内容记录完整；Day38需要明确审批究竟释放哪一步，防止一次批准同时越过分析、修改和执行三道边界。"
+  relation_to_previous_day: "输入是Day37的WAITING_FOR_APPROVAL申请；今天只审查是否允许进入正式影响分析，不接受申请人预估范围作为最终结论。"
+  concepts:
+    - "分级授权：批准分析、批准修改、批准执行是三个不同权限"
+    - "审批对象：审批必须绑定申请编号和SHA256，避免批准错版本"
+    - "批准条件：申请完整、目标未变化、边界和回滚方式清楚"
+    - "最小权限：本次只释放影响分析，不释放源文件修改和历史任务执行"
+  completion_standard: "Day37申请和Day22目标指纹匹配，审批结论仅为APPROVED_FOR_IMPACT_ANALYSIS，Day22保持不变，ZOS-API、配置修改和任务执行仍被禁止。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_approval_record_generation: true
+  allow_impact_analysis_execution: false
+  allow_target_source_modification: false
+  allow_historical_task_execution: false
+
+source:
+  day37_request_report: "outputs/day37_change_request/change_request_20260811_203430/maintenance_change_request.json"
+  day37_request_sha256: "4B4EB90DE14EDB6E2E889E7CDE531C76D695FEE98AF928B49AB79BB3FAB1B7B5"
+  expected_day37_task: "day37_maintenance_change_request_generation"
+  expected_request_id: "CR-DAY37-001"
+  expected_request_status: "WAITING_FOR_APPROVAL"
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+  day35_runbook: "outputs/day35_maintenance_runbook/maintenance_runbook_20260810_212741/maintenance_runbook.json"
+  day35_runbook_sha256: "9D0813A53B390A4A59422851637771FA3D37CBDCB402E74BF06F767E1AE466B9"
+  required_manual_checkpoint: "CP06_scope_approval"
+
+approval_decision:
+  decision_id: "AP-DAY38-001"
+  decision_status: "APPROVED_FOR_IMPACT_ANALYSIS"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  decision_date: "2026-08-11"
+  decision_reason: "申请信息、目标版本、风险假设和回滚方式完整，可以进入正式依赖影响分析。"
+  approved_capabilities:
+    - "read_frozen_dependency_evidence"
+    - "calculate_formal_review_scope"
+    - "generate_impact_analysis_report"
+  forbidden_capabilities:
+    - "modify_day22_config"
+    - "connect_zosapi"
+    - "calculate_optical_metrics"
+    - "execute_day22_to_day28"
+    - "treat_requester_scope_as_final"
+  next_required_gate: "人工审查正式影响分析结果后，另行决定是否批准修改或复核任务。"
+
+validation:
+  require_day37_hash_match: true
+  require_waiting_for_approval_status: true
+  require_day22_hash_match: true
+  require_day35_manual_gate: true
+  require_requester_scope_unverified: true
+  impact_analysis_permission_may_imply_source_change: false
+  impact_analysis_permission_may_imply_task_execution: false
+  automatic_approval_allowed: false
+  automatic_task_execution_allowed: false
+  engineering_change_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day38_impact_analysis_approval"
+  json: "impact_analysis_approval_record.json"
+  markdown: "IMPACT_ANALYSIS_APPROVAL_RECORD.md"

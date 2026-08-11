@@ -1,0 +1,71 @@
+# Day 39：根据冻结依赖图正式核验 Day37 申请的影响范围。
+schema_version: "formal_change_impact_scope/v1"
+
+case:
+  id: "day39_day22_formal_impact_scope_v1"
+  name: "Day22教学变化的正式影响范围核验"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day38只批准了开展影响分析；Day39需要真正从依赖图计算复核范围，不能继续依赖申请人的主观预估。"
+  relation_to_previous_day: "输入是Day38的APPROVED_FOR_IMPACT_ANALYSIS记录；输出将核验Day37预估是否遗漏或多报节点。"
+  concepts:
+    - "直接下游：依赖图中由变化源直接指向的节点"
+    - "传递下游：经过一条或多条依赖路径最终受到影响的节点"
+    - "正式复核集合：变化源本身加全部传递下游，并按拓扑顺序排列"
+    - "集合差异：用遗漏和多报分别检查申请人预估，而不是只看数量"
+  completion_standard: "Day38审批、Day30依赖图和Day29注册表指纹有效；正式集合包含Day22及全部传递下游；申请人预估的遗漏和多报被明确列出；不执行任何复核任务。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_formal_impact_scope_calculation: true
+  allow_impact_report_generation: true
+  allow_target_source_modification: false
+  allow_automatic_task_execution: false
+
+source:
+  day38_approval_report: "outputs/day38_impact_analysis_approval/approval_20260811_210747/impact_analysis_approval_record.json"
+  day38_approval_sha256: "1CBA913380B4D83E7D872A413FF806B9F174F2F162E0F41830060C457F5A9167"
+  expected_day38_task: "day38_impact_analysis_approval_generation"
+  expected_decision_status: "APPROVED_FOR_IMPACT_ANALYSIS"
+  expected_request_id: "CR-DAY37-001"
+  day30_graph_report: "outputs/day30_evidence_dependency_graph/dependency_graph_20260810_202048/evidence_dependency_graph.json"
+  day30_graph_sha256: "3B45DB6A09B62A9331EE32B252C9173607A57C9CE9DE6D11BF0C5665DF025B5D"
+  expected_graph_task: "day30_evidence_dependency_graph_generation"
+  expected_node_count: 26
+  expected_edge_count: 35
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+impact_scope:
+  changed_day: 22
+  include_changed_node: true
+  include_all_transitive_descendants: true
+  order_by_day30_topology: true
+  classify_by_execution_class: true
+  requester_estimate_source: "day38_approval_record"
+  expected_requester_estimate: [22, 23, 24, 25, 26, 27, 28]
+
+validation:
+  require_day38_hash_match: true
+  require_impact_analysis_permission: true
+  require_day30_hash_match: true
+  require_day29_registry_hash_match: true
+  require_target_hash_match: true
+  require_changed_day_in_graph: true
+  require_all_transitive_descendants: true
+  require_topological_order: true
+  requester_estimate_may_replace_calculation: false
+  impact_scope_may_imply_source_change: false
+  automatic_execution_allowed: false
+  engineering_rerun_claim_allowed: false
+  hidden_impact_score_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day39_formal_impact_scope"
+  json: "formal_impact_scope_report.json"
+  csv: "formal_impact_scope_review_set.csv"
+  markdown: "FORMAL_IMPACT_SCOPE_REPORT.md"

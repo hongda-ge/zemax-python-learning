@@ -1,0 +1,78 @@
+# Day 40：人工批准 Day39 正式复核范围进入复核方案规划。
+schema_version: "review_scope_approval/v1"
+
+case:
+  id: "day40_teaching_review_scope_approval_v1"
+  name: "Day22正式复核范围的人工审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day39已经计算出正式复核集合；Day40需要由维护者确认该集合可以作为后续波次和资源规划的输入。"
+  relation_to_previous_day: "输入是Day39独立计算的Day22-Day28复核集合；今天只批准规划复核方案，不批准修改Day22或执行七个复核任务。"
+  concepts:
+    - "范围审批：人工确认正式集合的完整性、顺序和任务分类"
+    - "用途限定：批准结果只能用于波次、资源槽和失败门规划"
+    - "执行许可分离：范围被批准不代表其中节点获准运行"
+    - "下一道门：复核方案形成后仍需人工批准才能实施"
+  completion_standard: "Day39报告和Day22指纹有效，七个节点及执行类别完整；决策状态仅为REVIEW_SCOPE_APPROVED_FOR_PLANNING；源文件修改、ZOS-API和任务执行继续锁定。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_scope_approval_record_generation: true
+  allow_review_plan_generation: false
+  allow_target_source_modification: false
+  allow_review_task_execution: false
+
+source:
+  day39_scope_report: "outputs/day39_formal_impact_scope/impact_scope_20260811_212707/formal_impact_scope_report.json"
+  day39_scope_sha256: "886818F1DD25829F92A5974F5A4FE10C45D8769DC331337A2285EA3A92A8401F"
+  expected_day39_task: "day39_formal_impact_scope_generation"
+  expected_changed_day: 22
+  expected_formal_review_order: [22, 23, 24, 25, 26, 27, 28]
+  expected_zosapi_review_days: [23, 25]
+  expected_offline_review_days: [22, 24, 26, 27, 28]
+  day35_runbook: "outputs/day35_maintenance_runbook/maintenance_runbook_20260810_212741/maintenance_runbook.json"
+  day35_runbook_sha256: "9D0813A53B390A4A59422851637771FA3D37CBDCB402E74BF06F767E1AE466B9"
+  required_manual_checkpoint: "CP06_scope_approval"
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+approval_decision:
+  decision_id: "AP-DAY40-001"
+  decision_status: "REVIEW_SCOPE_APPROVED_FOR_PLANNING"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  decision_date: "2026-08-11"
+  decision_reason: "Day39已基于冻结依赖图独立确认变化源、全部传递下游、拓扑顺序和执行类别，可作为复核方案规划输入。"
+  approved_scope: [22, 23, 24, 25, 26, 27, 28]
+  approved_capabilities:
+    - "plan_dependency_review_waves"
+    - "plan_resource_feasible_slots"
+    - "plan_failure_gates"
+  forbidden_capabilities:
+    - "modify_day22_config"
+    - "connect_zosapi"
+    - "calculate_optical_metrics"
+    - "execute_review_tasks"
+    - "claim_engineering_change_approval"
+  next_required_gate: "复核波次、资源槽和失败门形成后，必须再次人工审查，才能决定是否批准任何任务执行。"
+
+validation:
+  require_day39_hash_match: true
+  require_formal_analysis_complete: true
+  require_review_tasks_unapproved: true
+  require_day35_manual_gate: true
+  require_target_hash_match: true
+  scope_approval_may_imply_source_change: false
+  scope_approval_may_imply_task_execution: false
+  automatic_approval_allowed: false
+  automatic_execution_allowed: false
+  engineering_change_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day40_review_scope_approval"
+  json: "review_scope_approval_record.json"
+  markdown: "REVIEW_SCOPE_APPROVAL_RECORD.md"
