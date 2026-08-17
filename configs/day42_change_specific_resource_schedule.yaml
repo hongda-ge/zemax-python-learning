@@ -1,0 +1,89 @@
+# Day 42：把 Day41 的变化专用依赖波次转换为资源可行的教学调度槽。
+schema_version: "change_specific_resource_schedule/v1"
+
+case:
+  id: "day42_day22_change_resource_schedule_v1"
+  name: "Day22教学变化的资源可行复核调度"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day41只说明七个节点何时在依赖上就绪；Day42进一步加入ZOS-API和离线通道容量。"
+  relation_to_previous_day: "输入是Day41的六个依赖波次；今天只能安排资源槽，不能修改Day22或执行任何复核节点。"
+  concepts:
+    - "资源容量：同一槽内每类任务允许占用的最大教学通道数"
+    - "资源槽：表达资源约束下的执行先后组，不代表固定时长"
+    - "容量拆分：同一依赖波次超过容量时，必须拆成多个连续子槽"
+    - "人工释放：任务进入调度槽仍不等于获得执行许可"
+  completion_standard: "七个节点恰好出现一次，来源波次顺序不倒退，每槽最多一个ZOS-API任务和两个离线任务；所有任务继续保持未释放。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_schedule_calculation: true
+  allow_schedule_report_generation: true
+  allow_target_source_modification: false
+  allow_review_task_execution: false
+
+source:
+  day41_wave_report: "outputs/day41_change_specific_review_waves/review_waves_20260817_195740/change_specific_review_wave_plan.json"
+  day41_wave_report_sha256: "B09200690F85C4B00CD7C69C6E9441FD45D3C98476F827DF2A1411C96C62B9E7"
+  expected_day41_task: "day41_change_specific_review_wave_generation"
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+teaching_resources:
+  zosapi_capacity_per_slot: 1
+  offline_capacity_per_slot: 2
+  slot_is_order_group_not_duration: true
+  capacity_is_teaching_assumption_not_benchmark: true
+  manual_approval_required_before_execution: true
+
+scheduling_policy:
+  preserve_day41_wave_order: true
+  split_wave_when_resource_capacity_exceeded: true
+  allow_zosapi_and_offline_in_same_slot: true
+  deterministic_day_order_within_wave: true
+  preserve_execution_class_labels: true
+  automatic_execution_allowed: false
+
+expected_result:
+  changed_day: 22
+  task_count: 7
+  theoretical_wave_count: 6
+  resource_slot_count: 6
+  extra_slots_due_to_capacity: 0
+  maximum_slot_width: 2
+  slots:
+    - days: [22]
+      source_wave: 1
+    - days: [23]
+      source_wave: 2
+    - days: [24]
+      source_wave: 3
+    - days: [25]
+      source_wave: 4
+    - days: [26, 27]
+      source_wave: 5
+    - days: [28]
+      source_wave: 6
+
+validation:
+  require_day41_hash_match: true
+  require_target_hash_match: true
+  require_every_task_exactly_once: true
+  require_non_decreasing_wave_order: true
+  require_zosapi_capacity_respected: true
+  require_offline_capacity_respected: true
+  duration_claim_allowed: false
+  resource_benchmark_claim_allowed: false
+  hidden_priority_score_allowed: false
+  automatic_execution_allowed: false
+  source_modification_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day42_change_specific_resource_schedule"
+  json: "change_specific_resource_schedule.json"
+  csv: "change_specific_resource_schedule_tasks.csv"
+  markdown: "CHANGE_SPECIFIC_RESOURCE_SCHEDULE.md"

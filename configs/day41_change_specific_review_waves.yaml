@@ -1,0 +1,83 @@
+# Day 41：为已批准的 Day22-Day28 正式范围生成专用依赖复核波次。
+schema_version: "change_specific_review_waves/v1"
+
+case:
+  id: "day41_day22_change_review_waves_v1"
+  name: "Day22教学变化的依赖安全复核波次"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day40只批准了正式范围用于规划；Day41需要把七个节点按依赖先后拆成可以逐步释放的复核波次。"
+  relation_to_previous_day: "输入是Day40批准的Day22-Day28范围，依赖关系来自Day30 DAG；今天不修改Day22，也不执行任何节点。"
+  concepts:
+    - "诱导子图：只保留正式复核范围中的节点及它们之间的依赖边"
+    - "依赖就绪：一个节点的所有受影响上游都完成后，它才进入下一可用波次"
+    - "同波独立：同一波节点之间不存在受影响依赖边"
+    - "理论并行：同波只表示依赖允许，不代表许可证和资源允许同时执行"
+  completion_standard: "七个节点恰好出现一次，Day22独占首波，全部受影响依赖边从早波指向晚波；执行类别保留且没有任务被批准或执行。"
+
+execution:
+  enabled: false
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_new_optical_calculation: false
+  allow_wave_calculation: true
+  allow_wave_report_generation: true
+  allow_target_source_modification: false
+  allow_review_task_execution: false
+
+source:
+  day40_scope_approval: "outputs/day40_review_scope_approval/scope_approval_20260811_215709/review_scope_approval_record.json"
+  day40_scope_approval_sha256: "030D13E4E312E83C656813CB622BCBFFBC732B2CC6845193D18409232D3FD5C3"
+  expected_day40_task: "day40_review_scope_approval_generation"
+  expected_decision_status: "REVIEW_SCOPE_APPROVED_FOR_PLANNING"
+  day30_graph_report: "outputs/day30_evidence_dependency_graph/dependency_graph_20260810_202048/evidence_dependency_graph.json"
+  day30_graph_sha256: "3B45DB6A09B62A9331EE32B252C9173607A57C9CE9DE6D11BF0C5665DF025B5D"
+  expected_graph_task: "day30_evidence_dependency_graph_generation"
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+wave_policy:
+  use_approved_scope_only: true
+  use_induced_review_subgraph: true
+  treat_unaffected_upstream_as_already_available: true
+  start_with_changed_source: true
+  release_node_only_after_all_affected_upstream_complete: true
+  allow_same_wave_only_without_affected_dependency: true
+  preserve_execution_class_labels: true
+  theoretical_parallelism_only: true
+
+expected_result:
+  changed_day: 22
+  review_scope: [22, 23, 24, 25, 26, 27, 28]
+  review_node_count: 7
+  affected_edge_count: 9
+  wave_count: 6
+  maximum_wave_width: 2
+  waves:
+    - [22]
+    - [23]
+    - [24]
+    - [25]
+    - [26, 27]
+    - [28]
+
+validation:
+  require_day40_hash_match: true
+  require_planning_permission: true
+  require_day30_hash_match: true
+  require_target_hash_match: true
+  require_every_review_node_exactly_once: true
+  require_all_affected_edges_forward_across_waves: true
+  require_changed_source_in_first_wave: true
+  resource_parallelism_claim_allowed: false
+  automatic_execution_allowed: false
+  source_modification_allowed: false
+  engineering_rerun_claim_allowed: false
+  hidden_priority_score_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day41_change_specific_review_waves"
+  json: "change_specific_review_wave_plan.json"
+  csv: "change_specific_review_wave_tasks.csv"
+  markdown: "CHANGE_SPECIFIC_REVIEW_WAVES.md"

@@ -1,0 +1,104 @@
+# Day 44：在真实复核执行前，以最小权限批准 Slot 1 的隔离候选准备。
+schema_version: "slot1_candidate_preparation_approval/v1"
+
+case:
+  id: "day44_day22_slot1_candidate_preparation_approval_v1"
+  name: "Day22变化的隔离候选准备审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day43完成了失败门推演；Day44需要决定当前证据是否足以释放任何下一步权限。"
+  relation_to_previous_day: "输入是Day43的变化专用失败门、Day37申请和Day35人工审批规则；今天不能把规划批准误当成执行批准。"
+  concepts:
+    - "最小权限：只释放完成下一安全步骤所必需的能力"
+    - "隔离候选：在outputs中准备候选输入，不覆盖正式Day22配置"
+    - "条件批准：准备获准不等于计算或执行获准"
+    - "逐槽释放：Slot 2-6必须等待Slot 1证据完成并通过CP09人工审核"
+  completion_standard: "审批只允许准备Day22隔离候选和清单；正式配置、ZOS-API、Slot1计算及Slot2-6执行继续锁定。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_candidate_preparation: false
+  allow_target_source_modification: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_review_task_execution: false
+
+source:
+  day43_gate_report: "outputs/day43_change_specific_failure_gates/failure_gates_20260817_202013/change_specific_failure_gates.json"
+  day43_gate_report_sha256: "2625D8E504ACFE68AA402CD68E0DF044A37948A8EDB52824198D067882556CFB"
+  expected_day43_task: "day43_change_specific_failure_gate_generation"
+  day37_change_request: "outputs/day37_change_request/change_request_20260811_203430/maintenance_change_request.json"
+  day37_change_request_sha256: "4B4EB90DE14EDB6E2E889E7CDE531C76D695FEE98AF928B49AB79BB3FAB1B7B5"
+  expected_day37_task: "day37_maintenance_change_request_generation"
+  day35_runbook: "outputs/day35_maintenance_runbook/maintenance_runbook_20260810_212741/maintenance_runbook.json"
+  day35_runbook_sha256: "9D0813A53B390A4A59422851637771FA3D37CBDCB402E74BF06F767E1AE466B9"
+  expected_day35_task: "day35_maintenance_runbook_generation"
+  target_config: "configs/day22_focus_position_error_budget.yaml"
+  target_config_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+decision:
+  decision_id: "AP-DAY44-001"
+  decision_status: "SLOT_01_APPROVED_FOR_ISOLATED_CANDIDATE_PREPARATION"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  approved_slot: 1
+  approved_days: [22]
+  approved_execution_class: "offline_only"
+  approved_capabilities:
+    - "prepare_isolated_day22_candidate"
+    - "calculate_candidate_sha256"
+    - "generate_pre_execution_manifest"
+  forbidden_capabilities:
+    - "modify_official_day22_config"
+    - "execute_day22_review"
+    - "connect_zosapi"
+    - "calculate_optical_metrics"
+    - "release_slot_02_to_06"
+    - "claim_engineering_change_approval"
+  decision_reason: "Day41-Day43已完成依赖、资源和失败门规划，但正式Day22配置仍是旧值且原脚本固定读取正式配置；因此只批准隔离候选准备。"
+
+candidate_boundary:
+  candidate_root: "outputs/day44_slot1_candidate_preparation"
+  source_day: 22
+  target_field: "teaching_error_sources.positioning_accuracy.symmetric_allowance_mm"
+  current_value: 0.010
+  proposed_value: 0.012
+  unit: "mm"
+  copy_official_config_before_edit: true
+  edit_candidate_only: true
+  require_exactly_one_declared_value_change: true
+  require_candidate_sha256: true
+  require_pre_execution_manifest: true
+  future_execution_requires_separate_approval: true
+
+permissions:
+  candidate_preparation_released: true
+  candidate_fingerprint_generation_released: true
+  pre_execution_manifest_generation_released: true
+  source_modification_released: false
+  slot_01_execution_released: false
+  zosapi_execution_released: false
+  optical_calculation_released: false
+  downstream_slots_released: false
+
+validation:
+  require_day43_hash_match: true
+  require_day37_hash_match: true
+  require_day35_hash_match: true
+  require_target_hash_match: true
+  require_cp09_manual_gate: true
+  require_slot1_is_day22_offline: true
+  require_all_day43_states_simulated: true
+  require_candidate_preparation_only: true
+  source_modification_claim_allowed: false
+  task_execution_claim_allowed: false
+  engineering_change_claim_allowed: false
+  hidden_approval_score_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day44_slot1_candidate_preparation_approval"
+  json: "slot1_candidate_preparation_approval.json"
+  markdown: "SLOT1_CANDIDATE_PREPARATION_APPROVAL.md"
