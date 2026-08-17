@@ -1,0 +1,106 @@
+# Day 47：批准使用冻结候选执行一次 Slot 1 / Day22 离线复核。
+schema_version: "slot1_offline_execution_approval/v1"
+
+case:
+  id: "day47_slot1_offline_execution_approval_v1"
+  name: "Day22候选离线复核执行审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day46已经证明候选可信；Day47需要以最小权限决定是否允许它执行一次Slot 1离线复核。"
+  relation_to_previous_day: "输入是Day46候选审核记录、Day42资源槽和Day35人工槽门；今天只生成执行审批，不自动运行Day22。"
+  concepts:
+    - "执行授权：明确允许哪个冻结输入执行哪一个任务"
+    - "运行契约：固定入口、输入、输出边界和停止条件"
+    - "单槽释放：只释放Slot 1，不连带释放Slot 2-6"
+    - "执行后再审批：Slot 1结果必须经过CP09人工审核才能影响下游"
+  completion_standard: "审批绑定Day46记录和候选SHA256，只允许专用入口执行一次Day22离线复核；正式配置、ZOS-API和下游槽继续锁定，审批生成时不执行任务。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_review_task_execution: false
+  allow_source_modification: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_downstream_release: false
+
+source:
+  day46_review_record: "outputs/day46_candidate_pre_execution_review/review_20260817_215729/candidate_pre_execution_review.json"
+  day46_review_sha256: "F7CCFEB788769173FD34D7337910AC19512259A987AE64FB788A288E99C96BB3"
+  expected_day46_task: "day46_candidate_pre_execution_review_generation"
+  expected_day46_status: "CANDIDATE_VERIFIED_WAITING_FOR_SLOT_01_EXECUTION_APPROVAL"
+  day42_schedule: "outputs/day42_change_specific_resource_schedule/resource_schedule_20260817_200358/change_specific_resource_schedule.json"
+  day42_schedule_sha256: "B9563C44665BA3DDE2654ED26F3AECC5E427E0044A33956A868693ED0475F666"
+  expected_day42_task: "day42_change_specific_resource_schedule_generation"
+  day35_runbook: "outputs/day35_maintenance_runbook/maintenance_runbook_20260810_212741/maintenance_runbook.json"
+  day35_runbook_sha256: "9D0813A53B390A4A59422851637771FA3D37CBDCB402E74BF06F767E1AE466B9"
+  expected_day35_task: "day35_maintenance_runbook_generation"
+  official_day22_config: "configs/day22_focus_position_error_budget.yaml"
+  official_day22_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+  candidate_config: "outputs/day44_slot1_candidate_preparation/day45_candidate_20260817_204141/day22_positioning_accuracy_0p012_candidate.yaml"
+  candidate_sha256: "5165C39F82AF06A1AD46E98B657B2AC104315930BB74BF215B9B366C9C8730D5"
+
+approved_execution_contract:
+  resource_slot: 1
+  day: 22
+  execution_class: "offline_only"
+  maximum_execution_count: 1
+  input_config: "outputs/day44_slot1_candidate_preparation/day45_candidate_20260817_204141/day22_positioning_accuracy_0p012_candidate.yaml"
+  input_sha256: "5165C39F82AF06A1AD46E98B657B2AC104315930BB74BF215B9B366C9C8730D5"
+  required_dedicated_entrypoint: "scripts/demos/day48_execute_approved_day22_candidate.py"
+  approved_output_root: "outputs/day47_slot1_candidate_offline_execution"
+  require_isolated_output_directory: true
+  require_official_config_unchanged_before_and_after: true
+  require_candidate_unchanged_before_and_after: true
+  require_no_zosapi_connection: true
+  require_no_new_optical_calculation: true
+  require_stop_after_slot1: true
+  require_cp09_review_after_execution: true
+
+decision:
+  decision_id: "AP-DAY47-001"
+  decision_status: "SLOT_01_APPROVED_FOR_CANDIDATE_OFFLINE_REVIEW_EXECUTION"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  approved_capabilities:
+    - "execute_day22_offline_review_once_with_frozen_candidate"
+    - "read_frozen_day21_evidence"
+    - "write_isolated_slot1_result"
+  forbidden_capabilities:
+    - "modify_official_day22_config"
+    - "modify_candidate_config"
+    - "connect_zosapi"
+    - "calculate_new_optical_metrics"
+    - "execute_slot_02_to_06"
+    - "claim_engineering_change_approval"
+  decision_reason: "Day46已独立验证候选身份和唯一差异；因此只批准一次隔离的Day22离线复核，并要求结果在CP09人工门停止。"
+
+permissions:
+  slot_01_offline_execution_released: true
+  frozen_candidate_use_released: true
+  isolated_slot1_output_released: true
+  source_modification_released: false
+  zosapi_execution_released: false
+  optical_calculation_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+validation:
+  require_day46_hash_match: true
+  require_day42_hash_match: true
+  require_day35_hash_match: true
+  require_official_hash_match: true
+  require_candidate_hash_match: true
+  require_cp09_manual_gate: true
+  require_slot1_day22_offline_match: true
+  require_dedicated_candidate_entrypoint: true
+  automatic_execution_allowed: false
+  downstream_execution_allowed: false
+  engineering_change_claim_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day47_slot1_offline_execution_approval"
+  json: "slot1_offline_execution_approval.json"
+  markdown: "SLOT1_OFFLINE_EXECUTION_APPROVAL.md"

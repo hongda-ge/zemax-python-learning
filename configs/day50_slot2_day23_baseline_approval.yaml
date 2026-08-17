@@ -1,0 +1,130 @@
+# Day 50：批准 Slot 2 / Day23 的零离焦基线控制，不批准残余离焦批次。
+schema_version: "slot2_day23_baseline_approval/v1"
+
+case:
+  id: "day50_slot2_day23_baseline_approval_v1"
+  name: "Day23变化复核的基线控制审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day49允许申请Slot 2权限；Day50需要在ZOS-API任务前冻结模型、分析配方、变化证据和最小执行范围。"
+  relation_to_previous_day: "输入是Day49 CP09通过记录和Day48新Day22证据；今天只批准Day23零离焦控制，不连接Zemax。"
+  concepts:
+    - "高风险分段：先复现基线，再决定是否执行非零离焦批次"
+    - "变化适配：专用入口显式接受0.012mm新证据，不误用旧Day23证据发现逻辑"
+    - "光学配方冻结：Spot、FFT MTF、模型和参考状态必须保持一致"
+    - "单通道授权：一次只允许一个Standalone ZOS-API任务"
+  completion_standard: "审批只释放一次Day23零离焦基线控制；冻结模型、旧基线和新Day22证据；残余六案例、Quick Focus、优化、SaveAs及下游槽仍锁定，Day50自身不连接ZOS-API。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_baseline_control_execution: false
+  allow_residual_cases: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day49_review_record: "outputs/day49_cp09_slot1_result_review/review_20260817_221926/cp09_slot1_result_review.json"
+  day49_review_sha256: "459F6927456DD95CEAE3C03EC6C1DEB9E9456DA9D3574F8F1CFA6AFCFFC60498"
+  expected_day49_task: "day49_cp09_slot1_result_review_generation"
+  expected_day49_status: "SLOT_01_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_02_RELEASE_APPROVAL"
+  day48_result: "outputs/day47_slot1_candidate_offline_execution/execution_20260817_221343/slot1_execution_result.json"
+  day48_result_sha256: "F0321F7420EF7960437E00732624AAFD8D595DDDA8F8B94EF2038B10AC8710B3"
+  expected_day48_task: "day48_approved_day22_candidate_offline_execution"
+  day42_schedule: "outputs/day42_change_specific_resource_schedule/resource_schedule_20260817_200358/change_specific_resource_schedule.json"
+  day42_schedule_sha256: "B9563C44665BA3DDE2654ED26F3AECC5E427E0044A33956A868693ED0475F666"
+  expected_day42_task: "day42_change_specific_resource_schedule_generation"
+  day23_config: "configs/day23_residual_defocus_optical_impact.yaml"
+  day23_config_sha256: "87A195370DF2F195E59E12C13596E74ACEF721F660B82E38D220428C00B5C2E6"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  previous_day23_control: "outputs/day23_residual_defocus_optical_impact/baseline_control_20260807_141519/defocus_004/baseline_control_report.json"
+  previous_day23_control_sha256: "7D03E3727B684D22011D6DA3D8B5770C96F8441D3A5341BA1F66DF99510831F3"
+  expected_previous_control_task: "day23_residual_defocus_baseline_control"
+
+change_specific_evidence:
+  positioning_accuracy_mm: 0.012
+  expected_component_allowances_mm: [0.01, 0.012, 0.02]
+  expected_day22_policy_count: 2
+  expected_day22_case_count: 6
+  evidence_is_optical_input: false
+  residual_offset_grid_changed: false
+
+approved_execution_contract:
+  resource_slot: 2
+  day: 23
+  execution_class: "uses_zosapi"
+  maximum_execution_count: 1
+  approved_case_id: "defocus_004"
+  approved_offset_mm: 0.0
+  required_entrypoint: "scripts/demos/day51_execute_approved_day23_baseline_control.py"
+  approved_output_root: "outputs/day50_slot2_day23_baseline_control_execution"
+  allow_single_standalone_connection: true
+  allow_independent_working_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_residual_cases: false
+  require_model_hash_before_and_after: true
+  require_working_copy_hash_before_and_after: true
+  require_connection_closed: true
+  require_previous_baseline_reproduction: true
+  require_stop_after_baseline_control: true
+  post_execution_gate: "CP09_slot_gate"
+
+decision:
+  decision_id: "AP-DAY50-001"
+  decision_status: "SLOT_02_APPROVED_FOR_DAY23_BASELINE_CONTROL_EXECUTION"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  approved_capabilities:
+    - "execute_one_day23_zero_defocus_control"
+    - "create_one_isolated_working_copy"
+    - "connect_one_standalone_zosapi_session"
+    - "export_standard_spot_and_fft_mtf"
+    - "write_isolated_baseline_control_result"
+  forbidden_capabilities:
+    - "execute_six_nonzero_residual_cases"
+    - "run_quick_focus"
+    - "run_optimization"
+    - "save_modified_model"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_03_to_06"
+    - "claim_engineering_change_approval"
+
+permissions:
+  day23_baseline_control_execution_released: true
+  single_zosapi_connection_released: true
+  isolated_working_copy_released: true
+  spot_and_mtf_analysis_released: true
+  residual_case_execution_released: false
+  quick_focus_released: false
+  optimization_released: false
+  save_as_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+validation:
+  require_day49_hash_match: true
+  require_day48_hash_match: true
+  require_day42_slot2_match: true
+  require_day23_config_hash_match: true
+  require_model_hash_match: true
+  require_previous_control_hash_match: true
+  require_new_day22_evidence_complete: true
+  approval_generation_connects_zosapi: false
+  approval_generation_executes_task: false
+  hidden_score_allowed: false
+
+planned_outputs_after_approval:
+  root: "outputs/day50_slot2_day23_baseline_approval"
+  json: "slot2_day23_baseline_approval.json"
+  markdown: "SLOT2_DAY23_BASELINE_APPROVAL.md"

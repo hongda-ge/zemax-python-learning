@@ -1,0 +1,76 @@
+# Day 45：依据 Day44 审批准备隔离的 Day22 候选配置和执行前清单。
+schema_version: "isolated_day22_candidate/v1"
+
+case:
+  id: "day45_isolated_day22_candidate_v1"
+  name: "Day22定位精度教学值的隔离候选"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day44只批准了候选准备；Day45需要把申请中的0.012mm安全地表示成隔离文件，并证明正式配置未变。"
+  relation_to_previous_day: "输入是Day44最小权限审批；今天可以创建候选和清单，但仍不能运行Day22或释放后续槽。"
+  concepts:
+    - "候选配置：用于待审变化的隔离输入，不是新的正式基线"
+    - "单字段差异：候选与来源在语义上只允许一个声明字段不同"
+    - "双指纹：同时记录来源SHA256和候选SHA256"
+    - "执行前清单：把输入、差异、权限和下一审批门固定在一个证据文件中"
+  completion_standard: "候选位于批准的outputs目录，仅定位精度从0.010变为0.012mm；来源指纹不变，候选指纹和清单完整，任何计算仍未执行。"
+
+execution:
+  enabled: false
+  allow_candidate_preview: true
+  allow_candidate_file_generation: true
+  allow_candidate_fingerprint_generation: true
+  allow_manifest_generation: true
+  allow_target_source_modification: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_review_task_execution: false
+
+source:
+  day44_approval_record: "outputs/day44_slot1_candidate_preparation_approval/approval_20260817_202857/slot1_candidate_preparation_approval.json"
+  day44_approval_sha256: "5726B08C8F4B452453A4A54C5FA562D6A243CC0A09343F85C776E3F72C2D0FF2"
+  expected_day44_task: "day44_slot1_candidate_preparation_approval_generation"
+  expected_decision_status: "SLOT_01_APPROVED_FOR_ISOLATED_CANDIDATE_PREPARATION"
+  official_day22_config: "configs/day22_focus_position_error_budget.yaml"
+  official_day22_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+
+change:
+  list_key: "teaching_error_sources"
+  item_id: "positioning_accuracy"
+  value_key: "symmetric_allowance_mm"
+  canonical_field: "teaching_error_sources.positioning_accuracy.symmetric_allowance_mm"
+  current_value: 0.010
+  proposed_value: 0.012
+  unit: "mm"
+  output_literal: "0.012"
+
+candidate_policy:
+  copy_source_text_before_edit: true
+  preserve_comments_and_layout: true
+  replace_exactly_one_scalar_line: true
+  parse_source_and_candidate_yaml: true
+  require_one_semantic_difference: true
+  candidate_is_not_official_baseline: true
+  future_execution_requires_separate_approval: true
+
+validation:
+  require_day44_hash_match: true
+  require_candidate_preparation_permission: true
+  require_official_hash_match_before_and_after: true
+  require_approved_candidate_root_match: true
+  require_declared_field_and_values_match: true
+  require_exactly_one_text_line_replaced: true
+  require_exactly_one_semantic_difference: true
+  source_modification_allowed: false
+  slot1_execution_allowed: false
+  zosapi_connection_allowed: false
+  downstream_release_allowed: false
+  engineering_change_claim_allowed: false
+
+outputs:
+  root_from_approval: "outputs/day44_slot1_candidate_preparation"
+  directory_prefix: "day45_candidate"
+  candidate_yaml: "day22_positioning_accuracy_0p012_candidate.yaml"
+  manifest_json: "candidate_pre_execution_manifest.json"
+  review_markdown: "DAY45_CANDIDATE_REVIEW.md"

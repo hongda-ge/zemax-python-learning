@@ -1,0 +1,81 @@
+# Day 48：使用 Day47 批准的候选执行一次 Day22 离线复核。
+schema_version: "approved_day22_candidate_execution/v1"
+
+case:
+  id: "day48_approved_day22_candidate_execution_v1"
+  name: "获批Day22候选的单次离线复核"
+  status: "approved_for_single_execution"
+
+teaching_introduction:
+  why_today: "Day47已经释放一次Slot 1执行权限；Day48需要通过专用入口消费该权限并生成候选结果证据。"
+  relation_to_previous_day: "输入是Day47审批绑定的候选和运行契约；今天执行一次离线误差预算，完成后立即停在CP09。"
+  concepts:
+    - "授权消费：一次执行完成后，同一审批不能再次使用"
+    - "显式配置注入：专用入口直接读取候选，不依赖原脚本的固定正式路径"
+    - "内存覆盖：只在运行时改变输出目录，不修改冻结候选文件"
+    - "槽后停止：生成Slot 1证据后不自动运行任何下游任务"
+  completion_standard: "专用入口只执行一次获批候选，结果写入隔离目录；正式配置、候选和上游证据指纹不变；无ZOS-API或新光学计算；下游继续锁定并等待CP09。"
+
+execution:
+  enabled: false
+  allow_plan_validation: true
+  allow_approved_offline_execution: true
+  allow_isolated_output: true
+  allow_source_modification: false
+  allow_candidate_modification: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_downstream_execution: false
+
+source:
+  day47_approval_record: "outputs/day47_slot1_offline_execution_approval/approval_20260817_220717/slot1_offline_execution_approval.json"
+  day47_approval_sha256: "A414432651CEAB0445344AF6DB7713B68B20D86B472EEAA3C756E136086E1AB3"
+  expected_day47_task: "day47_slot1_offline_execution_approval_generation"
+  expected_day47_decision: "SLOT_01_APPROVED_FOR_CANDIDATE_OFFLINE_REVIEW_EXECUTION"
+  official_day22_config: "configs/day22_focus_position_error_budget.yaml"
+  official_day22_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+  candidate_config: "outputs/day44_slot1_candidate_preparation/day45_candidate_20260817_204141/day22_positioning_accuracy_0p012_candidate.yaml"
+  candidate_sha256: "5165C39F82AF06A1AD46E98B657B2AC104315930BB74BF215B9B366C9C8730D5"
+  day21_report: "outputs/day21_focus_travel_safety_margin/margin_evaluation_20260807_125710/focus_travel_safety_margin_report.json"
+  day21_report_sha256: "5030C84020F4013AFE7216D6C04A665DCA7A4955C60248C86C690D3249D55BE2"
+  expected_day21_task: "day21_focus_travel_safety_margin_evaluation"
+
+approved_execution:
+  resource_slot: 1
+  day: 22
+  execution_class: "offline_only"
+  maximum_execution_count: 1
+  required_entrypoint: "scripts/demos/day48_execute_approved_day22_candidate.py"
+  approved_output_root: "outputs/day47_slot1_candidate_offline_execution"
+  result_report_name: "slot1_execution_result.json"
+  require_no_existing_result_before_execution: true
+  require_explicit_candidate_load: true
+  override_output_root_in_memory_only: true
+  stop_at_checkpoint: "CP09_slot_gate"
+
+candidate_expectation:
+  canonical_field: "teaching_error_sources.positioning_accuracy.symmetric_allowance_mm"
+  approved_value_mm: 0.012
+  error_source_count: 4
+  combination_policy_count: 2
+  measured_case_count: 6
+  selected_evidence_policy: "dual_branch_robust"
+
+validation:
+  require_approval_hash_match: true
+  require_official_hash_match_before_and_after: true
+  require_candidate_hash_match_before_and_after: true
+  require_day21_hash_match_before_and_after: true
+  require_single_execution_contract: true
+  require_no_zosapi: true
+  require_no_optical_calculation: true
+  require_no_interpolation_or_extrapolation: true
+  require_cp09_pending_after_execution: true
+  downstream_release_allowed: false
+  engineering_change_claim_allowed: false
+
+outputs:
+  detail_csv: "focus_position_error_budget_details.csv"
+  summary_csv: "focus_position_error_budget_summary.csv"
+  figure_png: "day48_candidate_focus_position_error_budget.png"
+  result_json: "slot1_execution_result.json"

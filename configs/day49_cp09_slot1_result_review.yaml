@@ -1,0 +1,99 @@
+# Day 49：在 CP09 审核 Day48 Slot 1 结果，不自动释放 Slot 2。
+schema_version: "cp09_slot1_result_review/v1"
+
+case:
+  id: "day49_cp09_slot1_result_review_v1"
+  name: "Day22候选结果的CP09人工审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day48已经执行Slot 1并停在CP09；Day49需要判断结果证据是否完整、可信且符合运行契约。"
+  relation_to_previous_day: "输入是Day48候选结果、Day47审批和原Day22基线结果；今天只形成审核结论，不运行或释放Slot 2。"
+  concepts:
+    - "任务通过与案例通过：任务可正确完成，同时部分教学案例仍不满足条件"
+    - "结果差分：比较新旧输入导致的可解释数值变化"
+    - "槽门审核：人工确认当前槽证据后，才允许申请下一槽权限"
+    - "审核与释放分离：CP09通过不等于Slot 2已经获准运行"
+  completion_standard: "Day48结果和安全证据完整，新旧差分与0.010到0.012mm变化一致；Slot 1审核状态通过但Slot 2仍锁定，且不产生工程批准。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_source_modification: false
+  allow_slot_execution: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_downstream_release: false
+
+source:
+  day48_result: "outputs/day47_slot1_candidate_offline_execution/execution_20260817_221343/slot1_execution_result.json"
+  day48_result_sha256: "F0321F7420EF7960437E00732624AAFD8D595DDDA8F8B94EF2038B10AC8710B3"
+  expected_day48_task: "day48_approved_day22_candidate_offline_execution"
+  day47_approval: "outputs/day47_slot1_offline_execution_approval/approval_20260817_220717/slot1_offline_execution_approval.json"
+  day47_approval_sha256: "A414432651CEAB0445344AF6DB7713B68B20D86B472EEAA3C756E136086E1AB3"
+  expected_day47_task: "day47_slot1_offline_execution_approval_generation"
+  baseline_day22_result: "outputs/day22_focus_position_error_budget/error_budget_20260807_132039/focus_position_error_budget_report.json"
+  baseline_day22_sha256: "3E13417EEA134AAFCEE379E9E45A1916B4B7D4981FF3705B9549511E398DA2DD"
+  expected_baseline_task: "day22_focus_position_error_budget_evaluation"
+  official_day22_config: "configs/day22_focus_position_error_budget.yaml"
+  official_day22_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+  candidate_config: "outputs/day44_slot1_candidate_preparation/day45_candidate_20260817_204141/day22_positioning_accuracy_0p012_candidate.yaml"
+  candidate_sha256: "5165C39F82AF06A1AD46E98B657B2AC104315930BB74BF215B9B366C9C8730D5"
+
+review_criteria:
+  require_execution_count_consumed: 1
+  require_slot1_completed: true
+  require_cp09_pending_on_input: true
+  require_same_policy_ids: true
+  require_same_case_ids: true
+  require_only_positioning_allowance_changed: true
+  baseline_positioning_accuracy_mm: 0.010
+  candidate_positioning_accuracy_mm: 0.012
+  expected_linear_allowance_increase_mm: 0.002
+  require_required_travel_delta_equals_allowance_delta: true
+  require_same_pass_fail_sets: true
+  require_no_zosapi: true
+  require_no_optical_calculation: true
+  require_no_interpolation_or_extrapolation: true
+  require_frozen_inputs_unchanged: true
+  require_no_engineering_recommendation: true
+
+decision:
+  decision_id: "RV-DAY49-001"
+  decision_status: "SLOT_01_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_02_RELEASE_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_slot1_review_record"
+    - "submit_slot_02_release_approval_request"
+  forbidden_capabilities:
+    - "rerun_slot_01_with_same_approval"
+    - "modify_official_day22_config"
+    - "connect_zosapi"
+    - "execute_slot_02"
+    - "execute_slot_03_to_06"
+    - "claim_engineering_change_approval"
+
+permissions:
+  slot_01_result_review_completed: true
+  slot_02_release_request_eligible: true
+  slot_01_rerun_released: false
+  source_modification_released: false
+  zosapi_execution_released: false
+  slot_02_execution_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+validation:
+  task_review_pass_does_not_require_all_cases_pass: true
+  require_all_source_hashes: true
+  require_numeric_delta_audit: true
+  automatic_downstream_release_allowed: false
+  hidden_score_allowed: false
+  engineering_claim_allowed: false
+
+planned_outputs_after_review:
+  root: "outputs/day49_cp09_slot1_result_review"
+  json: "cp09_slot1_result_review.json"
+  markdown: "CP09_SLOT1_RESULT_REVIEW.md"

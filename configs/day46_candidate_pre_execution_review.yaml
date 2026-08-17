@@ -1,0 +1,95 @@
+# Day 46：审核 Day45 隔离候选，但不释放 Slot 1 执行权限。
+schema_version: "candidate_pre_execution_review/v1"
+
+case:
+  id: "day46_candidate_pre_execution_review_v1"
+  name: "Day22隔离候选的执行前审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day45已经创建候选和清单；Day46需要独立核对候选身份、唯一差异和权限锁，避免未经审核的文件进入复核。"
+  relation_to_previous_day: "输入是Day45候选、双指纹和执行前清单；今天只判断候选能否提交Slot 1执行审批，不运行Day22。"
+  concepts:
+    - "执行前审核：在批准计算前重新验证输入文件及其证据"
+    - "证据绑定：审核结论必须绑定候选路径、来源SHA256和候选SHA256"
+    - "资格与授权分离：候选具备申请资格，不等于已经获得执行权限"
+    - "权限继承：Day45中的正式配置、ZOS-API和下游槽锁必须继续保留"
+  completion_standard: "Day44审批、Day45清单、正式配置和候选指纹均有效；候选只有一个声明差异；结论仅为等待Slot 1执行审批，所有计算继续锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_source_modification: false
+  allow_slot1_execution: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_downstream_release: false
+
+source:
+  day44_approval_record: "outputs/day44_slot1_candidate_preparation_approval/approval_20260817_202857/slot1_candidate_preparation_approval.json"
+  day44_approval_sha256: "5726B08C8F4B452453A4A54C5FA562D6A243CC0A09343F85C776E3F72C2D0FF2"
+  expected_day44_task: "day44_slot1_candidate_preparation_approval_generation"
+  expected_day44_decision: "SLOT_01_APPROVED_FOR_ISOLATED_CANDIDATE_PREPARATION"
+  day45_manifest: "outputs/day44_slot1_candidate_preparation/day45_candidate_20260817_204141/candidate_pre_execution_manifest.json"
+  day45_manifest_sha256: "3445DE5D82443B19A06C4A35579A652F3CC6E8F4BC5A969D3189C51B6F040BF8"
+  expected_day45_task: "day45_isolated_day22_candidate_generation"
+  official_day22_config: "configs/day22_focus_position_error_budget.yaml"
+  official_day22_sha256: "E20CD148DF844540CAD9D8D27513EAB750ABAE555E067F772AF15621D22BF8F6"
+  candidate_config: "outputs/day44_slot1_candidate_preparation/day45_candidate_20260817_204141/day22_positioning_accuracy_0p012_candidate.yaml"
+  candidate_sha256: "5165C39F82AF06A1AD46E98B657B2AC104315930BB74BF215B9B366C9C8730D5"
+
+review_boundary:
+  resource_slot: 1
+  day: 22
+  execution_class: "offline_only"
+  canonical_field: "teaching_error_sources.positioning_accuracy.symmetric_allowance_mm"
+  source_value: 0.010
+  candidate_value: 0.012
+  unit: "mm"
+  require_exactly_one_semantic_difference: true
+  require_candidate_under_approved_root: true
+  require_official_source_unchanged: true
+  require_all_day45_execution_locks: true
+
+decision:
+  decision_id: "RV-DAY46-001"
+  decision_status: "CANDIDATE_VERIFIED_WAITING_FOR_SLOT_01_EXECUTION_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_candidate_pre_execution_review_record"
+    - "submit_slot_01_execution_approval_request"
+  forbidden_capabilities:
+    - "modify_official_day22_config"
+    - "execute_day22_review"
+    - "connect_zosapi"
+    - "calculate_optical_metrics"
+    - "release_slot_02_to_06"
+    - "claim_engineering_change_approval"
+
+permissions:
+  candidate_identity_verified: true
+  candidate_difference_verified: true
+  candidate_eligible_for_execution_approval_request: true
+  source_modification_released: false
+  slot_01_execution_released: false
+  zosapi_execution_released: false
+  optical_calculation_released: false
+  downstream_slots_released: false
+
+validation:
+  require_day44_hash_match: true
+  require_day45_manifest_hash_match: true
+  require_official_hash_match: true
+  require_candidate_hash_match: true
+  require_manifest_permissions_locked: true
+  require_semantic_difference_recomputed: true
+  execution_claim_allowed: false
+  source_modification_claim_allowed: false
+  engineering_change_claim_allowed: false
+
+planned_outputs_after_review:
+  root: "outputs/day46_candidate_pre_execution_review"
+  json: "candidate_pre_execution_review.json"
+  markdown: "CANDIDATE_PRE_EXECUTION_REVIEW.md"
