@@ -1,0 +1,107 @@
+# Day 53：批准 Slot 2 / Day23 的六个非零残余离焦案例批次。
+schema_version: "slot2_day23_residual_batch_approval/v1"
+
+case:
+  id: "day53_slot2_residual_batch_approval_v1"
+  name: "Day23六案例残余离焦批次审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day52证明零离焦基线可完整复现；Day53需要用最小权限决定是否释放剩余六个非零残余离焦案例。"
+  relation_to_previous_day: "输入是Day52的CP09基线审核记录；今天只签发六案例批次授权，不连接Zemax、不计算新光学结果。"
+  concepts:
+    - "分段授权：基线控制通过后，非零案例仍需单独审批"
+    - "批次契约：冻结案例顺序、分析配方、输出边界和停止条件"
+    - "异常与性能分离：API或文件异常停止批次，光学性能好坏只记录"
+    - "逐槽门控：完成六案例后仍停在CP09，不能自动释放Day24"
+  completion_standard: "审批绑定Day52记录、六个非零偏移和冻结模型；只允许Day54串行执行一次六案例批次，Quick Focus、优化、SaveAs、基线重跑及Slot3-6继续锁定。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_residual_batch_execution: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day52_review_record: "outputs/day52_cp09_slot2_baseline_review/review_20260818_161042/cp09_slot2_baseline_review.json"
+  day52_review_sha256: "9410EF95AC948A6BBBB5BC8291293579BE4DD533BC338EF5B393418CEF135C5A"
+  expected_day52_task: "day52_cp09_slot2_baseline_review_generation"
+  expected_day52_status: "SLOT_02_BASELINE_RESULT_REVIEW_PASSED_WAITING_FOR_RESIDUAL_BATCH_APPROVAL"
+  day51_result: "outputs/day50_slot2_day23_baseline_control_execution/execution_20260818_145204/defocus_004/slot2_baseline_control_result.json"
+  day51_result_sha256: "98FC1E6BCA007A8EBCFED71158EE9536555DA994E995AC0065CFCBB08EFAD4E3"
+  expected_day51_task: "day51_approved_day23_baseline_control_execution"
+  day23_config: "configs/day23_residual_defocus_optical_impact.yaml"
+  day23_config_sha256: "87A195370DF2F195E59E12C13596E74ACEF721F660B82E38D220428C00B5C2E6"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_residual_batch: "outputs/day23_residual_defocus_optical_impact/residual_batch_20260807_142141/residual_defocus_batch_report.json"
+  historical_residual_batch_sha256: "3043D8B79DBB739252E3E781487A244B02C5241A9E72113E059C176BD821F771"
+  expected_historical_task: "day23_residual_defocus_batch"
+
+approved_execution_contract:
+  resource_slot: 2
+  day: 23
+  execution_class: "uses_zosapi"
+  maximum_batch_execution_count: 1
+  maximum_case_execution_count: 6
+  approved_case_ids: ["defocus_001", "defocus_002", "defocus_003", "defocus_005", "defocus_006", "defocus_007"]
+  approved_offsets_mm: [-0.05, -0.02, -0.01, 0.01, 0.02, 0.05]
+  required_entrypoint: "scripts/demos/day54_execute_approved_day23_residual_batch.py"
+  approved_output_root: "outputs/day53_slot2_day23_residual_batch_execution"
+  run_sequentially: true
+  maximum_active_zosapi_connections: 1
+  use_independent_working_copy_per_case: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_baseline_rerun: false
+  stop_on_first_unexpected_failure: true
+  acceptance_failure_stops_batch: false
+  require_model_and_working_copy_hash_audit: true
+  require_every_connection_closed: true
+  require_stop_after_batch: true
+  post_execution_gate: "CP09_slot_gate"
+
+decision:
+  decision_id: "AP-DAY53-001"
+  decision_status: "SLOT_02_APPROVED_FOR_SIX_CASE_RESIDUAL_BATCH_EXECUTION"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  approved_capabilities:
+    - "execute_one_six_case_residual_defocus_batch"
+    - "create_one_independent_working_copy_per_case"
+    - "connect_one_standalone_zosapi_session_at_a_time"
+    - "export_standard_spot_and_fft_mtf_for_each_case"
+    - "write_isolated_residual_batch_results"
+  forbidden_capabilities:
+    - "rerun_zero_defocus_baseline"
+    - "run_quick_focus"
+    - "run_optimization"
+    - "save_modified_model"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_03_to_06"
+    - "claim_engineering_change_approval"
+
+permissions:
+  residual_batch_execution_released: true
+  sequential_zosapi_execution_released: true
+  independent_working_copies_released: true
+  spot_and_mtf_analysis_released: true
+  baseline_rerun_released: false
+  quick_focus_released: false
+  optimization_released: false
+  save_as_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+planned_outputs_after_approval:
+  root: "outputs/day53_slot2_residual_batch_approval"
+  json: "slot2_residual_batch_approval.json"
+  markdown: "SLOT2_RESIDUAL_BATCH_APPROVAL.md"

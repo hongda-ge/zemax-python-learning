@@ -1,0 +1,89 @@
+# Day 51：消费Day50的一次性授权，只复现Day23零离焦光学基线。
+schema_version: "approved_day23_baseline_control/v1"
+
+case:
+  id: "day51_approved_day23_baseline_control_v1"
+  name: "变化专用Day23零离焦基线复现"
+  status: "approved_single_execution"
+
+teaching_introduction:
+  why_today: "Day50只签发了一次基线控制授权；Day51需要通过专用入口消费该授权，并证明新Day22教学假设没有意外改变冻结的光学基线。"
+  relation_to_previous_day: "输入是Day50审批、Day48的0.012mm变化证据及历史Day23基线；今天只运行defocus_004，结束后立即停在CP09。"
+  concepts:
+    - "授权消费：一次ZOS-API执行完成后，同一Day50审批不得重复使用"
+    - "变化与光学输入分离：0.012mm属于机构误差教学证据，不直接改写Zemax模型"
+    - "基线复现：相同模型和分析配方应复现历史Spot与FFT MTF"
+    - "安全收尾：输入模型和磁盘工作副本不变，Standalone连接必须关闭"
+  completion_standard: "只运行一次defocus_004；Spot和FFT MTF在冻结容差内复现；所有指纹不变且连接关闭；六个非零案例和Slot3-6继续锁定，并等待CP09人工审核。"
+
+execution:
+  enabled: true
+  approved_resource_slot: 2
+  maximum_execution_count: 1
+  allow_zosapi_connection: true
+  allow_model_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_residual_cases: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day50_approval: "outputs/day50_slot2_day23_baseline_approval/approval_20260817_222821/slot2_day23_baseline_approval.json"
+  day50_approval_sha256: "4948F66B52464A0238A91356F92A73B5382EAF05A705523E97F70724FD664181"
+  expected_day50_task: "day50_slot2_day23_baseline_approval_generation"
+  expected_day50_status: "SLOT_02_APPROVED_FOR_DAY23_BASELINE_CONTROL_EXECUTION"
+  day48_change_evidence: "outputs/day47_slot1_candidate_offline_execution/execution_20260817_221343/slot1_execution_result.json"
+  day48_change_evidence_sha256: "F0321F7420EF7960437E00732624AAFD8D595DDDA8F8B94EF2038B10AC8710B3"
+  expected_day48_task: "day48_approved_day22_candidate_offline_execution"
+  day23_config: "configs/day23_residual_defocus_optical_impact.yaml"
+  day23_config_sha256: "87A195370DF2F195E59E12C13596E74ACEF721F660B82E38D220428C00B5C2E6"
+  day8_batch_report: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/batch_summary.json"
+  day8_batch_sha256: "BC4F287B4A0A8272EDE4BCB4F33730A4DBFECFD6440EBB59BEF0FC8464E20A6C"
+  day8_case_report: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/result.json"
+  day8_case_sha256: "F12194F71FCB7220A6B6E9B491657EB95AA26940FF0C40346733B79949BB0316"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  day9_baseline_report: "outputs/day9_fft_mtf_validation/baseline_check_20260805_120104/fine_005/mtf_result.json"
+  day9_baseline_sha256: "FD06952286B70748397F013C3B6825F1FE41A0F67E39E8D41B7A5F82655DFC8D"
+  previous_day23_control: "outputs/day23_residual_defocus_optical_impact/baseline_control_20260807_141519/defocus_004/baseline_control_report.json"
+  previous_day23_control_sha256: "7D03E3727B684D22011D6DA3D8B5770C96F8441D3A5341BA1F66DF99510831F3"
+
+change_specific_evidence:
+  positioning_accuracy_mm: 0.012
+  evidence_changes_zemax_model: false
+  evidence_changes_analysis_recipe: false
+  expected_policy_count: 2
+  expected_case_count: 6
+
+approved_control:
+  case_id: "defocus_004"
+  offset_mm: 0.0
+  expected_image_distance_mm: 42.207788473485415
+  standard_spot_export_count: 1
+  fft_mtf_export_count: 1
+  zosapi_connection_count: 1
+  working_copy_count: 1
+
+guardrails:
+  require_previous_spot_reproduction: true
+  require_previous_mtf_reproduction: true
+  maximum_spot_difference_um: 0.000001
+  maximum_mtf_difference: 0.000001
+  require_input_model_unchanged: true
+  require_disk_working_copy_unchanged: true
+  require_connection_closed: true
+  stop_after_baseline_control: true
+  post_execution_gate: "CP09_slot_gate"
+  hidden_score_allowed: false
+  engineering_change_claim_allowed: false
+
+output:
+  root: "outputs/day50_slot2_day23_baseline_control_execution"
+  execution_directory_prefix: "execution_"
+  case_directory: "defocus_004"
+  result_name: "slot2_baseline_control_result.json"

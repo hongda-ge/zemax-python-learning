@@ -1,0 +1,81 @@
+# Day 54：消费 Day53 一次授权，执行六个非零残余离焦案例。
+schema_version: "approved_day23_residual_batch/v1"
+
+case:
+  id: "day54_approved_day23_residual_batch_v1"
+  name: "获批的Day23六案例残余离焦批次"
+  status: "approved_for_one_execution"
+
+teaching_introduction:
+  why_today: "Day53已经签发六案例批次授权；Day54需要通过专用入口消费一次授权并生成变化专用光学证据。"
+  relation_to_previous_day: "输入是Day53冻结的案例、模型和运行契约；今天串行运行六次ZOS-API分析，完成后立即停在CP09。"
+  concepts:
+    - "授权消费：开始第一个案例前即记录一次性审批已被使用"
+    - "案例隔离：每个偏移使用独立工作副本和独立连接生命周期"
+    - "可复现性：新结果与同一光学输入的历史Day23结果逐项核对"
+    - "批次收尾：全部连接关闭、指纹不变，并继续锁定Slot3-6"
+  completion_standard: "六个非零案例按批准顺序各执行一次Spot和FFT MTF；不运行零偏移、Quick Focus、优化或SaveAs；输入与副本指纹不变、连接全部关闭，并停在CP09等待人工审核。"
+
+execution:
+  enabled: true
+  approved_resource_slot: 2
+  maximum_batch_execution_count: 1
+  maximum_case_execution_count: 6
+  maximum_active_zosapi_connections: 1
+  allow_zosapi_connection: true
+  allow_model_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_residual_cases: true
+  allow_baseline_control: false
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day53_approval: "outputs/day53_slot2_residual_batch_approval/approval_20260818_163446/slot2_residual_batch_approval.json"
+  day53_approval_sha256: "05482A98E9990EB3CD884300182B8436B6F79DF1A116117D855B4F9E3E4DE54B"
+  expected_day53_task: "day53_slot2_residual_batch_approval_generation"
+  expected_day53_status: "SLOT_02_APPROVED_FOR_SIX_CASE_RESIDUAL_BATCH_EXECUTION"
+  day51_baseline_result: "outputs/day50_slot2_day23_baseline_control_execution/execution_20260818_145204/defocus_004/slot2_baseline_control_result.json"
+  day51_baseline_sha256: "98FC1E6BCA007A8EBCFED71158EE9536555DA994E995AC0065CFCBB08EFAD4E3"
+  expected_day51_task: "day51_approved_day23_baseline_control_execution"
+  day23_config: "configs/day23_residual_defocus_optical_impact.yaml"
+  day23_config_sha256: "87A195370DF2F195E59E12C13596E74ACEF721F660B82E38D220428C00B5C2E6"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_residual_batch: "outputs/day23_residual_defocus_optical_impact/residual_batch_20260807_142141/residual_defocus_batch_report.json"
+  historical_residual_batch_sha256: "3043D8B79DBB739252E3E781487A244B02C5241A9E72113E059C176BD821F771"
+  expected_historical_task: "day23_residual_defocus_batch"
+
+approved_batch:
+  case_ids: ["defocus_001", "defocus_002", "defocus_003", "defocus_005", "defocus_006", "defocus_007"]
+  offsets_mm: [-0.05, -0.02, -0.01, 0.01, 0.02, 0.05]
+  run_sequentially: true
+  independent_working_copy_per_case: true
+  stop_on_first_unexpected_failure: true
+  optical_performance_failure_stops_batch: false
+
+guardrails:
+  required_entrypoint: "scripts/demos/day54_execute_approved_day23_residual_batch.py"
+  post_execution_gate: "CP09_slot_gate"
+  require_authorization_consumption_before_zosapi: true
+  require_every_connection_closed: true
+  require_input_and_working_hash_unchanged: true
+  require_historical_reproduction: true
+  maximum_spot_summary_difference_um: 0.000001
+  maximum_mtf_summary_difference: 0.000001
+  numeric_tolerance_mm: 0.000000001
+  forbid_interpolation: true
+  forbid_engineering_recommendation: true
+
+output:
+  root: "outputs/day53_slot2_day23_residual_batch_execution"
+  execution_directory_prefix: "execution_"
+  authorization_consumption_name: "approval_05482A98_consumed.json"
+  case_result_name: "result.json"
+  comparison_csv_name: "residual_defocus_optical_metrics.csv"
+  batch_result_name: "slot2_residual_batch_result.json"

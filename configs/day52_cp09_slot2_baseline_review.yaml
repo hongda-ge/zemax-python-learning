@@ -1,0 +1,90 @@
+# Day 52：在CP09审核Day51的Slot 2零离焦基线结果。
+schema_version: "cp09_slot2_baseline_review/v1"
+
+case:
+  id: "day52_cp09_slot2_baseline_review_v1"
+  name: "Slot 2零离焦基线结果人工审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day51已经消费一次ZOS-API授权；Day52需要确认结果完整、可复现且安全收尾，才能申请非零残余案例权限。"
+  relation_to_previous_day: "输入是Day51基线结果、Day50审批和历史Day23基线；今天只生成CP09审核结论，不连接Zemax。"
+  concepts:
+    - "执行通过与批次释放分离：基线PASS不等于六个非零案例已经获准"
+    - "证据完整性：结果JSON、Spot文本、MTF文本、模型指纹和连接状态必须互相一致"
+    - "零差复现：本次结果与Day8、Day9和历史Day23基线的差值均应处于冻结容差"
+    - "下一道门：审核通过只获得申请批次审批的资格"
+  completion_standard: "Day51严格消费一次授权，零离焦Spot/MTF完整复现，模型和工作副本未变且连接关闭；审核状态为PASS，但重跑、残余六案例及Slot3-6仍锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_day51_rerun: false
+  allow_residual_cases: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day51_result: "outputs/day50_slot2_day23_baseline_control_execution/execution_20260818_145204/defocus_004/slot2_baseline_control_result.json"
+  day51_result_sha256: "98FC1E6BCA007A8EBCFED71158EE9536555DA994E995AC0065CFCBB08EFAD4E3"
+  expected_day51_task: "day51_approved_day23_baseline_control_execution"
+  day50_approval: "outputs/day50_slot2_day23_baseline_approval/approval_20260817_222821/slot2_day23_baseline_approval.json"
+  day50_approval_sha256: "4948F66B52464A0238A91356F92A73B5382EAF05A705523E97F70724FD664181"
+  expected_day50_task: "day50_slot2_day23_baseline_approval_generation"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  previous_day23_control: "outputs/day23_residual_defocus_optical_impact/baseline_control_20260807_141519/defocus_004/baseline_control_report.json"
+  previous_day23_control_sha256: "7D03E3727B684D22011D6DA3D8B5770C96F8441D3A5341BA1F66DF99510831F3"
+
+review_criteria:
+  expected_slot: 2
+  expected_case_id: "defocus_004"
+  expected_offset_mm: 0.0
+  expected_positioning_accuracy_mm: 0.012
+  expected_spot_field_count: 3
+  expected_mtf_frequency_count: 2
+  maximum_spot_reproduction_difference_um: 0.000001
+  maximum_mtf_reproduction_difference: 0.000001
+  require_approval_consumed_once: true
+  require_connection_closed: true
+  require_input_model_unchanged: true
+  require_working_copy_unchanged: true
+  require_all_frozen_inputs_unchanged: true
+  require_raw_analysis_files: true
+  require_residual_cases_not_executed: true
+  require_cp09_pending: true
+
+decision:
+  decision_id: "RV-DAY52-001"
+  decision_status: "SLOT_02_BASELINE_RESULT_REVIEW_PASSED_WAITING_FOR_RESIDUAL_BATCH_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_slot2_baseline_review_record"
+    - "submit_six_case_residual_batch_approval_request"
+  forbidden_capabilities:
+    - "rerun_day51_with_consumed_approval"
+    - "execute_six_nonzero_residual_cases"
+    - "connect_zosapi"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_03_to_06"
+    - "claim_engineering_change_approval"
+
+permissions:
+  slot_02_baseline_review_completed: true
+  residual_batch_release_request_eligible: true
+  day51_rerun_released: false
+  residual_case_execution_released: false
+  zosapi_execution_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day52_cp09_slot2_baseline_review"
+  json: "cp09_slot2_baseline_review.json"
+  markdown: "CP09_SLOT2_BASELINE_REVIEW.md"
