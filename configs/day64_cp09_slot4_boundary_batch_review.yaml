@@ -1,0 +1,108 @@
+# Day 64：在CP09审核Day63的Slot 4九案例边界批次。
+schema_version: "cp09_slot4_boundary_batch_review/v1"
+
+case:
+  id: "day64_cp09_slot4_boundary_batch_review_v1"
+  name: "Slot 4九案例边界结果人工审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day63已经消费一次批次授权并完成九案例；Day64需要把程序成功、历史复现和7/9验收结果转换为可审计证据。"
+  relation_to_previous_day: "输入是Day63批次结果、九份案例报告和Day62审批；今天只离线审核，不连接Zemax、不释放Slot 5。"
+  concepts:
+    - "批量回归验证：逐案例核对六项摘要和均衡验收签名"
+    - "证据完整性：总表、九份JSON和18份原始分析文本必须一致"
+    - "任务通过与验收覆盖分离：9/9执行成功不要求9/9通过教学阈值"
+    - "门控分离：CP09审核通过只允许申请Slot 5，不等于Day26/Day27获准执行"
+  completion_standard: "九个案例身份、偏移、摘要、验收签名和原始文件完整；授权只消费一次，所有连接关闭且模型指纹不变；审核状态为PASS，但重跑、Slot5-6和工程结论继续锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_day63_rerun: false
+  allow_slot5_execution: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day63_batch_result: "outputs/day62_slot4_day25_boundary_batch_execution/execution_20260819_203640/slot4_boundary_batch_result.json"
+  day63_batch_sha256: "0846BA9E84D3AB87D0D9DD8F2E7809CDCBD49CCE21A2D9A8BCE830BB1A066338"
+  expected_day63_task: "day63_approved_day25_boundary_batch_execution"
+  authorization_marker: "outputs/day62_slot4_day25_boundary_batch_execution/approval_68A7DB96_consumed.json"
+  authorization_marker_sha256: "3AA2D03E786D8E6F6C1B4E8DEB7E91D860F317D5F02B5A65B85334ECFDE0A45C"
+  expected_marker_task: "day63_authorization_consumption"
+  day62_approval: "outputs/day62_slot4_day25_boundary_batch_approval/approval_20260819_202930/slot4_boundary_batch_approval.json"
+  day62_approval_sha256: "68A7DB966A221C577AEFE3FAE92D0D31CE950B038147F937C7EAB2292D868DFB"
+  expected_day62_task: "day62_slot4_day25_boundary_batch_approval_generation"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_boundary_batch: "outputs/day25_balanced_acceptance_boundary_scan/boundary_batch_20260807_151801/boundary_scan_batch_report.json"
+  historical_boundary_batch_sha256: "767D6964EB1850885C44D2C1101E4EE839715537A3198C2CD9FEB1C2E0F7ABEE"
+  comparison_csv: "outputs/day62_slot4_day25_boundary_batch_execution/execution_20260819_203640/boundary_scan_results.csv"
+  comparison_csv_sha256: "39ABEE3A196A430F622A222A300C7634C45C0C7CABE9494C22FEA537899DFA84"
+
+review_criteria:
+  expected_slot: 4
+  expected_case_ids:
+    - "boundary_negative_001"
+    - "boundary_negative_002"
+    - "boundary_negative_003"
+    - "boundary_negative_004"
+    - "boundary_positive_001"
+    - "boundary_positive_002"
+    - "boundary_positive_003"
+    - "boundary_positive_004"
+    - "boundary_positive_005"
+  expected_offsets_mm: [-0.008, -0.006, -0.004, -0.002, 0.025, 0.030, 0.035, 0.040, 0.045]
+  expected_case_count: 9
+  expected_acceptance_pass_count: 7
+  expected_raw_spot_file_count: 9
+  expected_raw_mtf_file_count: 9
+  maximum_spot_reproduction_difference_um: 0.000001
+  maximum_mtf_reproduction_difference: 0.000001
+  numeric_tolerance: 0.000000001
+  require_approval_consumed_once: true
+  require_all_connections_closed: true
+  require_all_input_models_unchanged: true
+  require_all_working_copies_unchanged: true
+  require_all_frozen_inputs_unchanged: true
+  require_baseline_not_rerun: true
+  require_no_quick_focus_optimization_save_as: true
+  require_no_interpolation_or_continuous_tolerance: true
+  require_cp09_pending: true
+
+decision:
+  decision_id: "RV-DAY64-001"
+  decision_status: "SLOT_04_BOUNDARY_BATCH_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_05_RELEASE_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_slot4_boundary_batch_review_record"
+    - "submit_slot_05_release_approval_request"
+  forbidden_capabilities:
+    - "rerun_day63_with_consumed_approval"
+    - "connect_zosapi"
+    - "execute_day26_day27_or_slot_05"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_06"
+    - "claim_continuous_tolerance_or_engineering_change"
+
+permissions:
+  slot_04_boundary_batch_review_completed: true
+  slot_05_release_request_eligible: true
+  day63_rerun_released: false
+  slot_05_execution_released: false
+  zosapi_execution_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  continuous_tolerance_claim_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day64_cp09_slot4_boundary_batch_review"
+  json: "cp09_slot4_boundary_batch_review.json"
+  markdown: "CP09_SLOT4_BOUNDARY_BATCH_REVIEW.md"

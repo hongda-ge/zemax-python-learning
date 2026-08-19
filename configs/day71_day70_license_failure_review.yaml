@@ -1,0 +1,93 @@
+# Day 71：审核 Day70 的许可证连接失败并判断重试申请资格。
+schema_version: "day70_license_failure_review/v1"
+
+case:
+  id: "day71_day70_license_failure_review_v1"
+  name: "Day70 ZOS-API许可证失败安全审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day70在建立Standalone连接时因许可证异常停止；Day71需要确认失败边界、安全状态和一次性授权状态，再决定是否允许申请重试。"
+  relation_to_previous_day: "输入是Day70失败JSON、消费标记、未改变的工作副本和Day69审批；今天只审核失败，不连接Zemax。"
+  concepts:
+    - "失败分类：许可证连接失败与光学性能失败必须分开"
+    - "失败前后边界：确认是否建立连接、是否产生分析、是否修改模型"
+    - "一次性授权不可复用：原审批已消费，即使失败安全也必须重新授权"
+    - "恢复报告与API验证分离：GUI恢复正常不等于Standalone许可证已重新验证"
+  completion_standard: "确认Day70失败发生在光学分析前、无残留进程、模型与副本未变、授权已消费；审核允许申请新重试审批，但重试执行、七点批次和Slot 6仍锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_day70_rerun: false
+  allow_zosapi_connection: false
+  allow_optical_analysis: false
+  allow_retry_execution: false
+  allow_recovery_batch: false
+  allow_source_modification: false
+  allow_slot6_release: false
+
+source:
+  day70_failure_result: "outputs/day69_day27_recovery_baseline_execution/execution_20260819_211252/recovery_control_000/recovery_baseline_control_result.json"
+  day70_failure_sha256: "97DCAEDF2FCFD716E447119E5AD89BF6B8A505BF3DDDA5A3AE2043EF3E21A0DB"
+  expected_day70_task: "day70_approved_recovery_baseline_control_execution"
+  authorization_marker: "outputs/day69_day27_recovery_baseline_execution/approval_AC6C95BA_consumed.json"
+  authorization_marker_sha256: "DD64E9528306520020E177DCB90AC882189DB46DBB68D218964BC4048F32CC67"
+  expected_marker_task: "day70_authorization_consumption"
+  day69_approval: "outputs/day69_day27_recovery_baseline_approval/approval_20260819_210854/day27_recovery_baseline_approval.json"
+  day69_approval_sha256: "AC6C95BABA1414EE2EF9BF9A5F8F5E44E4EF82E0806D95877FB921710E0287B3"
+  expected_day69_task: "day69_day27_recovery_baseline_approval_generation"
+  day70_config: "configs/day70_approved_recovery_baseline_control.yaml"
+  day70_config_sha256: "77E7FD0395B8D5179C44AFB5B30D46CBC81C5352A48FD416889ADF5554B7C15D"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  working_copy: "outputs/day69_day27_recovery_baseline_execution/execution_20260819_211252/recovery_control_000/recovery_control_000_working.zmx"
+  working_copy_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+
+review_criteria:
+  expected_error_type: "ZemaxConnectionError"
+  expected_error_message: "The current OpticStudio license is not valid for ZOS-API."
+  expected_case_id: "recovery_control_000"
+  expected_offset_mm: 0.0
+  require_authorization_consumed: true
+  require_no_optical_outputs: true
+  require_input_model_unchanged: true
+  require_working_copy_unchanged: true
+  require_no_quick_focus_optimization_save_as: true
+  operator_confirmed_gui_reopened_successfully: true
+  operator_confirmed_gui_closed_before_review: true
+  standalone_zosapi_license_reverified: false
+
+decision:
+  decision_id: "RV-DAY71-001"
+  decision_status: "DAY70_LICENSE_FAILURE_REVIEWED_RETRY_APPROVAL_REQUEST_ELIGIBLE"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_day70_license_failure_review_record"
+    - "submit_new_zero_control_retry_approval_request"
+  forbidden_capabilities:
+    - "reuse_consumed_day69_approval"
+    - "rerun_day70_or_connect_zosapi"
+    - "execute_seven_recovery_cases"
+    - "recalculate_day27_or_release_slot_06"
+    - "modify_official_sources"
+    - "claim_license_reverified_or_engineering_change"
+
+permissions:
+  failure_review_completed: true
+  retry_approval_request_eligible: true
+  day70_rerun_released: false
+  retry_execution_released: false
+  zosapi_execution_released: false
+  seven_point_batch_execution_released: false
+  day27_recalculation_released: false
+  source_modification_released: false
+  slot_06_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day71_day70_license_failure_review"
+  json: "day70_license_failure_review.json"
+  markdown: "DAY70_LICENSE_FAILURE_REVIEW.md"

@@ -1,0 +1,81 @@
+# Day 70：消费Day69一次性授权，只执行Day27证据恢复零偏移控制。
+schema_version: "approved_recovery_baseline_control/v1"
+
+case:
+  id: "day70_approved_recovery_baseline_control_v1"
+  name: "获批的Day27证据恢复零偏移控制"
+  status: "approved_for_one_execution"
+
+teaching_introduction:
+  why_today: "Day69只签发了一次恢复控制授权；Day70需要通过专用入口消费授权，并在七点补测前确认冻结光学基线仍可复现。"
+  relation_to_previous_day: "输入是Day69审批、Day68恢复计划、冻结Day25配方和聚焦模型；今天只运行recovery_control_000，结束后停在CP09。"
+  concepts:
+    - "授权消费：连接Zemax前写入一次性标记，同一审批不得重复使用"
+    - "恢复控制：新补测批次前重新验证模型、像面和分析配方"
+    - "双重验证：既比较历史Spot/MTF，也重新应用均衡四指标AND规则"
+    - "安全收尾：输入模型和磁盘副本不变，Standalone连接必须关闭"
+  completion_standard: "只运行一次0mm控制；Spot/MTF在冻结容差内复现并通过均衡规则；连接关闭且指纹不变；七点批次、Day27重算和Slot 6继续锁定，等待CP09。"
+
+execution:
+  enabled: true
+  recovery_stage: "stage_01_zero_control"
+  maximum_execution_count: 1
+  maximum_active_zosapi_connections: 1
+  maximum_working_copy_count: 1
+  allow_zosapi_connection: true
+  allow_model_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_zero_offset_control: true
+  allow_recovery_cases: false
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_source_modification: false
+  allow_day27_recalculation: false
+  allow_slot6_release: false
+
+source:
+  day69_approval: "outputs/day69_day27_recovery_baseline_approval/approval_20260819_210854/day27_recovery_baseline_approval.json"
+  day69_approval_sha256: "AC6C95BABA1414EE2EF9BF9A5F8F5E44E4EF82E0806D95877FB921710E0287B3"
+  expected_day69_task: "day69_day27_recovery_baseline_approval_generation"
+  expected_day69_status: "DAY27_RECOVERY_BASELINE_APPROVED_FOR_ZERO_CONTROL_EXECUTION"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_zero_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
+  historical_zero_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"
+  expected_historical_task: "day60_approved_day25_baseline_control_execution"
+
+approved_control:
+  case_id: "recovery_control_000"
+  offset_mm: 0.0
+  expected_image_distance_mm: 42.207788473485415
+  standard_spot_export_count: 1
+  fft_mtf_export_count: 1
+  zosapi_connection_count: 1
+  working_copy_count: 1
+
+guardrails:
+  required_entrypoint: "scripts/demos/day70_execute_approved_recovery_baseline_control.py"
+  post_execution_gate: "CP09_baseline_gate"
+  require_authorization_consumption_before_zosapi: true
+  require_historical_reproduction: true
+  require_balanced_acceptance_pass: true
+  require_input_model_unchanged: true
+  require_disk_working_copy_unchanged: true
+  require_connection_closed: true
+  maximum_spot_summary_difference_um: 0.000001
+  maximum_mtf_summary_difference: 0.000001
+  forbid_interpolation: true
+  forbid_continuous_tolerance_claim: true
+  forbid_engineering_change_claim: true
+
+output:
+  root: "outputs/day69_day27_recovery_baseline_execution"
+  execution_directory_prefix: "execution_"
+  authorization_consumption_name: "approval_AC6C95BA_consumed.json"
+  case_directory: "recovery_control_000"
+  result_name: "recovery_baseline_control_result.json"

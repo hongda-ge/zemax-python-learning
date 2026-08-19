@@ -1,0 +1,120 @@
+# Day 62：批准Slot 4 / Day25的九点边界扫描批次。
+schema_version: "slot4_day25_boundary_batch_approval/v1"
+
+case:
+  id: "day62_slot4_day25_boundary_batch_approval_v1"
+  name: "Day25九点边界扫描批次审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day61证明零偏移控制可完整复现；Day62需要用最小权限决定是否释放九个非零边界案例。"
+  relation_to_previous_day: "输入是Day61的CP09控制审核记录；今天只签发九案例批次授权，不连接Zemax、不计算新光学结果。"
+  concepts:
+    - "分段授权：零偏移控制通过后，九个边界案例仍需单独审批"
+    - "批次契约：冻结案例身份、偏移顺序、分析配方、输出边界和停止条件"
+    - "异常与验收分离：执行异常停止批次，均衡验收FAIL只记录"
+    - "逐槽门控：完成九案例后仍停在CP09，不能自动释放Slot5-6"
+  completion_standard: "审批绑定Day61记录、九个偏移、冻结Day25配置和模型；只允许Day63串行执行一次九案例批次，Quick Focus、优化、SaveAs、控制重跑及Slot5-6继续锁定。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_boundary_batch_execution: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day61_review_record: "outputs/day61_cp09_slot4_baseline_review/review_20260819_202438/cp09_slot4_baseline_review.json"
+  day61_review_sha256: "AFCDAA9C1C103D89213C3CDDED4A63D290967E15AA9F828AF2995B5119D28D67"
+  expected_day61_task: "day61_cp09_slot4_baseline_review_generation"
+  expected_day61_status: "SLOT_04_BASELINE_RESULT_REVIEW_PASSED_WAITING_FOR_BOUNDARY_BATCH_APPROVAL"
+  day60_result: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
+  day60_result_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"
+  expected_day60_task: "day60_approved_day25_baseline_control_execution"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_boundary_batch: "outputs/day25_balanced_acceptance_boundary_scan/boundary_batch_20260807_151801/boundary_scan_batch_report.json"
+  historical_boundary_batch_sha256: "767D6964EB1850885C44D2C1101E4EE839715537A3198C2CD9FEB1C2E0F7ABEE"
+  expected_historical_task: "day25_boundary_scan_batch"
+
+approved_execution_contract:
+  resource_slot: 4
+  day: 25
+  execution_class: "uses_zosapi"
+  maximum_batch_execution_count: 1
+  maximum_case_execution_count: 9
+  approved_case_ids:
+    - "boundary_negative_001"
+    - "boundary_negative_002"
+    - "boundary_negative_003"
+    - "boundary_negative_004"
+    - "boundary_positive_001"
+    - "boundary_positive_002"
+    - "boundary_positive_003"
+    - "boundary_positive_004"
+    - "boundary_positive_005"
+  approved_offsets_mm: [-0.008, -0.006, -0.004, -0.002, 0.025, 0.030, 0.035, 0.040, 0.045]
+  required_entrypoint: "scripts/demos/day63_execute_approved_day25_boundary_batch.py"
+  approved_output_root: "outputs/day62_slot4_day25_boundary_batch_execution"
+  run_sequentially: true
+  maximum_active_zosapi_connections: 1
+  use_independent_working_copy_per_case: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_baseline_rerun: false
+  stop_on_first_unexpected_failure: true
+  acceptance_failure_stops_batch: false
+  require_historical_reproduction: true
+  require_model_and_working_copy_hash_audit: true
+  require_every_connection_closed: true
+  require_stop_after_batch: true
+  post_execution_gate: "CP09_slot_gate"
+
+decision:
+  decision_id: "AP-DAY62-001"
+  decision_status: "SLOT_04_APPROVED_FOR_NINE_CASE_BOUNDARY_BATCH_EXECUTION"
+  decision_is_teaching_record: true
+  approver_role: "project_maintainer"
+  approved_capabilities:
+    - "execute_one_nine_case_boundary_batch"
+    - "create_one_independent_working_copy_per_case"
+    - "connect_one_standalone_zosapi_session_at_a_time"
+    - "export_standard_spot_and_fft_mtf_for_each_case"
+    - "evaluate_frozen_balanced_acceptance_per_case"
+    - "write_isolated_boundary_batch_results"
+  forbidden_capabilities:
+    - "rerun_zero_offset_control"
+    - "run_quick_focus"
+    - "run_optimization"
+    - "save_modified_model"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_05_or_06"
+    - "claim_continuous_tolerance_or_engineering_change"
+
+permissions:
+  boundary_batch_execution_released: true
+  sequential_zosapi_execution_released: true
+  independent_working_copies_released: true
+  spot_and_mtf_analysis_released: true
+  balanced_acceptance_evaluation_released: true
+  baseline_rerun_released: false
+  quick_focus_released: false
+  optimization_released: false
+  save_as_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  continuous_tolerance_claim_released: false
+  engineering_change_released: false
+
+planned_outputs_after_approval:
+  root: "outputs/day62_slot4_day25_boundary_batch_approval"
+  json: "slot4_boundary_batch_approval.json"
+  markdown: "SLOT4_BOUNDARY_BATCH_APPROVAL.md"

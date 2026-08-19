@@ -1,0 +1,105 @@
+# Day 69：审批 Day27 证据恢复流程的零偏移控制。
+schema_version: "day27_recovery_baseline_approval/v1"
+
+case:
+  id: "day69_day27_recovery_baseline_approval_v1"
+  name: "Day27证据恢复零偏移控制审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day68已经形成七点证据恢复计划；Day69需要用最小权限决定是否先释放一次零偏移控制。"
+  relation_to_previous_day: "输入是Day68四阶段计划、冻结Day25配方和聚焦模型；今天只签发Day70控制授权，不连接Zemax。"
+  concepts:
+    - "控制优先：新七点批次前先确认模型、像面和分析配方没有漂移"
+    - "单阶段授权：只释放stage_01，不连带批准stage_02至stage_04"
+    - "运行契约：冻结控制点、模型、分析类型、连接数量和输出边界"
+    - "控制审核：Day70完成后必须停在CP09，七点批次仍需单独审批"
+  completion_standard: "审批绑定Day68计划、七点清单、Day25配方、聚焦模型和历史控制；仅释放Day70一次0mm Spot/MTF控制，七点批次、Day27重算和Slot 6继续锁定。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_baseline_execution: false
+  allow_recovery_batch: false
+  allow_day27_recalculation: false
+  allow_source_modification: false
+  allow_slot6_release: false
+
+source:
+  day68_plan: "outputs/day68_day27_evidence_recovery_plan/plan_20260819_210455/day27_evidence_recovery_plan.json"
+  day68_plan_sha256: "9375831889BC26B3435305DEADF7C24422D53669EDB83C33F5A69CAB89274544"
+  expected_day68_task: "day68_day27_evidence_recovery_plan_generation"
+  expected_day68_status: "DAY27_EVIDENCE_RECOVERY_PLAN_READY_WAITING_FOR_BASELINE_CONTROL_APPROVAL"
+  recovery_case_csv: "outputs/day68_day27_evidence_recovery_plan/plan_20260819_210455/day27_recovery_case_plan.csv"
+  recovery_case_csv_sha256: "9132B205C14FA29EDA34E74A45A8582F7A262C38DE5388F0522C34F4276F4FDA"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_zero_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
+  historical_zero_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"
+  expected_zero_control_task: "day60_approved_day25_baseline_control_execution"
+
+approved_execution_contract:
+  recovery_stage: "stage_01_zero_control"
+  day: 27
+  execution_class: "uses_zosapi"
+  approved_case_id: "recovery_control_000"
+  approved_offset_mm: 0.0
+  target_image_distance_mm: 42.207788473485415
+  maximum_execution_count: 1
+  maximum_active_zosapi_connections: 1
+  maximum_working_copy_count: 1
+  required_entrypoint: "scripts/demos/day70_execute_approved_recovery_baseline_control.py"
+  approved_output_root: "outputs/day69_day27_recovery_baseline_execution"
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_seven_recovery_cases: false
+  require_historical_reproduction: true
+  require_balanced_acceptance_pass: true
+  require_stop_after_execution: true
+  stop_checkpoint: "CP09_baseline_gate"
+
+decision:
+  decision_id: "AP-DAY69-001"
+  decision_status: "DAY27_RECOVERY_BASELINE_APPROVED_FOR_ZERO_CONTROL_EXECUTION"
+  decision_is_teaching_record: true
+  approved_capabilities:
+    - "execute_one_zero_offset_recovery_control"
+    - "create_one_isolated_working_copy"
+    - "connect_one_standalone_zosapi_session"
+    - "export_one_standard_spot_and_one_fft_mtf"
+    - "write_isolated_recovery_control_result"
+  forbidden_capabilities:
+    - "execute_seven_recovery_cases"
+    - "run_quick_focus_or_optimization"
+    - "save_modified_model"
+    - "recalculate_day27_or_release_slot_06"
+    - "modify_official_config_or_frozen_model"
+    - "claim_continuous_tolerance_or_engineering_change"
+
+permissions:
+  recovery_zero_control_execution_released: true
+  one_zosapi_connection_released: true
+  one_working_copy_released: true
+  spot_and_mtf_analysis_released: true
+  seven_point_batch_execution_released: false
+  day27_recalculation_released: false
+  quick_focus_released: false
+  optimization_released: false
+  save_as_released: false
+  source_modification_released: false
+  slot_06_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day69_day27_recovery_baseline_approval"
+  json: "day27_recovery_baseline_approval.json"
+  markdown: "DAY27_RECOVERY_BASELINE_APPROVAL.md"

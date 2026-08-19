@@ -1,0 +1,80 @@
+# Day 60：消费Day59的一次性授权，只执行Day25零偏移控制。
+schema_version: "approved_day25_baseline_control/v1"
+
+case:
+  id: "day60_approved_day25_baseline_control_v1"
+  name: "获批的Day25零偏移边界控制"
+  status: "approved_for_one_execution"
+
+teaching_introduction:
+  why_today: "Day59只签发了一次零偏移控制授权；Day60需要通过专用入口消费该授权，并确认Day25边界扫描的模型和Spot/MTF配方仍可复现。"
+  relation_to_previous_day: "输入是Day59审批、冻结Day25配置和历史零偏移控制；今天只运行boundary_control_000，完成后立即停在CP09。"
+  concepts:
+    - "授权消费：在连接Zemax之前写入一次性消费标记，禁止同一审批被重复使用"
+    - "控制复现：用相同模型、像面位置和分析配方复现历史Spot与FFT MTF"
+    - "双重判定：既检查历史数值复现，也检查均衡教学四指标AND规则"
+    - "安全收尾：输入模型和磁盘工作副本不变，Standalone连接必须关闭"
+  completion_standard: "只运行一次boundary_control_000；Spot/MTF在冻结容差内复现并继续通过均衡规则；连接关闭且指纹不变；九个边界案例和Slot5-6继续锁定，并等待CP09人工审核。"
+
+execution:
+  enabled: true
+  approved_resource_slot: 4
+  maximum_execution_count: 1
+  maximum_active_zosapi_connections: 1
+  maximum_working_copy_count: 1
+  allow_zosapi_connection: true
+  allow_model_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_zero_offset_control: true
+  allow_boundary_cases: false
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day59_approval: "outputs/day59_slot4_day25_baseline_approval/approval_20260819_201332/slot4_day25_baseline_approval.json"
+  day59_approval_sha256: "E3E200481939ED228CC1963F4801056EC090680C858467FA7016F86840485D5F"
+  expected_day59_task: "day59_slot4_day25_baseline_approval_generation"
+  expected_day59_status: "SLOT_04_APPROVED_FOR_DAY25_ZERO_OFFSET_CONTROL_EXECUTION"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_baseline_control: "outputs/day25_balanced_acceptance_boundary_scan/baseline_control_20260807_151451/boundary_control_000/baseline_control_report.json"
+  historical_baseline_control_sha256: "2D52AD927358E05A2BFFD73D85893AD07A5B463A27964376E07DF99B50927632"
+  expected_historical_task: "day25_boundary_baseline_control"
+
+approved_control:
+  case_id: "boundary_control_000"
+  offset_mm: 0.0
+  expected_image_distance_mm: 42.207788473485415
+  standard_spot_export_count: 1
+  fft_mtf_export_count: 1
+  zosapi_connection_count: 1
+  working_copy_count: 1
+
+guardrails:
+  required_entrypoint: "scripts/demos/day60_execute_approved_day25_baseline_control.py"
+  post_execution_gate: "CP09_slot_gate"
+  require_authorization_consumption_before_zosapi: true
+  require_historical_reproduction: true
+  require_balanced_acceptance_pass: true
+  require_input_model_unchanged: true
+  require_disk_working_copy_unchanged: true
+  require_connection_closed: true
+  maximum_spot_summary_difference_um: 0.000001
+  maximum_mtf_summary_difference: 0.000001
+  forbid_interpolation: true
+  forbid_continuous_tolerance_claim: true
+  forbid_engineering_change_claim: true
+
+output:
+  root: "outputs/day59_slot4_day25_baseline_control_execution"
+  execution_directory_prefix: "execution_"
+  authorization_consumption_name: "approval_E3E20048_consumed.json"
+  case_directory: "boundary_control_000"
+  result_name: "slot4_baseline_control_result.json"

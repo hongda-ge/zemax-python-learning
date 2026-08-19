@@ -1,0 +1,66 @@
+# Day 66：消费 Day65 一次性审批，执行 Slot 5 的两个离线复核。
+schema_version: "approved_slot5_offline_reviews/v1"
+
+case:
+  id: "day66_approved_slot5_offline_reviews_v1"
+  name: "获批的Slot 5 Day26与Day27离线复核"
+  status: "approved_for_one_execution"
+
+teaching_introduction:
+  why_today: "Day65已经签发一次Slot 5离线复核权限；Day66需要消费该权限，分别处理Day26可计算任务和Day27证据不足任务。"
+  relation_to_previous_day: "输入是Day65审批绑定的0.012mm变化和16个实测点；今天不连接Zemax，只进行停止准则重算与精确证据可用性审计。"
+  concepts:
+    - "授权消费：执行前写入一次性标记，防止同一审批被重复使用"
+    - "任务状态分层：程序包成功不代表其中每个科学任务都有足够证据完成"
+    - "阻塞证据：缺少精确端点时记录缺口，不把未知状态伪装为FAIL"
+    - "同槽分支隔离：Day27阻塞不影响独立Day26结果的完成状态"
+  completion_standard: "Day26用0.012mm完成三策略复核；Day27逐命令列出所需和缺失点并进入阻塞状态；审批只消费一次，不插值、不连接ZOS-API，Slot 6继续锁定并等待CP09。"
+
+execution:
+  enabled: true
+  allow_day26_offline_evaluation: true
+  allow_day27_exact_evidence_audit: true
+  allow_isolated_output_write: true
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_interpolation: false
+  allow_extrapolation: false
+  allow_source_modification: false
+  allow_slot6_release: false
+
+source:
+  day65_approval: "outputs/day65_slot5_offline_review_approval/approval_20260819_204939/slot5_offline_review_approval.json"
+  day65_approval_sha256: "7E457EF8BAB10632D8D9A4E9830D9108BC347BEE703C2440B714CF183CA52602"
+  expected_day65_task: "day65_slot5_offline_review_approval_generation"
+  expected_decision_id: "AP-DAY65-001"
+  expected_decision_status: "SLOT_05_APPROVED_FOR_TWO_TASK_OFFLINE_REVIEW_EXECUTION"
+
+authorization:
+  maximum_execution_count: 1
+  marker_prefix: "approval_7E457EF8_consumed"
+  require_no_prior_marker: true
+  consume_before_evaluation: true
+
+guardrails:
+  expected_day26_detail_count: 6
+  expected_day26_summary_count: 3
+  expected_day27_candidate_count: 4
+  expected_day27_state_count: 12
+  expected_day27_missing_offset_count: 7
+  required_day26_status: "COMPLETED"
+  required_day27_status: "BLOCKED_BY_MISSING_EXACT_MEASURED_STATES"
+  require_sibling_isolation: true
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  new_optical_calculation_allowed: false
+  engineering_recommendation_allowed: false
+  require_cp09_stop: true
+
+output:
+  root: "outputs/day65_slot5_offline_review_execution"
+  day26_detail_csv: "day26_stopping_details.csv"
+  day26_summary_csv: "day26_stopping_summary.csv"
+  day26_result_json: "day26_change_specific_result.json"
+  day27_availability_csv: "day27_exact_state_availability.csv"
+  day27_result_json: "day27_evidence_availability_result.json"
+  package_result_json: "slot5_offline_review_result.json"

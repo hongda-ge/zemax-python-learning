@@ -1,0 +1,112 @@
+# Day 65：审批 Slot 5 的 Day26/Day27 变化专用离线复核。
+schema_version: "slot5_offline_review_approval/v1"
+
+case:
+  id: "day65_slot5_offline_review_approval_v1"
+  name: "Slot 5 Day26与Day27离线复核审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day64已经审核Slot 4九点边界批次；Day65需要决定是否释放同处Slot 5的Day26停止准则复核与Day27定位包络复核。"
+  relation_to_previous_day: "输入是Day64 CP09记录、0.012mm变化证据和16个冻结测量点；今天只签发离线复核授权，不执行两个任务。"
+  concepts:
+    - "同槽分支隔离：Day26与Day27共享资源槽，但一个任务证据不足不能抹去另一个任务的有效结果"
+    - "证据可用性门：Day27必须先检查新包络端点是否存在精确测量"
+    - "阻塞不是失败：缺少精确测量时记录BLOCKED_BY_MISSING_EXACT_MEASURED_STATES，不伪造验收结果"
+    - "最小权限：只允许离线重算和证据审计，不允许插值、新光学计算或自动释放Slot 6"
+  completion_standard: "审批绑定Day64、Day42、0.012mm变化证据和Day25-Day27冻结证据；只释放Day66一次Slot 5离线包，Day26可重算，Day27缺点时必须阻塞，Slot 6继续锁定。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_slot5_execution: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_interpolation: false
+  allow_source_modification: false
+  allow_slot6_release: false
+
+source:
+  day64_review: "outputs/day64_cp09_slot4_boundary_batch_review/review_20260819_204352/cp09_slot4_boundary_batch_review.json"
+  day64_review_sha256: "4AA411B785398A60923EB596FD0B742440FB96C65F03C9DADACCFF24D263C37B"
+  expected_day64_task: "day64_cp09_slot4_boundary_batch_review_generation"
+  expected_day64_status: "SLOT_04_BOUNDARY_BATCH_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_05_RELEASE_APPROVAL"
+  day42_schedule: "outputs/day42_change_specific_resource_schedule/resource_schedule_20260817_200358/change_specific_resource_schedule.json"
+  day42_schedule_sha256: "B9563C44665BA3DDE2654ED26F3AECC5E427E0044A33956A868693ED0475F666"
+  expected_day42_task: "day42_change_specific_resource_schedule_generation"
+  change_evidence: "outputs/day47_slot1_candidate_offline_execution/execution_20260817_221343/slot1_execution_result.json"
+  change_evidence_sha256: "F0321F7420EF7960437E00732624AAFD8D595DDDA8F8B94EF2038B10AC8710B3"
+  expected_change_task: "day48_approved_day22_candidate_offline_execution"
+  day25_report: "outputs/day25_balanced_acceptance_boundary_scan/offline_analysis_20260807_152301/boundary_analysis_report.json"
+  day25_report_sha256: "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C"
+  expected_day25_task: "day25_boundary_scan_offline_analysis"
+  day26_config: "configs/day26_simulation_resolution_stopping.yaml"
+  day26_config_sha256: "4BD682F7662FA2BFD72937795BE57AD545432C2B56FD7325D55F44F5562517DE"
+  historical_day26_report: "outputs/day26_simulation_resolution_stopping/stopping_evaluation_20260807_155103/simulation_resolution_stopping_report.json"
+  historical_day26_report_sha256: "F6DBD4951D329A51195DADB28F29FADFB6A2D380DB8818F4482A39F1AC049A16"
+  expected_day26_task: "day26_simulation_resolution_stopping_evaluation"
+  day27_config: "configs/day27_positioning_uncertainty_envelope.yaml"
+  day27_config_sha256: "8DD64D1C1EA7A22381C6F181E01D46D3619EF9058CE03D2CCC672C01FC608710"
+  historical_day27_report: "outputs/day27_positioning_uncertainty_envelope/envelope_evaluation_20260807_161329/positioning_uncertainty_envelope_report.json"
+  historical_day27_report_sha256: "7F09E061AD09D04A9F6FA9BFB3B0FA795D9D715D6ED1066C4FD6FC7C926D886F"
+  expected_day27_task: "day27_positioning_uncertainty_envelope_evaluation"
+
+change_specific_input:
+  positioning_accuracy_mm: 0.012
+  measured_point_count: 16
+  day26_boundary_widths_mm: [0.002, 0.005]
+  day27_command_offsets_mm: [0.000, 0.010, 0.020, 0.030]
+
+approved_execution_contract:
+  resource_slot: 5
+  days: [26, 27]
+  execution_class: "offline_only"
+  maximum_execution_count: 1
+  required_entrypoint: "scripts/demos/day66_execute_approved_slot5_offline_reviews.py"
+  approved_output_root: "outputs/day65_slot5_offline_review_execution"
+  allow_day26_stopping_evaluation: true
+  allow_day27_exact_evidence_audit: true
+  allow_day27_envelope_evaluation_only_if_complete: true
+  missing_evidence_status: "BLOCKED_BY_MISSING_EXACT_MEASURED_STATES"
+  require_sibling_isolation: true
+  allow_interpolation: false
+  allow_extrapolation: false
+  allow_new_optical_calculation: false
+  require_stop_after_execution: true
+  stop_checkpoint: "CP09_slot_gate"
+
+decision:
+  decision_id: "AP-DAY65-001"
+  decision_status: "SLOT_05_APPROVED_FOR_TWO_TASK_OFFLINE_REVIEW_EXECUTION"
+  decision_is_teaching_record: true
+  approved_capabilities:
+    - "execute_day26_offline_stopping_review"
+    - "audit_day27_exact_measured_state_availability"
+    - "evaluate_day27_only_if_all_exact_states_exist"
+    - "record_day27_blocked_status_when_evidence_is_missing"
+    - "write_one_isolated_slot5_result_package"
+  forbidden_capabilities:
+    - "connect_zosapi_or_calculate_new_optical_metrics"
+    - "interpolate_or_extrapolate_missing_states"
+    - "modify_official_configs_or_frozen_evidence"
+    - "release_slot_06"
+    - "claim_continuous_tolerance_or_engineering_change"
+
+permissions:
+  slot_05_offline_review_package_execution_released: true
+  day26_offline_evaluation_released: true
+  day27_exact_evidence_availability_audit_released: true
+  day27_exact_envelope_evaluation_conditionally_released: true
+  sibling_isolation_required: true
+  zosapi_execution_released: false
+  new_optical_calculation_released: false
+  interpolation_released: false
+  source_modification_released: false
+  slot_06_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day65_slot5_offline_review_approval"
+  json: "slot5_offline_review_approval.json"
+  markdown: "SLOT5_OFFLINE_REVIEW_APPROVAL.md"

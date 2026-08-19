@@ -1,0 +1,92 @@
+# Day 63：消费Day62一次授权，执行九个非零边界案例。
+schema_version: "approved_day25_boundary_batch/v1"
+
+case:
+  id: "day63_approved_day25_boundary_batch_v1"
+  name: "获批的Day25九点边界扫描批次"
+  status: "approved_for_one_execution"
+
+teaching_introduction:
+  why_today: "Day62已经签发九案例批次授权；Day63需要通过专用入口消费一次授权并生成变化专用边界证据。"
+  relation_to_previous_day: "输入是Day62冻结的案例、模型和运行契约；今天串行运行九次ZOS-API分析，完成后立即停在CP09。"
+  concepts:
+    - "授权消费：开始第一个案例前即记录一次性审批已被使用"
+    - "案例隔离：每个偏移使用独立工作副本和独立连接生命周期"
+    - "回归复现：新结果与历史Day25六项摘要和验收签名逐案例核对"
+    - "异常与验收分离：执行异常停止批次，验收FAIL只记录并继续"
+  completion_standard: "九个非零案例按批准顺序各执行一次Spot和FFT MTF；不重跑零偏移、不用Quick Focus、优化或SaveAs；历史结果复现、全部连接关闭且指纹不变，并停在CP09等待人工审核。"
+
+execution:
+  enabled: true
+  approved_resource_slot: 4
+  maximum_batch_execution_count: 1
+  maximum_case_execution_count: 9
+  maximum_active_zosapi_connections: 1
+  allow_zosapi_connection: true
+  allow_model_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_boundary_cases: true
+  allow_balanced_acceptance_evaluation: true
+  allow_baseline_control: false
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day62_approval: "outputs/day62_slot4_day25_boundary_batch_approval/approval_20260819_202930/slot4_boundary_batch_approval.json"
+  day62_approval_sha256: "68A7DB966A221C577AEFE3FAE92D0D31CE950B038147F937C7EAB2292D868DFB"
+  expected_day62_task: "day62_slot4_day25_boundary_batch_approval_generation"
+  expected_day62_status: "SLOT_04_APPROVED_FOR_NINE_CASE_BOUNDARY_BATCH_EXECUTION"
+  day60_control_result: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
+  day60_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"
+  expected_day60_task: "day60_approved_day25_baseline_control_execution"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_boundary_batch: "outputs/day25_balanced_acceptance_boundary_scan/boundary_batch_20260807_151801/boundary_scan_batch_report.json"
+  historical_boundary_batch_sha256: "767D6964EB1850885C44D2C1101E4EE839715537A3198C2CD9FEB1C2E0F7ABEE"
+  expected_historical_task: "day25_boundary_scan_batch"
+
+approved_batch:
+  case_ids:
+    - "boundary_negative_001"
+    - "boundary_negative_002"
+    - "boundary_negative_003"
+    - "boundary_negative_004"
+    - "boundary_positive_001"
+    - "boundary_positive_002"
+    - "boundary_positive_003"
+    - "boundary_positive_004"
+    - "boundary_positive_005"
+  offsets_mm: [-0.008, -0.006, -0.004, -0.002, 0.025, 0.030, 0.035, 0.040, 0.045]
+  run_sequentially: true
+  independent_working_copy_per_case: true
+  stop_on_first_unexpected_failure: true
+  acceptance_failure_stops_batch: false
+
+guardrails:
+  required_entrypoint: "scripts/demos/day63_execute_approved_day25_boundary_batch.py"
+  post_execution_gate: "CP09_slot_gate"
+  require_authorization_consumption_before_zosapi: true
+  require_every_connection_closed: true
+  require_input_and_working_hash_unchanged: true
+  require_historical_reproduction: true
+  maximum_spot_summary_difference_um: 0.000001
+  maximum_mtf_summary_difference: 0.000001
+  numeric_tolerance_mm: 0.000000001
+  forbid_interpolation: true
+  forbid_continuous_tolerance_claim: true
+  forbid_engineering_change_claim: true
+
+output:
+  root: "outputs/day62_slot4_day25_boundary_batch_execution"
+  execution_directory_prefix: "execution_"
+  authorization_consumption_name: "approval_68A7DB96_consumed.json"
+  case_result_name: "boundary_case_result.json"
+  comparison_csv_name: "boundary_scan_results.csv"
+  batch_result_name: "slot4_boundary_batch_result.json"

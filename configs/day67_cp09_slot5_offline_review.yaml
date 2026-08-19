@@ -1,0 +1,106 @@
+# Day 67：在 CP09 审核 Day66 的 Slot 5 两任务离线复核结果。
+schema_version: "cp09_slot5_offline_review/v1"
+
+case:
+  id: "day67_cp09_slot5_offline_review_v1"
+  name: "Slot 5 Day26与Day27离线结果人工审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day66已经消费一次Slot 5授权；Day67需要确认Day26完成与Day27证据阻塞都被正确记录，并决定下游是否具备释放条件。"
+  relation_to_previous_day: "输入是Day66消费标记、总结果和五份明细输出；今天只生成CP09审核，不重算Day26、不补测Day27。"
+  concepts:
+    - "执行审核与科学完成度分离：程序包可PASS，而Day27科学任务仍因证据不足而BLOCKED"
+    - "阻塞传播：Day28依赖Day27，因此Day27未完成时Slot 6不能释放"
+    - "分支隔离：Day27阻塞不撤销已经正确完成的Day26结果"
+    - "恢复规划与补测执行分离：本次只允许申请证据恢复方案，不批准新光学案例"
+  completion_standard: "一次性授权、Day26六条明细与三条汇总、Day27十二条可用性记录和七个缺点全部有效；审核确认Day26完成、Day27阻塞，Slot 6锁定且只允许申请恢复规划。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_day66_rerun: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_interpolation: false
+  allow_evidence_recovery_execution: false
+  allow_slot6_release: false
+  allow_source_modification: false
+
+source:
+  day66_package_result: "outputs/day65_slot5_offline_review_execution/execution_20260819_205443/slot5_offline_review_result.json"
+  day66_package_sha256: "3DA68EB213106847BFB304849802E696D5782C29D3952CDA86738AE0BC922BE4"
+  expected_day66_task: "day66_approved_slot5_offline_review_execution"
+  authorization_marker: "outputs/day65_slot5_offline_review_execution/approval_7E457EF8_consumed.json"
+  authorization_marker_sha256: "637B87328285FAAC2CCD867DAB47B9B2A2DBFDDBF38D5528BD2D00A1CC2357E5"
+  expected_marker_task: "day66_authorization_consumption"
+  day65_approval: "outputs/day65_slot5_offline_review_approval/approval_20260819_204939/slot5_offline_review_approval.json"
+  day65_approval_sha256: "7E457EF8BAB10632D8D9A4E9830D9108BC347BEE703C2440B714CF183CA52602"
+  expected_day65_task: "day65_slot5_offline_review_approval_generation"
+  day26_detail_csv: "outputs/day65_slot5_offline_review_execution/execution_20260819_205443/day26_stopping_details.csv"
+  day26_detail_csv_sha256: "A14092E2C49301C6EC364942505A22FA183515FB10432B5370907FD502A6E164"
+  day26_summary_csv: "outputs/day65_slot5_offline_review_execution/execution_20260819_205443/day26_stopping_summary.csv"
+  day26_summary_csv_sha256: "4B0F4D0F96F7862DF333CE928CF7ABF137E87CDE7ABED62D55F75504ED4CA8F4"
+  day26_result: "outputs/day65_slot5_offline_review_execution/execution_20260819_205443/day26_change_specific_result.json"
+  day26_result_sha256: "3A0844B88806CAE544400D27D3CD459844B8E13AE2AA1C66B7D94FB86CF64DDA"
+  expected_day26_task: "day66_change_specific_day26_stopping_evaluation"
+  day27_availability_csv: "outputs/day65_slot5_offline_review_execution/execution_20260819_205443/day27_exact_state_availability.csv"
+  day27_availability_csv_sha256: "A801FCB61559C7269204DBA91679A5CC7EBA71186CA47BA08B0617BC79CE3B88"
+  day27_result: "outputs/day65_slot5_offline_review_execution/execution_20260819_205443/day27_evidence_availability_result.json"
+  day27_result_sha256: "280A5725E91D9BFAA12BE8CD8B346886551C6D6372F009EAA978E7DF8637E190"
+  expected_day27_task: "day66_change_specific_day27_exact_evidence_audit"
+
+review_criteria:
+  expected_slot: 5
+  expected_days: [26, 27]
+  expected_day26_state: "COMPLETED"
+  expected_day27_state: "BLOCKED_BY_MISSING_EXACT_MEASURED_STATES"
+  expected_day26_detail_count: 6
+  expected_day26_summary_count: 3
+  expected_day27_state_count: 12
+  expected_day27_available_state_count: 5
+  expected_day27_missing_state_count: 7
+  expected_day27_missing_offsets_mm: [-0.012, 0.008, 0.012, 0.018, 0.022, 0.032, 0.042]
+  require_authorization_consumed_once: true
+  require_day26_sibling_result_preserved: true
+  require_day27_blocked_not_failed: true
+  require_no_envelope_result_when_incomplete: true
+  require_no_interpolation_or_new_optical_calculation: true
+  require_cp09_pending: true
+
+decision:
+  decision_id: "RV-DAY67-001"
+  decision_status: "SLOT_05_EXECUTION_REVIEW_PASSED_DAY27_EVIDENCE_BLOCKED_SLOT_06_LOCKED"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_slot5_review_record"
+    - "retain_completed_day26_change_specific_result"
+    - "submit_day27_evidence_recovery_plan_request"
+  forbidden_capabilities:
+    - "rerun_day66_with_consumed_approval"
+    - "connect_zosapi_or_execute_missing_cases"
+    - "interpolate_missing_day27_states"
+    - "release_slot_06_or_execute_day28"
+    - "modify_official_sources"
+    - "claim_continuous_tolerance_or_engineering_change"
+
+permissions:
+  slot_05_execution_review_completed: true
+  day26_result_accepted: true
+  day27_evidence_block_confirmed: true
+  evidence_recovery_plan_request_eligible: true
+  day66_rerun_released: false
+  evidence_recovery_execution_released: false
+  zosapi_execution_released: false
+  interpolation_released: false
+  slot_06_release_request_eligible: false
+  slot_06_execution_released: false
+  source_modification_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day67_cp09_slot5_offline_review"
+  json: "cp09_slot5_offline_review.json"
+  markdown: "CP09_SLOT5_OFFLINE_REVIEW.md"

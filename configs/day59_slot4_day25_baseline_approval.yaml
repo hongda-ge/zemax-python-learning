@@ -1,0 +1,103 @@
+# Day 59：审批 Slot 4 的 Day25 零偏移复现控制。
+schema_version: "slot4_day25_baseline_approval/v1"
+
+case:
+  id: "day59_slot4_day25_baseline_approval_v1"
+  name: "Slot 4 Day25零偏移边界控制审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day58已经审核Slot 3验收结果；Day59需要在高风险Day25边界扫描前先批准一次零偏移复现控制。"
+  relation_to_previous_day: "输入是Day58 CP09记录、Day25配置和冻结聚焦模型；今天只签发基线控制授权，不连接Zemax。"
+  concepts:
+    - "高风险分段：先复现零偏移控制，再考虑九点边界批次"
+    - "控制组：用0.000mm验证模型和Spot/MTF配方未漂移"
+    - "最小ZOS-API权限：一次副本、一次连接、两项分析"
+    - "性能与执行分离：控制必须复现且通过均衡教学规则"
+  completion_standard: "审批绑定Day58、Day25配置、聚焦模型和历史控制；只释放Day60一次零偏移控制，九个边界点和Slot5-6继续锁定。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_baseline_execution: false
+  allow_boundary_batch: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day58_review: "outputs/day58_cp09_slot3_acceptance_review/review_20260819_200556/cp09_slot3_acceptance_review.json"
+  day58_review_sha256: "C5042F80456B60D08DD7E8A983287FC4F95C0D2D008F38E717E5E1E1D0191111"
+  expected_day58_task: "day58_cp09_slot3_acceptance_review_generation"
+  expected_day58_status: "SLOT_03_ACCEPTANCE_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_04_RELEASE_APPROVAL"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  historical_baseline_control: "outputs/day25_balanced_acceptance_boundary_scan/baseline_control_20260807_151451/boundary_control_000/baseline_control_report.json"
+  historical_baseline_control_sha256: "2D52AD927358E05A2BFFD73D85893AD07A5B463A27964376E07DF99B50927632"
+  expected_historical_task: "day25_boundary_baseline_control"
+  day42_schedule: "outputs/day42_change_specific_resource_schedule/resource_schedule_20260817_200358/change_specific_resource_schedule.json"
+  day42_schedule_sha256: "B9563C44665BA3DDE2654ED26F3AECC5E427E0044A33956A868693ED0475F666"
+  expected_day42_task: "day42_change_specific_resource_schedule_generation"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+
+approved_execution_contract:
+  resource_slot: 4
+  day: 25
+  execution_class: "uses_zosapi"
+  approved_case_id: "boundary_control_000"
+  approved_offset_mm: 0.0
+  maximum_execution_count: 1
+  maximum_active_zosapi_connections: 1
+  maximum_working_copy_count: 1
+  required_entrypoint: "scripts/demos/day60_execute_approved_day25_baseline_control.py"
+  approved_output_root: "outputs/day59_slot4_day25_baseline_control_execution"
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_nine_boundary_cases: false
+  require_historical_reproduction: true
+  require_balanced_acceptance_pass: true
+  require_stop_after_execution: true
+  stop_checkpoint: "CP09_slot_gate"
+
+decision:
+  decision_id: "AP-DAY59-001"
+  decision_status: "SLOT_04_APPROVED_FOR_DAY25_ZERO_OFFSET_CONTROL_EXECUTION"
+  decision_is_teaching_record: true
+  approved_capabilities:
+    - "execute_one_day25_zero_offset_control"
+    - "create_one_isolated_working_copy"
+    - "connect_one_standalone_zosapi_session"
+    - "export_standard_spot_and_fft_mtf"
+    - "write_isolated_slot4_control_result"
+  forbidden_capabilities:
+    - "execute_nine_boundary_cases"
+    - "run_quick_focus_or_optimization"
+    - "save_modified_model"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_05_or_06"
+    - "claim_continuous_tolerance_or_engineering_approval"
+
+permissions:
+  slot_04_zero_control_execution_released: true
+  one_zosapi_connection_released: true
+  one_working_copy_released: true
+  spot_and_mtf_analysis_released: true
+  boundary_batch_execution_released: false
+  quick_focus_released: false
+  optimization_released: false
+  save_as_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day59_slot4_day25_baseline_approval"
+  json: "slot4_day25_baseline_approval.json"
+  markdown: "SLOT4_DAY25_BASELINE_APPROVAL.md"
