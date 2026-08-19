@@ -1,0 +1,90 @@
+# Day 56：审批 Slot 3 的 Day24 离线验收复核。
+schema_version: "slot3_day24_acceptance_approval/v1"
+
+case:
+  id: "day56_slot3_day24_acceptance_approval_v1"
+  name: "Slot 3 Day24离线验收复核审批"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day55已经确认Slot 2六案例证据完整；Day56需要用最小权限决定是否允许Day24复用七个冻结测量点进行离线验收。"
+  relation_to_previous_day: "输入是Day55六案例审核、Day52零偏移审核和Day24教学阈值；今天只生成审批，不运行验收。"
+  concepts:
+    - "证据拼装：零偏移控制与六个非零案例共同组成七点验收输入"
+    - "阈值冻结：严格、均衡、宽松三套规则在执行前固定"
+    - "离线复用：复用已有Spot和MTF，不重新连接Zemax"
+    - "最小权限：只释放一次Day24验收，Slot 4-6继续锁定"
+  completion_standard: "七个案例及三套阈值完整，专用入口、输出边界和停止条件被冻结；审批只允许一次离线验收，Day56自身不执行任务。"
+
+execution:
+  enabled: false
+  allow_approval_evaluation: true
+  allow_approval_record_generation: true
+  allow_acceptance_execution: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day55_review: "outputs/day55_cp09_slot2_residual_batch_review/review_20260819_194844/cp09_slot2_residual_batch_review.json"
+  day55_review_sha256: "D2A1C0311B910A7C0132189C1AEA9ACE3C55145A06E158366550675BB23CE4E4"
+  expected_day55_task: "day55_cp09_slot2_residual_batch_review_generation"
+  expected_day55_status: "SLOT_02_RESIDUAL_BATCH_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_03_RELEASE_APPROVAL"
+  day52_review: "outputs/day52_cp09_slot2_baseline_review/review_20260818_161042/cp09_slot2_baseline_review.json"
+  day52_review_sha256: "9410EF95AC948A6BBBB5BC8291293579BE4DD533BC338EF5B393418CEF135C5A"
+  expected_day52_task: "day52_cp09_slot2_baseline_review_generation"
+  day24_config: "configs/day24_residual_defocus_acceptance.yaml"
+  day24_config_sha256: "9673FB2B102A8CD1D24F5B6BF4AA2A0E0C5058E06BCB387361220ED9F4E6BEAD"
+  day42_schedule: "outputs/day42_change_specific_resource_schedule/resource_schedule_20260817_200358/change_specific_resource_schedule.json"
+  day42_schedule_sha256: "B9563C44665BA3DDE2654ED26F3AECC5E427E0044A33956A868693ED0475F666"
+  expected_day42_task: "day42_change_specific_resource_schedule_generation"
+
+approved_execution_contract:
+  resource_slot: 3
+  day: 24
+  execution_class: "offline_only"
+  maximum_execution_count: 1
+  required_entrypoint: "scripts/demos/day57_execute_approved_day24_acceptance.py"
+  approved_output_root: "outputs/day56_slot3_day24_acceptance_execution"
+  expected_case_ids: ["defocus_001", "defocus_002", "defocus_003", "defocus_004", "defocus_005", "defocus_006", "defocus_007"]
+  expected_offsets_mm: [-0.05, -0.02, -0.01, 0.0, 0.01, 0.02, 0.05]
+  expected_scenarios: ["strict_protection", "balanced_acceptance", "relaxed_teaching"]
+  require_four_metric_and_rule: true
+  measured_points_only: true
+  allow_interpolation: false
+  allow_hidden_weighted_score: false
+  allow_engineering_recommendation: false
+  require_stop_after_execution: true
+  stop_checkpoint: "CP09_slot_gate"
+
+decision:
+  decision_id: "AP-DAY56-001"
+  decision_status: "SLOT_03_APPROVED_FOR_DAY24_OFFLINE_ACCEPTANCE_EXECUTION"
+  decision_is_teaching_record: true
+  approved_capabilities:
+    - "execute_day24_offline_acceptance_once"
+    - "read_frozen_day52_and_day55_evidence"
+    - "write_isolated_slot3_acceptance_result"
+  forbidden_capabilities:
+    - "connect_zosapi"
+    - "calculate_new_optical_metrics"
+    - "modify_official_config_or_frozen_evidence"
+    - "execute_slot_04_to_06"
+    - "claim_continuous_tolerance"
+    - "claim_engineering_change_approval"
+
+permissions:
+  slot_03_offline_acceptance_execution_released: true
+  frozen_evidence_read_released: true
+  isolated_result_write_released: true
+  zosapi_execution_released: false
+  new_optical_calculation_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day56_slot3_day24_acceptance_approval"
+  json: "slot3_day24_acceptance_approval.json"
+  markdown: "SLOT3_DAY24_ACCEPTANCE_APPROVAL.md"

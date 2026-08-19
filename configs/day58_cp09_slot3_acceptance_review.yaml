@@ -1,0 +1,93 @@
+# Day 58：在 CP09 审核 Day57 的 Slot 3 离线验收结果。
+schema_version: "cp09_slot3_acceptance_review/v1"
+
+case:
+  id: "day58_cp09_slot3_acceptance_review_v1"
+  name: "Slot 3 Day24离线验收结果人工审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day57已经消费一次审批并生成三套验收结果；Day58需要确认授权、数据、规则、输出和安全边界形成完整证据链。"
+  relation_to_previous_day: "输入是Day57结果、消费标记和Day56审批；今天只生成CP09审核，不重新执行验收、不释放Slot 4。"
+  concepts:
+    - "任务通过与案例通过分离：流程正确不要求每套场景下所有案例都通过"
+    - "输出完整性：JSON、两份CSV和矩阵图必须绑定同一次执行"
+    - "回归签名：三套通过与失败名单必须与历史Day24完全一致"
+    - "门控分离：CP09通过只允许申请Slot 4，不等于Day25获准执行"
+  completion_standard: "一次性授权、七点数据、21条明细、3条汇总及四份输出完整；历史结果复现且安全锁保持；审核PASS但Slot4-6继续锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_acceptance_rerun: false
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_slot4_execution: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day57_result: "outputs/day56_slot3_day24_acceptance_execution/execution_20260819_200059/slot3_acceptance_result.json"
+  day57_result_sha256: "91A84D80F49AC0AC1EE3DDCC2C4455594E47A3326A05C9A8B79602CB3870560E"
+  expected_day57_task: "day57_approved_day24_acceptance_execution"
+  authorization_marker: "outputs/day56_slot3_day24_acceptance_execution/approval_0506EAFA_consumed.json"
+  authorization_marker_sha256: "AF41124CC1EC480FFCA5E26E498F888AF8A44B7DA03045D016F31D87522B1993"
+  expected_marker_task: "day57_authorization_consumption"
+  day56_approval: "outputs/day56_slot3_day24_acceptance_approval/approval_20260819_195525/slot3_day24_acceptance_approval.json"
+  day56_approval_sha256: "0506EAFAC4EE5F45D042DA07F3CD8241C0A738614D1C8BB1CE29FB4D892C2516"
+  expected_day56_task: "day56_slot3_day24_acceptance_approval_generation"
+  detail_csv: "outputs/day56_slot3_day24_acceptance_execution/execution_20260819_200059/slot3_acceptance_details.csv"
+  detail_csv_sha256: "EE919A1BE1246FA05548B83115C083FED05C9198B58F2973C6849E16DE723EBF"
+  summary_csv: "outputs/day56_slot3_day24_acceptance_execution/execution_20260819_200059/slot3_acceptance_summary.csv"
+  summary_csv_sha256: "8BCEB3AF3507E729E11F96E601C684761B8B342E1ADCF7CC5A19963EBD071646"
+  figure: "outputs/day56_slot3_day24_acceptance_execution/execution_20260819_200059/day57_slot3_acceptance_matrix.png"
+  figure_sha256: "C8ACC9ECB7CAD684E1075E5D818FF6FB7146162BF33BA616A4254028081CA1BD"
+
+review_criteria:
+  expected_slot: 3
+  expected_day: 24
+  expected_case_count: 7
+  expected_detail_count: 21
+  expected_summary_count: 3
+  expected_scenario_counts:
+    strict_protection: 2
+    balanced_acceptance: 3
+    relaxed_teaching: 6
+  require_approval_consumed_once: true
+  require_historical_reproduction: true
+  require_four_metric_and_rule: true
+  require_cp09_pending: true
+  require_no_zosapi_or_new_optical_calculation: true
+  require_no_interpolation_or_engineering_claim: true
+
+decision:
+  decision_id: "RV-DAY58-001"
+  decision_status: "SLOT_03_ACCEPTANCE_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_04_RELEASE_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_slot3_acceptance_review_record"
+    - "submit_slot_04_day25_release_approval_request"
+  forbidden_capabilities:
+    - "rerun_day57_with_consumed_approval"
+    - "connect_zosapi"
+    - "execute_day25_or_slot_04"
+    - "modify_official_config_or_frozen_evidence"
+    - "release_slot_05_or_06"
+    - "claim_continuous_tolerance_or_engineering_approval"
+
+permissions:
+  slot_03_acceptance_review_completed: true
+  slot_04_release_request_eligible: true
+  day57_rerun_released: false
+  slot_04_execution_released: false
+  zosapi_execution_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day58_cp09_slot3_acceptance_review"
+  json: "cp09_slot3_acceptance_review.json"
+  markdown: "CP09_SLOT3_ACCEPTANCE_REVIEW.md"

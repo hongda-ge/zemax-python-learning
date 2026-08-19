@@ -1,0 +1,63 @@
+# Day 57：消费 Day56 一次性审批，执行 Slot 3 的 Day24 离线验收。
+schema_version: "approved_day24_acceptance_execution/v1"
+
+case:
+  id: "day57_approved_day24_acceptance_execution_v1"
+  name: "获批的Slot 3七点残余离焦离线验收"
+  status: "approved_for_one_execution"
+
+teaching_introduction:
+  why_today: "Day56已经签发一次Slot 3离线执行权限；Day57需要消费该权限，把七点冻结光学证据转换为三套透明验收结果。"
+  relation_to_previous_day: "输入是Day56审批、Day52零偏移审核和Day55六案例审核；今天不连接Zemax，只复用已有指标。"
+  concepts:
+    - "授权消费：审批在执行前写入消费标记，防止重复运行"
+    - "数据拼装：从两道CP09审核中恢复七个实测点"
+    - "透明AND规则：四项指标分别判断，任何一项失败即案例失败"
+    - "结果复现：新验收名单必须与冻结Day24历史结果一致"
+  completion_standard: "七点、三场景和四指标规则执行一次；审批仅消费一次，历史验收完全复现；不连接Zemax、不插值并停在CP09。"
+
+execution:
+  enabled: true
+  allow_offline_acceptance_evaluation: true
+  allow_isolated_output_write: true
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_source_modification: false
+  allow_interpolation: false
+  allow_downstream_release: false
+
+source:
+  day56_approval: "outputs/day56_slot3_day24_acceptance_approval/approval_20260819_195525/slot3_day24_acceptance_approval.json"
+  day56_approval_sha256: "0506EAFAC4EE5F45D042DA07F3CD8241C0A738614D1C8BB1CE29FB4D892C2516"
+  expected_day56_task: "day56_slot3_day24_acceptance_approval_generation"
+  expected_decision_id: "AP-DAY56-001"
+  expected_decision_status: "SLOT_03_APPROVED_FOR_DAY24_OFFLINE_ACCEPTANCE_EXECUTION"
+  historical_day24_report: "outputs/day24_residual_defocus_acceptance/acceptance_evaluation_20260807_144348/residual_defocus_acceptance_report.json"
+  historical_day24_report_sha256: "E227EAE0BAEED43132BC2086E3FBE1F9A890DE2899951BA39FB881814874F37A"
+  expected_historical_task: "day24_residual_defocus_acceptance_evaluation"
+
+authorization:
+  maximum_execution_count: 1
+  marker_prefix: "approval_0506EAFA_consumed"
+  require_no_prior_marker: true
+  consume_before_evaluation: true
+
+guardrails:
+  expected_case_count: 7
+  expected_detail_count: 21
+  expected_summary_count: 3
+  require_historical_reproduction: true
+  measured_points_only: true
+  interpolation_allowed: false
+  extrapolation_allowed: false
+  hidden_weighted_score_allowed: false
+  continuous_tolerance_claim_allowed: false
+  engineering_recommendation_allowed: false
+  require_cp09_stop: true
+
+output:
+  root: "outputs/day56_slot3_day24_acceptance_execution"
+  detail_csv: "slot3_acceptance_details.csv"
+  summary_csv: "slot3_acceptance_summary.csv"
+  figure_png: "day57_slot3_acceptance_matrix.png"
+  result_json: "slot3_acceptance_result.json"

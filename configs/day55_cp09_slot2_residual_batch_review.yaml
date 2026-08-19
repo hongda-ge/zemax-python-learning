@@ -1,0 +1,92 @@
+# Day 55：在 CP09 审核 Day54 的 Slot 2 六案例残余离焦批次。
+schema_version: "cp09_slot2_residual_batch_review/v1"
+
+case:
+  id: "day55_cp09_slot2_residual_batch_review_v1"
+  name: "Slot 2六案例残余离焦结果人工审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day54已经消费一次批次授权并完成六案例；Day55需要把程序成功转换为可供后续维护使用的审核证据。"
+  relation_to_previous_day: "输入是Day54批次结果、六份案例报告和Day53审批；今天只离线审核，不连接Zemax、不释放Slot 3。"
+  concepts:
+    - "批量回归验证：逐案例核对新结果与冻结历史证据"
+    - "证据完整性：总表、案例JSON和12份原始分析文本必须一致"
+    - "任务通过与性能判断分离：像质变差不等于自动化任务失败"
+    - "门控分离：CP09审核通过只允许申请Slot 3，不等于获准执行Day24"
+  completion_standard: "六个案例身份、偏移、摘要和原始文件完整；授权只消费一次，所有连接关闭且模型指纹不变；审核状态为PASS，但重跑和Slot3-6继续锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_day54_rerun: false
+  allow_slot3_execution: false
+  allow_source_modification: false
+  allow_downstream_release: false
+
+source:
+  day54_batch_result: "outputs/day53_slot2_day23_residual_batch_execution/execution_20260818_172133/slot2_residual_batch_result.json"
+  day54_batch_sha256: "D5718EF9CCF473C7E00E1D106132120154E6FCBA91D418CB9ADEFDF3346173EE"
+  expected_day54_task: "day54_approved_day23_residual_batch_execution"
+  authorization_marker: "outputs/day53_slot2_day23_residual_batch_execution/approval_05482A98_consumed.json"
+  authorization_marker_sha256: "A4BAFBEC2039F2827ADC2E7682797570478C93BFC9A637E7633CDC29076A9589"
+  expected_marker_task: "day54_authorization_consumption"
+  day53_approval: "outputs/day53_slot2_residual_batch_approval/approval_20260818_163446/slot2_residual_batch_approval.json"
+  day53_approval_sha256: "05482A98E9990EB3CD884300182B8436B6F79DF1A116117D855B4F9E3E4DE54B"
+  expected_day53_task: "day53_slot2_residual_batch_approval_generation"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+
+review_criteria:
+  expected_slot: 2
+  expected_case_ids: ["defocus_001", "defocus_002", "defocus_003", "defocus_005", "defocus_006", "defocus_007"]
+  expected_offsets_mm: [-0.05, -0.02, -0.01, 0.01, 0.02, 0.05]
+  expected_case_count: 6
+  expected_raw_spot_file_count: 6
+  expected_raw_mtf_file_count: 6
+  maximum_spot_reproduction_difference_um: 0.000001
+  maximum_mtf_reproduction_difference: 0.000001
+  numeric_tolerance: 0.000000001
+  require_approval_consumed_once: true
+  require_all_connections_closed: true
+  require_all_input_models_unchanged: true
+  require_all_working_copies_unchanged: true
+  require_all_frozen_inputs_unchanged: true
+  require_baseline_not_rerun: true
+  require_no_quick_focus_optimization_save_as: true
+  require_cp09_pending: true
+
+decision:
+  decision_id: "RV-DAY55-001"
+  decision_status: "SLOT_02_RESIDUAL_BATCH_RESULT_REVIEW_PASSED_WAITING_FOR_SLOT_03_RELEASE_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_slot2_residual_batch_review_record"
+    - "submit_slot_03_day24_release_approval_request"
+  forbidden_capabilities:
+    - "rerun_day54_with_consumed_approval"
+    - "connect_zosapi"
+    - "execute_day24_or_slot_03"
+    - "modify_official_config_or_frozen_model"
+    - "release_slot_04_to_06"
+    - "claim_engineering_change_approval"
+
+permissions:
+  slot_02_residual_batch_review_completed: true
+  slot_03_release_request_eligible: true
+  day54_rerun_released: false
+  slot_03_execution_released: false
+  zosapi_execution_released: false
+  source_modification_released: false
+  downstream_slots_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day55_cp09_slot2_residual_batch_review"
+  json: "cp09_slot2_residual_batch_review.json"
+  markdown: "CP09_SLOT2_RESIDUAL_BATCH_REVIEW.md"
