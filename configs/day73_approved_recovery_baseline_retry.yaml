@@ -1,0 +1,86 @@
+# Day 73：消费 Day72 新审批，只尝试一次 Day27 零偏移恢复控制。
+schema_version: "approved_recovery_baseline_retry/v1"
+
+case:
+  id: "day73_approved_recovery_baseline_retry_v1"
+  name: "获批的Day27证据恢复零偏移控制重试"
+  status: "approved_for_one_retry_attempt"
+
+teaching_introduction:
+  why_today: "Day72已经签发一次新的重试授权；Day73需要消费该授权，并用一个零偏移控制验证Standalone ZOS-API是否恢复。"
+  relation_to_previous_day: "输入是Day72审批、Day71失败审核、冻结Day25配方和聚焦模型；今天只尝试recovery_control_000一次，随后停在CP09。"
+  concepts:
+    - "重试授权消费：连接前写入新的消费标记，Day69旧授权始终不可复用"
+    - "API恢复验证：成功建立Standalone连接才构成许可证恢复证据"
+    - "双路径结果：成功时复现Spot/MTF，失败时记录异常和模型安全状态"
+    - "单次停止：成功或失败都立即停在CP09，不自动执行第二次尝试或七点批次"
+  completion_standard: "只消费一次Day72审批并尝试一个0mm控制；成功时复现历史Spot/MTF并关闭连接，失败时保存完整异常证据；两种结果均保持模型不变并锁定七点批次、Day27重算和Slot 6。"
+
+execution:
+  enabled: true
+  recovery_stage: "stage_01_zero_control_retry_01"
+  maximum_execution_count: 1
+  maximum_active_zosapi_connections: 1
+  maximum_working_copy_count: 1
+  allow_zosapi_connection_attempt: true
+  allow_model_copy: true
+  allow_focus_surface_in_memory_write: true
+  allow_standard_spot_if_connected: true
+  allow_fft_mtf_if_connected: true
+  allow_zero_offset_control: true
+  allow_additional_retry: false
+  allow_recovery_cases: false
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_source_modification: false
+  allow_day27_recalculation: false
+  allow_slot6_release: false
+
+source:
+  day72_approval: "outputs/day72_recovery_baseline_retry_approval/approval_20260819_213702/recovery_baseline_retry_approval.json"
+  day72_approval_sha256: "4AEBFA6D6D07F7559E6B8AF313B1F4FA9D19D8D0F2BF9D0167B1B7D373F738A7"
+  expected_day72_task: "day72_recovery_baseline_retry_approval_generation"
+  expected_day72_status: "DAY27_RECOVERY_BASELINE_RETRY_APPROVED_FOR_ONE_ZERO_CONTROL_ATTEMPT"
+  day71_review: "outputs/day71_day70_license_failure_review/review_20260819_212743/day70_license_failure_review.json"
+  day71_review_sha256: "75361C81A4795FC4985A67645BB7EEFF4FE1D077C015077D5A8C4B6528221324"
+  expected_day71_task: "day71_day70_license_failure_review_generation"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_zero_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
+  historical_zero_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"
+  expected_historical_task: "day60_approved_day25_baseline_control_execution"
+
+approved_control:
+  case_id: "recovery_control_000"
+  offset_mm: 0.0
+  expected_image_distance_mm: 42.207788473485415
+  standard_spot_export_count_if_connected: 1
+  fft_mtf_export_count_if_connected: 1
+  zosapi_connection_attempt_count: 1
+  working_copy_count: 1
+
+guardrails:
+  required_entrypoint: "scripts/demos/day73_execute_approved_recovery_baseline_retry.py"
+  post_execution_gate: "CP09_retry_gate"
+  require_authorization_consumption_before_zosapi: true
+  require_success_or_failure_result: true
+  require_historical_reproduction_if_connected: true
+  require_balanced_acceptance_pass_if_connected: true
+  require_input_model_unchanged: true
+  require_disk_working_copy_unchanged: true
+  require_connection_closed_if_established: true
+  maximum_spot_summary_difference_um: 0.000001
+  maximum_mtf_summary_difference: 0.000001
+  forbid_interpolation: true
+  forbid_continuous_tolerance_claim: true
+  forbid_engineering_change_claim: true
+
+output:
+  root: "outputs/day72_day27_recovery_baseline_retry_execution"
+  execution_directory_prefix: "execution_"
+  case_directory: "recovery_control_000"
+  result_name: "recovery_baseline_retry_result.json"
+  authorization_consumption_name: "approval_4AEBFA6D_consumed.json"

@@ -1,0 +1,107 @@
+# Day 74：在 CP09 审核 Day73 零偏移恢复控制重试结果。
+schema_version: "cp09_recovery_retry_review/v1"
+
+case:
+  id: "day74_cp09_recovery_retry_review_v1"
+  name: "Day73许可证恢复与零偏移控制结果审核"
+  status: "draft"
+
+teaching_introduction:
+  why_today: "Day73已经消费一次新授权并成功复现零偏移控制；Day74需要确认许可证恢复、光学复现和安全收尾构成完整证据链。"
+  relation_to_previous_day: "输入是Day73结果、Day72审批、消费标记、Day71失败审核和四份原始证据；今天只生成CP09审核，不连接Zemax。"
+  concepts:
+    - "恢复闭环：将Day70连接失败、Day71安全审核和Day73成功重试串成可追溯链"
+    - "授权闭环：审批、消费标记和结果必须绑定同一Day72决策与SHA256"
+    - "双重恢复：许可证连接恢复与Spot/MTF基线复现必须分别通过"
+    - "门控分离：审核PASS只允许申请七点批次审批，不等于批次已获准"
+  completion_standard: "Day73只消费一次Day72授权，Standalone许可证有效，Spot/MTF零差复现，模型与副本不变且连接关闭；审核为PASS，但重跑、额外重试、七点批次、Day27重算和Slot 6仍锁定。"
+
+execution:
+  enabled: false
+  allow_review_evaluation: true
+  allow_review_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_day73_rerun: false
+  allow_additional_retry: false
+  allow_recovery_batch: false
+  allow_day27_recalculation: false
+  allow_source_modification: false
+  allow_slot6_release: false
+
+source:
+  day73_result: "outputs/day72_day27_recovery_baseline_retry_execution/execution_20260819_214147/recovery_control_000/recovery_baseline_retry_result.json"
+  day73_result_sha256: "53CEA0061E528D80BAC6D2A90C12655DDB1533604B4875AF10146CCEFEEE648D"
+  expected_day73_task: "day73_approved_recovery_baseline_retry_execution"
+  authorization_marker: "outputs/day72_day27_recovery_baseline_retry_execution/approval_4AEBFA6D_consumed.json"
+  authorization_marker_sha256: "9F07B4B68EB1A839A2950786417B05C2E86E6142C3A0CE8AAC1A406002B913AC"
+  expected_marker_task: "day73_retry_authorization_consumption"
+  day72_approval: "outputs/day72_recovery_baseline_retry_approval/approval_20260819_213702/recovery_baseline_retry_approval.json"
+  day72_approval_sha256: "4AEBFA6D6D07F7559E6B8AF313B1F4FA9D19D8D0F2BF9D0167B1B7D373F738A7"
+  expected_day72_task: "day72_recovery_baseline_retry_approval_generation"
+  day71_review: "outputs/day71_day70_license_failure_review/review_20260819_212743/day70_license_failure_review.json"
+  day71_review_sha256: "75361C81A4795FC4985A67645BB7EEFF4FE1D077C015077D5A8C4B6528221324"
+  expected_day71_task: "day71_day70_license_failure_review_generation"
+  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  historical_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
+  historical_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"
+  raw_spot: "outputs/day72_day27_recovery_baseline_retry_execution/execution_20260819_214147/recovery_control_000/recovery_control_000_standard_spot.txt"
+  raw_spot_sha256: "92FB8A2B69D346DB0CE71F2639C3881110ABB77D892C90F6AC3873BFBC278383"
+  raw_mtf: "outputs/day72_day27_recovery_baseline_retry_execution/execution_20260819_214147/recovery_control_000/recovery_control_000_fft_mtf.txt"
+  raw_mtf_sha256: "1642157AA602F3D19BFAB9C4B3C3A2FE92CABABF88FC4F389C422C284339CE84"
+
+review_criteria:
+  expected_case_id: "recovery_control_000"
+  expected_offset_mm: 0.0
+  expected_retry_number: 1
+  expected_retry_outcome: "SUCCESS_LICENSE_AND_OPTICAL_BASELINE_REVERIFIED"
+  expected_spot_field_count: 3
+  expected_mtf_frequency_count: 2
+  maximum_spot_reproduction_difference_um: 0.000001
+  maximum_mtf_reproduction_difference: 0.000001
+  require_approval_consumed_once: true
+  require_license_reverified: true
+  require_balanced_acceptance_pass: true
+  require_connection_closed: true
+  require_input_model_unchanged: true
+  require_working_copy_unchanged: true
+  require_all_frozen_inputs_unchanged: true
+  require_recovery_cases_not_executed: true
+  require_cp09_pending: true
+
+decision:
+  decision_id: "RV-DAY74-001"
+  decision_status: "DAY73_RECOVERY_RETRY_RESULT_REVIEW_PASSED_WAITING_FOR_SEVEN_POINT_BATCH_APPROVAL"
+  decision_is_teaching_record: true
+  reviewer_role: "project_maintainer"
+  released_capabilities:
+    - "generate_cp09_recovery_retry_review_record"
+    - "submit_seven_point_recovery_batch_approval_request"
+  forbidden_capabilities:
+    - "rerun_day73_with_consumed_approval"
+    - "execute_additional_retry"
+    - "execute_seven_recovery_cases"
+    - "connect_zosapi"
+    - "recalculate_day27_or_release_slot_06"
+    - "modify_official_config_or_frozen_model"
+    - "claim_continuous_tolerance_or_engineering_change"
+
+permissions:
+  recovery_retry_review_completed: true
+  seven_point_batch_approval_request_eligible: true
+  day73_rerun_released: false
+  additional_retry_released: false
+  seven_point_batch_execution_released: false
+  zosapi_execution_released: false
+  day27_recalculation_released: false
+  source_modification_released: false
+  slot_06_released: false
+  continuous_tolerance_claim_released: false
+  engineering_change_released: false
+
+output:
+  root: "outputs/day74_cp09_recovery_retry_review"
+  json: "cp09_recovery_retry_review.json"
+  markdown: "CP09_RECOVERY_RETRY_REVIEW.md"
