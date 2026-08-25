@@ -1,0 +1,124 @@
+{
+  "task": "day67_cp09_slot5_offline_review_generation",
+  "status": "success",
+  "time_local": "2026-08-19T20:59:43.257158+08:00",
+  "decision_id": "RV-DAY67-001",
+  "decision_status": "SLOT_05_EXECUTION_REVIEW_PASSED_DAY27_EVIDENCE_BLOCKED_SLOT_06_LOCKED",
+  "decision_is_teaching_record": true,
+  "source_day66_package": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\slot5_offline_review_result.json",
+    "sha256": "3DA68EB213106847BFB304849802E696D5782C29D3952CDA86738AE0BC922BE4",
+    "verified": true
+  },
+  "source_day65_approval": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_approval\\approval_20260819_204939\\slot5_offline_review_approval.json",
+    "sha256": "7E457EF8BAB10632D8D9A4E9830D9108BC347BEE703C2440B714CF183CA52602",
+    "verified": true
+  },
+  "authorization_consumption": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\approval_7E457EF8_consumed.json",
+    "sha256": "637B87328285FAAC2CCD867DAB47B9B2A2DBFDDBF38D5528BD2D00A1CC2357E5",
+    "verified": true,
+    "consumed_once": true
+  },
+  "day26_result": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\day26_change_specific_result.json",
+    "sha256": "3A0844B88806CAE544400D27D3CD459844B8E13AE2AA1C66B7D94FB86CF64DDA",
+    "verified": true
+  },
+  "day26_detail_csv": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\day26_stopping_details.csv",
+    "sha256": "A14092E2C49301C6EC364942505A22FA183515FB10432B5370907FD502A6E164",
+    "verified": true
+  },
+  "day26_summary_csv": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\day26_stopping_summary.csv",
+    "sha256": "4B0F4D0F96F7862DF333CE928CF7ABF137E87CDE7ABED62D55F75504ED4CA8F4",
+    "verified": true
+  },
+  "day27_result": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\day27_evidence_availability_result.json",
+    "sha256": "280A5725E91D9BFAA12BE8CD8B346886551C6D6372F009EAA978E7DF8637E190",
+    "verified": true
+  },
+  "day27_availability_csv": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\day27_exact_state_availability.csv",
+    "sha256": "A801FCB61559C7269204DBA91679A5CC7EBA71186CA47BA08B0617BC79CE3B88",
+    "verified": true
+  },
+  "cp09_review": {
+    "checkpoint_id": "CP09_slot_gate",
+    "resource_slot": 5,
+    "days": [
+      26,
+      27
+    ],
+    "package_execution_review_status": "PASS",
+    "day26_task_state": "COMPLETED",
+    "day26_result_review_status": "ACCEPTED",
+    "day26_detail_count": 6,
+    "day26_summary_count": 3,
+    "day27_task_state": "BLOCKED_BY_MISSING_EXACT_MEASURED_STATES",
+    "day27_scientific_review_completed": false,
+    "day27_blocked_is_failure": false,
+    "day27_required_state_count": 12,
+    "day27_available_state_count": 5,
+    "day27_missing_state_count": 7,
+    "day27_missing_unique_offsets_mm": [
+      -0.012,
+      0.008,
+      0.012,
+      0.018,
+      0.022,
+      0.032,
+      0.042
+    ],
+    "sibling_isolation_preserved": true,
+    "slot6_release_condition_met": false,
+    "safety_boundary_preserved": true
+  },
+  "decision": {
+    "reviewer_role": "project_maintainer",
+    "released_capabilities": [
+      "generate_cp09_slot5_review_record",
+      "retain_completed_day26_change_specific_result",
+      "submit_day27_evidence_recovery_plan_request"
+    ],
+    "forbidden_capabilities": [
+      "rerun_day66_with_consumed_approval",
+      "connect_zosapi_or_execute_missing_cases",
+      "interpolate_missing_day27_states",
+      "release_slot_06_or_execute_day28",
+      "modify_official_sources",
+      "claim_continuous_tolerance_or_engineering_change"
+    ],
+    "evidence_recovery_plan_request_eligible": true,
+    "evidence_recovery_execution_approved": false,
+    "slot6_release_approved": false,
+    "next_required_gate": "先为Day27缺失精确状态制定证据恢复计划并单独审批；补测、Day27重算和Slot 6均未获准。"
+  },
+  "permissions": {
+    "slot_05_execution_review_completed": true,
+    "day26_result_accepted": true,
+    "day27_evidence_block_confirmed": true,
+    "evidence_recovery_plan_request_eligible": true,
+    "day66_rerun_released": false,
+    "evidence_recovery_execution_released": false,
+    "zosapi_execution_released": false,
+    "interpolation_released": false,
+    "slot_06_release_request_eligible": false,
+    "slot_06_execution_released": false,
+    "source_modification_released": false,
+    "engineering_change_released": false
+  },
+  "review_record_generated": true,
+  "day66_rerun_performed": false,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "interpolation_used": false,
+  "evidence_recovery_executed": false,
+  "existing_source_modified": false,
+  "slot6_released": false,
+  "continuous_tolerance_claimed": false,
+  "engineering_change_approved": false
+}

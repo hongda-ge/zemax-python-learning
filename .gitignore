@@ -14,6 +14,34 @@ __pycache__/
 outputs/
 logs/
 
+# Local document-generation artifacts and accidental nested workspace copies
+artifacts/
+generated_docs/
+/02_zosapi_python/
+
+# Local one-off document builders
+tools/build_*_docx.py
+
+# Accidental legacy copies
+scripts/legacy/*副本*.py
+
 # Zemax generated
 *.zosbak
 *.tmp
+
+# Zemax optical models stay local and are transferred privately, never through Git
+models/
+*.zmx
+*.ZMX
+*.zos
+*.ZOS
+*.ZDA
+
+# Duplicate local legacy config; canonical copy lives under configs/templates/
+/configs/config_D15_cooke_thickness.yaml
+
+# Re-runnable legacy D16 artifacts that are not part of the migration checkpoint
+/results/archive/D16_thickness_sweep/mtf_txt/case_001_delta_m1p00_fft_mtf.txt
+/results/archive/D16_thickness_sweep/mtf_txt/case_006_delta_p0p00_fft_mtf.txt
+/results/archive/D16_thickness_sweep/spot_txt/case_001_delta_m1p00_standard_spot.txt
+/results/archive/D16_thickness_sweep/spot_txt/case_006_delta_p0p00_standard_spot.txt

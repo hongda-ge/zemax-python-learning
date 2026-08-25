@@ -1,0 +1,204 @@
+{
+  "task": "day66_change_specific_day27_exact_evidence_audit",
+  "status": "success",
+  "task_state": "BLOCKED_BY_MISSING_EXACT_MEASURED_STATES",
+  "time_local": "2026-08-19T20:54:43.212288+08:00",
+  "positioning_uncertainty_mm": 0.012,
+  "candidate_count": 4,
+  "required_state_count": 12,
+  "available_state_count": 5,
+  "missing_state_count": 7,
+  "missing_unique_offsets_mm": [
+    -0.012,
+    0.008,
+    0.012,
+    0.018,
+    0.022,
+    0.032,
+    0.042
+  ],
+  "candidate_requirements": [
+    {
+      "candidate_id": "command_001",
+      "command_offset_mm": 0.0,
+      "required_state_count": 3,
+      "available_state_count": 1,
+      "missing_state_count": 2,
+      "missing_offsets_mm": [
+        -0.012,
+        0.012
+      ],
+      "envelope_evaluation_eligible": false
+    },
+    {
+      "candidate_id": "command_002",
+      "command_offset_mm": 0.01,
+      "required_state_count": 3,
+      "available_state_count": 2,
+      "missing_state_count": 1,
+      "missing_offsets_mm": [
+        0.022
+      ],
+      "envelope_evaluation_eligible": false
+    },
+    {
+      "candidate_id": "command_003",
+      "command_offset_mm": 0.02,
+      "required_state_count": 3,
+      "available_state_count": 1,
+      "missing_state_count": 2,
+      "missing_offsets_mm": [
+        0.008,
+        0.032
+      ],
+      "envelope_evaluation_eligible": false
+    },
+    {
+      "candidate_id": "command_004",
+      "command_offset_mm": 0.03,
+      "required_state_count": 3,
+      "available_state_count": 1,
+      "missing_state_count": 2,
+      "missing_offsets_mm": [
+        0.018,
+        0.042
+      ],
+      "envelope_evaluation_eligible": false
+    }
+  ],
+  "exact_state_availability": [
+    {
+      "candidate_id": "command_001",
+      "command_offset_mm": 0.0,
+      "state_id": "negative_endpoint",
+      "relative_offset_mm": -0.012,
+      "required_offset_mm": -0.012,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    },
+    {
+      "candidate_id": "command_001",
+      "command_offset_mm": 0.0,
+      "state_id": "command_center",
+      "relative_offset_mm": 0.0,
+      "required_offset_mm": 0.0,
+      "exact_measurement_available": true,
+      "source_case_id": "defocus_004",
+      "source_day": 23
+    },
+    {
+      "candidate_id": "command_001",
+      "command_offset_mm": 0.0,
+      "state_id": "positive_endpoint",
+      "relative_offset_mm": 0.012,
+      "required_offset_mm": 0.012,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    },
+    {
+      "candidate_id": "command_002",
+      "command_offset_mm": 0.01,
+      "state_id": "negative_endpoint",
+      "relative_offset_mm": -0.012,
+      "required_offset_mm": -0.002,
+      "exact_measurement_available": true,
+      "source_case_id": "boundary_negative_004",
+      "source_day": 25
+    },
+    {
+      "candidate_id": "command_002",
+      "command_offset_mm": 0.01,
+      "state_id": "command_center",
+      "relative_offset_mm": 0.0,
+      "required_offset_mm": 0.01,
+      "exact_measurement_available": true,
+      "source_case_id": "defocus_005",
+      "source_day": 23
+    },
+    {
+      "candidate_id": "command_002",
+      "command_offset_mm": 0.01,
+      "state_id": "positive_endpoint",
+      "relative_offset_mm": 0.012,
+      "required_offset_mm": 0.022,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    },
+    {
+      "candidate_id": "command_003",
+      "command_offset_mm": 0.02,
+      "state_id": "negative_endpoint",
+      "relative_offset_mm": -0.012,
+      "required_offset_mm": 0.008,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    },
+    {
+      "candidate_id": "command_003",
+      "command_offset_mm": 0.02,
+      "state_id": "command_center",
+      "relative_offset_mm": 0.0,
+      "required_offset_mm": 0.02,
+      "exact_measurement_available": true,
+      "source_case_id": "defocus_006",
+      "source_day": 23
+    },
+    {
+      "candidate_id": "command_003",
+      "command_offset_mm": 0.02,
+      "state_id": "positive_endpoint",
+      "relative_offset_mm": 0.012,
+      "required_offset_mm": 0.032,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    },
+    {
+      "candidate_id": "command_004",
+      "command_offset_mm": 0.03,
+      "state_id": "negative_endpoint",
+      "relative_offset_mm": -0.012,
+      "required_offset_mm": 0.018,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    },
+    {
+      "candidate_id": "command_004",
+      "command_offset_mm": 0.03,
+      "state_id": "command_center",
+      "relative_offset_mm": 0.0,
+      "required_offset_mm": 0.03,
+      "exact_measurement_available": true,
+      "source_case_id": "boundary_positive_002",
+      "source_day": 25
+    },
+    {
+      "candidate_id": "command_004",
+      "command_offset_mm": 0.03,
+      "state_id": "positive_endpoint",
+      "relative_offset_mm": 0.012,
+      "required_offset_mm": 0.042,
+      "exact_measurement_available": false,
+      "source_case_id": "",
+      "source_day": ""
+    }
+  ],
+  "envelope_evaluation_executed": false,
+  "pass_candidates": null,
+  "fail_candidates": null,
+  "blocked_is_not_failure": true,
+  "sibling_day26_result_overblocked": false,
+  "measured_points_only": true,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "new_residual_defocus_case_executed": false,
+  "interpolation_used": false,
+  "extrapolation_used": false,
+  "continuous_acceptance_interval_claimed": false,
+  "engineering_recommendation": null
+}

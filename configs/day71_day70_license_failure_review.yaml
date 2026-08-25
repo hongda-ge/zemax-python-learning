@@ -40,7 +40,7 @@ source:
   expected_day69_task: "day69_day27_recovery_baseline_approval_generation"
   day70_config: "configs/day70_approved_recovery_baseline_control.yaml"
   day70_config_sha256: "77E7FD0395B8D5179C44AFB5B30D46CBC81C5352A48FD416889ADF5554B7C15D"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   working_copy: "outputs/day69_day27_recovery_baseline_execution/execution_20260819_211252/recovery_control_000/recovery_control_000_working.zmx"
   working_copy_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"

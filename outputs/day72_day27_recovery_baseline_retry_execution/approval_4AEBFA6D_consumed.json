@@ -1,0 +1,12 @@
+{
+  "task": "day73_retry_authorization_consumption",
+  "status": "consumed_before_zosapi_retry_attempt",
+  "time_local": "2026-08-19T21:41:47.959374+08:00",
+  "approval_path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_recovery_baseline_retry_approval\\approval_20260819_213702\\recovery_baseline_retry_approval.json",
+  "approval_sha256": "4AEBFA6D6D07F7559E6B8AF313B1F4FA9D19D8D0F2BF9D0167B1B7D373F738A7",
+  "decision_id": "AP-DAY72-001",
+  "recovery_stage": "stage_01_zero_control_retry_01",
+  "run_directory": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_day27_recovery_baseline_retry_execution\\execution_20260819_214147",
+  "maximum_execution_count": 1,
+  "additional_retry_released": false
+}

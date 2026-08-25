@@ -1,0 +1,101 @@
+{
+  "task": "day71_day70_license_failure_review_generation",
+  "status": "success",
+  "time_local": "2026-08-19T21:27:43.217585+08:00",
+  "decision_id": "RV-DAY71-001",
+  "decision_status": "DAY70_LICENSE_FAILURE_REVIEWED_RETRY_APPROVAL_REQUEST_ELIGIBLE",
+  "decision_is_teaching_record": true,
+  "source_day70_failure": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\execution_20260819_211252\\recovery_control_000\\recovery_baseline_control_result.json",
+    "sha256": "97DCAEDF2FCFD716E447119E5AD89BF6B8A505BF3DDDA5A3AE2043EF3E21A0DB",
+    "verified": true
+  },
+  "source_day69_approval": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_approval\\approval_20260819_210854\\day27_recovery_baseline_approval.json",
+    "sha256": "AC6C95BABA1414EE2EF9BF9A5F8F5E44E4EF82E0806D95877FB921710E0287B3",
+    "verified": true
+  },
+  "authorization_consumption": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\approval_AC6C95BA_consumed.json",
+    "sha256": "DD64E9528306520020E177DCB90AC882189DB46DBB68D218964BC4048F32CC67",
+    "verified": true,
+    "consumed_once": true,
+    "reusable": false
+  },
+  "day70_config": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\configs\\day70_approved_recovery_baseline_control.yaml",
+    "sha256": "77E7FD0395B8D5179C44AFB5B30D46CBC81C5352A48FD416889ADF5554B7C15D",
+    "verified": true
+  },
+  "focused_model": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day8_local_fine_scan\\fine_scan_20260805_104603\\fine_005_6p008\\fine_005_surface2_6p008_focused.zmx",
+    "sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "verified": true
+  },
+  "working_copy": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\execution_20260819_211252\\recovery_control_000\\recovery_control_000_working.zmx",
+    "sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "verified": true
+  },
+  "failure_review": {
+    "classification": "PRE_ANALYSIS_ZOSAPI_LICENSE_CONNECTION_FAILURE",
+    "execution_task_completed": false,
+    "error_type": "ZemaxConnectionError",
+    "error_message": "The current OpticStudio license is not valid for ZOS-API.",
+    "zosapi_connection_established": false,
+    "connection_object_required_closure": false,
+    "spot_output_created": false,
+    "fft_mtf_output_created": false,
+    "optical_metric_calculated": false,
+    "input_model_unchanged": true,
+    "working_copy_unchanged": true,
+    "quick_focus_used": false,
+    "optimization_used": false,
+    "save_as_used": false,
+    "safety_review_status": "PASS"
+  },
+  "license_recovery_observation": {
+    "operator_confirmed_gui_reopened_successfully": true,
+    "operator_confirmed_gui_closed_before_review": true,
+    "matching_process_observed_during_pre_review_audit": false,
+    "standalone_zosapi_license_reverified": false
+  },
+  "decision": {
+    "reviewer_role": "project_maintainer",
+    "released_capabilities": [
+      "generate_day70_license_failure_review_record",
+      "submit_new_zero_control_retry_approval_request"
+    ],
+    "forbidden_capabilities": [
+      "reuse_consumed_day69_approval",
+      "rerun_day70_or_connect_zosapi",
+      "execute_seven_recovery_cases",
+      "recalculate_day27_or_release_slot_06",
+      "modify_official_sources",
+      "claim_license_reverified_or_engineering_change"
+    ],
+    "retry_approval_request_eligible": true,
+    "retry_execution_approved": false,
+    "next_required_gate": "另行签发新的单次零偏移控制重试审批；不得复用Day69授权，也不得直接运行Day70。"
+  },
+  "permissions": {
+    "failure_review_completed": true,
+    "retry_approval_request_eligible": true,
+    "day70_rerun_released": false,
+    "retry_execution_released": false,
+    "zosapi_execution_released": false,
+    "seven_point_batch_execution_released": false,
+    "day27_recalculation_released": false,
+    "source_modification_released": false,
+    "slot_06_released": false,
+    "engineering_change_released": false
+  },
+  "review_record_generated": true,
+  "day70_rerun_performed": false,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "existing_source_modified": false,
+  "seven_recovery_cases_released": false,
+  "slot6_released": false,
+  "engineering_change_approved": false
+}

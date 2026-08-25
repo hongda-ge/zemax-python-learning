@@ -35,7 +35,7 @@ source:
   day50_approval: "outputs/day50_slot2_day23_baseline_approval/approval_20260817_222821/slot2_day23_baseline_approval.json"
   day50_approval_sha256: "4948F66B52464A0238A91356F92A73B5382EAF05A705523E97F70724FD664181"
   expected_day50_task: "day50_slot2_day23_baseline_approval_generation"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   previous_day23_control: "outputs/day23_residual_defocus_optical_impact/baseline_control_20260807_141519/defocus_004/baseline_control_report.json"
   previous_day23_control_sha256: "7D03E3727B684D22011D6DA3D8B5770C96F8441D3A5341BA1F66DF99510831F3"

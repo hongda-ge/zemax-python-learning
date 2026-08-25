@@ -36,7 +36,7 @@ source:
   expected_day51_task: "day51_approved_day23_baseline_control_execution"
   day23_config: "configs/day23_residual_defocus_optical_impact.yaml"
   day23_config_sha256: "87A195370DF2F195E59E12C13596E74ACEF721F660B82E38D220428C00B5C2E6"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   historical_residual_batch: "outputs/day23_residual_defocus_optical_impact/residual_batch_20260807_142141/residual_defocus_batch_report.json"
   historical_residual_batch_sha256: "3043D8B79DBB739252E3E781487A244B02C5241A9E72113E059C176BD821F771"

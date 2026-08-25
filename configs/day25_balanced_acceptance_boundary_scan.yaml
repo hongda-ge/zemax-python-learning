@@ -28,7 +28,7 @@ source:
   day24_report_sha256: "E227EAE0BAEED43132BC2086E3FBE1F9A890DE2899951BA39FB881814874F37A"
   expected_day24_task: "day24_residual_defocus_acceptance_evaluation"
   expected_scenario_id: "balanced_acceptance"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   approved_baseline_report: "outputs/day25_balanced_acceptance_boundary_scan/baseline_control_20260807_151451/boundary_control_000/baseline_control_report.json"
   approved_baseline_report_sha256: "2D52AD927358E05A2BFFD73D85893AD07A5B463A27964376E07DF99B50927632"

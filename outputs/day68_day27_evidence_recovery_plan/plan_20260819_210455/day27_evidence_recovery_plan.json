@@ -1,0 +1,222 @@
+{
+  "task": "day68_day27_evidence_recovery_plan_generation",
+  "status": "success",
+  "time_local": "2026-08-19T21:04:55.956042+08:00",
+  "decision_id": "PL-DAY68-001",
+  "decision_status": "DAY27_EVIDENCE_RECOVERY_PLAN_READY_WAITING_FOR_BASELINE_CONTROL_APPROVAL",
+  "decision_is_teaching_record": true,
+  "source_day67_review": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day67_cp09_slot5_offline_review\\review_20260819_205943\\cp09_slot5_offline_review.json",
+    "sha256": "77E36E5A3DAB62123E6CAF5172A8FCDEEEBDA4B5E83944E92DFEAED58B237D26",
+    "verified": true
+  },
+  "source_day27_evidence_audit": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day65_slot5_offline_review_execution\\execution_20260819_205443\\day27_evidence_availability_result.json",
+    "sha256": "280A5725E91D9BFAA12BE8CD8B346886551C6D6372F009EAA978E7DF8637E190",
+    "verified": true
+  },
+  "source_day25_measured_report": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day25_balanced_acceptance_boundary_scan\\offline_analysis_20260807_152301\\boundary_analysis_report.json",
+    "sha256": "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C",
+    "verified": true
+  },
+  "source_day25_config": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\configs\\day25_balanced_acceptance_boundary_scan.yaml",
+    "sha256": "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E",
+    "verified": true
+  },
+  "focused_model": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day8_local_fine_scan\\fine_scan_20260805_104603\\fine_005_6p008\\fine_005_surface2_6p008_focused.zmx",
+    "sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "verified": true
+  },
+  "recent_zero_control": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day59_slot4_day25_baseline_control_execution\\execution_20260819_201858\\boundary_control_000\\slot4_baseline_control_result.json",
+    "sha256": "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07",
+    "verified": true
+  },
+  "positioning_uncertainty_mm": 0.012,
+  "reference_image_distance_mm": 42.207788473485415,
+  "recovery_case_count": 7,
+  "recovery_cases": [
+    {
+      "case_id": "recovery_001",
+      "offset_mm": -0.012,
+      "target_image_distance_mm": 42.195788473485415,
+      "required_by_candidates": [
+        "command_001"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    },
+    {
+      "case_id": "recovery_002",
+      "offset_mm": 0.008,
+      "target_image_distance_mm": 42.21578847348542,
+      "required_by_candidates": [
+        "command_003"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    },
+    {
+      "case_id": "recovery_003",
+      "offset_mm": 0.012,
+      "target_image_distance_mm": 42.219788473485416,
+      "required_by_candidates": [
+        "command_001"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    },
+    {
+      "case_id": "recovery_004",
+      "offset_mm": 0.018,
+      "target_image_distance_mm": 42.225788473485416,
+      "required_by_candidates": [
+        "command_004"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    },
+    {
+      "case_id": "recovery_005",
+      "offset_mm": 0.022,
+      "target_image_distance_mm": 42.229788473485414,
+      "required_by_candidates": [
+        "command_002"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    },
+    {
+      "case_id": "recovery_006",
+      "offset_mm": 0.032,
+      "target_image_distance_mm": 42.23978847348541,
+      "required_by_candidates": [
+        "command_003"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    },
+    {
+      "case_id": "recovery_007",
+      "offset_mm": 0.042,
+      "target_image_distance_mm": 42.24978847348542,
+      "required_by_candidates": [
+        "command_004"
+      ],
+      "standard_spot_planned": true,
+      "fft_mtf_planned": true,
+      "quick_focus_planned": false,
+      "execution_released": false
+    }
+  ],
+  "minimal_sufficient_set_verified": true,
+  "staged_recovery": [
+    {
+      "stage_id": "stage_01_zero_control",
+      "purpose": "在任何新点前复现0.000mm的Spot和FFT MTF基线",
+      "planned_cases": 1,
+      "execution_released": false,
+      "next_gate": "CP09_baseline_gate"
+    },
+    {
+      "stage_id": "stage_02_seven_point_batch",
+      "purpose": "按偏移升序串行执行七个精确缺失状态",
+      "planned_cases": 7,
+      "execution_released": false,
+      "next_gate": "CP09_recovery_batch_gate"
+    },
+    {
+      "stage_id": "stage_03_day27_offline_recalculation",
+      "purpose": "合并原16点与新7点，按四指标AND规则重算四个命令包络",
+      "planned_cases": 0,
+      "execution_released": false,
+      "next_gate": "CP09_day27_gate"
+    },
+    {
+      "stage_id": "stage_04_slot6_release_review",
+      "purpose": "仅在Day27科学复核完成后重新判断Slot 6释放资格",
+      "planned_cases": 0,
+      "execution_released": false,
+      "next_gate": "manual_slot6_release_gate"
+    }
+  ],
+  "analysis_contract": {
+    "use_focused_model_without_quick_focus": true,
+    "standard_spot": true,
+    "fft_mtf": true,
+    "evaluation_frequencies_cyc_per_mm": [
+      30.0,
+      50.0
+    ],
+    "independent_working_copy_per_case": true,
+    "independent_connection_lifecycle_per_case": true,
+    "run_sequentially": true,
+    "stop_on_first_unexpected_execution_failure": true,
+    "acceptance_fail_does_not_stop_batch": true,
+    "quick_focus_allowed": false,
+    "optimization_allowed": false,
+    "save_as_allowed": false,
+    "interpolation_allowed": false,
+    "continuous_tolerance_claim_allowed": false
+  },
+  "planned_workload_if_all_future_stages_are_approved": {
+    "total_zosapi_connections": 8,
+    "total_independent_working_copies": 8,
+    "total_standard_spot_exports": 8,
+    "total_fft_mtf_exports": 8,
+    "total_quick_focus_runs": 0
+  },
+  "decision": {
+    "released_capabilities": [
+      "generate_day27_evidence_recovery_plan_record",
+      "submit_zero_control_approval_request"
+    ],
+    "forbidden_capabilities": [
+      "connect_zosapi_or_execute_any_recovery_case",
+      "interpolate_missing_states",
+      "recalculate_day27_before_evidence_completion",
+      "release_slot_06",
+      "modify_official_sources",
+      "claim_continuous_tolerance_or_engineering_change"
+    ],
+    "next_required_gate": "另行审批一次零偏移控制；Day68本身不允许连接ZOS-API或执行任何恢复案例。"
+  },
+  "permissions": {
+    "evidence_recovery_plan_completed": true,
+    "zero_control_approval_request_eligible": true,
+    "zero_control_execution_released": false,
+    "seven_point_batch_execution_released": false,
+    "day27_recalculation_released": false,
+    "zosapi_execution_released": false,
+    "interpolation_released": false,
+    "slot_06_release_request_eligible": false,
+    "slot_06_execution_released": false,
+    "source_modification_released": false,
+    "engineering_change_released": false
+  },
+  "plan_record_generated": true,
+  "new_zosapi_connection_created": false,
+  "model_copy_created": false,
+  "new_optical_metric_calculated": false,
+  "recovery_case_executed": false,
+  "interpolation_used": false,
+  "existing_source_modified": false,
+  "slot6_released": false,
+  "continuous_tolerance_claimed": false,
+  "engineering_change_approved": false
+}

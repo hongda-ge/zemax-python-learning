@@ -1,0 +1,113 @@
+{
+  "task": "day74_cp09_recovery_retry_review_generation",
+  "status": "success",
+  "time_local": "2026-08-19T21:53:08.205736+08:00",
+  "decision_id": "RV-DAY74-001",
+  "decision_status": "DAY73_RECOVERY_RETRY_RESULT_REVIEW_PASSED_WAITING_FOR_SEVEN_POINT_BATCH_APPROVAL",
+  "decision_is_teaching_record": true,
+  "source_day73_result": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_day27_recovery_baseline_retry_execution\\execution_20260819_214147\\recovery_control_000\\recovery_baseline_retry_result.json",
+    "sha256": "53CEA0061E528D80BAC6D2A90C12655DDB1533604B4875AF10146CCEFEEE648D",
+    "verified": true
+  },
+  "source_day72_approval": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_recovery_baseline_retry_approval\\approval_20260819_213702\\recovery_baseline_retry_approval.json",
+    "sha256": "4AEBFA6D6D07F7559E6B8AF313B1F4FA9D19D8D0F2BF9D0167B1B7D373F738A7",
+    "verified": true
+  },
+  "source_day71_failure_review": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day71_day70_license_failure_review\\review_20260819_212743\\day70_license_failure_review.json",
+    "sha256": "75361C81A4795FC4985A67645BB7EEFF4FE1D077C015077D5A8C4B6528221324",
+    "verified": true
+  },
+  "authorization_consumption": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_day27_recovery_baseline_retry_execution\\approval_4AEBFA6D_consumed.json",
+    "sha256": "9F07B4B68EB1A839A2950786417B05C2E86E6142C3A0CE8AAC1A406002B913AC",
+    "verified": true,
+    "consumed_once": true,
+    "reusable": false
+  },
+  "cp09_review": {
+    "checkpoint_id": "CP09_retry_gate",
+    "day": 27,
+    "task_review_status": "PASS",
+    "case_id": "recovery_control_000",
+    "offset_mm": 0.0,
+    "retry_number": 1,
+    "license_recovery_status": "STANDALONE_ZOSAPI_REVERIFIED",
+    "license_valid": true,
+    "zosapi_version": "24.1 SP3",
+    "maximum_spot_reproduction_difference_um": 0.0,
+    "maximum_mtf_reproduction_difference": 0.0,
+    "balanced_acceptance_pass": true,
+    "balanced_acceptance_checks": {
+      "spot_mean": true,
+      "spot_worst": true,
+      "mtf30_minimum": true,
+      "mtf50_minimum": true
+    },
+    "spot_raw_text": {
+      "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_day27_recovery_baseline_retry_execution\\execution_20260819_214147\\recovery_control_000\\recovery_control_000_standard_spot.txt",
+      "sha256": "92FB8A2B69D346DB0CE71F2639C3881110ABB77D892C90F6AC3873BFBC278383"
+    },
+    "mtf_raw_text": {
+      "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_day27_recovery_baseline_retry_execution\\execution_20260819_214147\\recovery_control_000\\recovery_control_000_fft_mtf.txt",
+      "sha256": "1642157AA602F3D19BFAB9C4B3C3A2FE92CABABF88FC4F389C422C284339CE84"
+    },
+    "focused_model_sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "working_copy_sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "connection_closed": true,
+    "result_is_complete": true,
+    "result_is_reproducible": true,
+    "safety_boundary_preserved": true
+  },
+  "recovery_chain": {
+    "day70_outcome": "PRE_ANALYSIS_ZOSAPI_LICENSE_CONNECTION_FAILURE",
+    "day71_review": "PASS_RETRY_APPROVAL_REQUEST_ELIGIBLE",
+    "day72_approval": "ONE_ZERO_CONTROL_RETRY_ATTEMPT",
+    "day73_outcome": "SUCCESS_LICENSE_AND_OPTICAL_BASELINE_REVERIFIED",
+    "day74_review": "PASS"
+  },
+  "decision": {
+    "reviewer_role": "project_maintainer",
+    "released_capabilities": [
+      "generate_cp09_recovery_retry_review_record",
+      "submit_seven_point_recovery_batch_approval_request"
+    ],
+    "forbidden_capabilities": [
+      "rerun_day73_with_consumed_approval",
+      "execute_additional_retry",
+      "execute_seven_recovery_cases",
+      "connect_zosapi",
+      "recalculate_day27_or_release_slot_06",
+      "modify_official_config_or_frozen_model",
+      "claim_continuous_tolerance_or_engineering_change"
+    ],
+    "seven_point_batch_execution_approved": false,
+    "next_required_gate": "另行审批是否释放七个Day27证据恢复点；本审核记录不得自动连接ZOS-API或执行批次。"
+  },
+  "permissions": {
+    "recovery_retry_review_completed": true,
+    "seven_point_batch_approval_request_eligible": true,
+    "day73_rerun_released": false,
+    "additional_retry_released": false,
+    "seven_point_batch_execution_released": false,
+    "zosapi_execution_released": false,
+    "day27_recalculation_released": false,
+    "source_modification_released": false,
+    "slot_06_released": false,
+    "continuous_tolerance_claim_released": false,
+    "engineering_change_released": false
+  },
+  "review_record_generated": true,
+  "day73_rerun_performed": false,
+  "additional_retry_executed": false,
+  "recovery_cases_executed": false,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "existing_source_modified": false,
+  "day27_recalculated": false,
+  "slot6_released": false,
+  "continuous_tolerance_claimed": false,
+  "engineering_change_approved": false
+}

@@ -43,7 +43,7 @@ source:
   day25_measured_report: "outputs/day25_balanced_acceptance_boundary_scan/offline_analysis_20260807_152301/boundary_analysis_report.json"
   day25_measured_report_sha256: "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C"
   expected_day25_task: "day25_boundary_scan_offline_analysis"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   recent_zero_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
   recent_zero_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"

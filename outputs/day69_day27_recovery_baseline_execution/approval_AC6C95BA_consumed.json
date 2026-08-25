@@ -1,0 +1,12 @@
+{
+  "task": "day70_authorization_consumption",
+  "status": "consumed_before_zosapi_execution",
+  "time_local": "2026-08-19T21:12:52.613453+08:00",
+  "approval_path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_approval\\approval_20260819_210854\\day27_recovery_baseline_approval.json",
+  "approval_sha256": "AC6C95BABA1414EE2EF9BF9A5F8F5E44E4EF82E0806D95877FB921710E0287B3",
+  "decision_id": "AP-DAY69-001",
+  "recovery_stage": "stage_01_zero_control",
+  "run_directory": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\execution_20260819_211252",
+  "maximum_execution_count": 1,
+  "rerun_released": false
+}

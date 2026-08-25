@@ -46,7 +46,7 @@ source:
   day8_batch_sha256: "BC4F287B4A0A8272EDE4BCB4F33730A4DBFECFD6440EBB59BEF0FC8464E20A6C"
   day8_case_report: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/result.json"
   day8_case_sha256: "F12194F71FCB7220A6B6E9B491657EB95AA26940FF0C40346733B79949BB0316"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   day9_baseline_report: "outputs/day9_fft_mtf_validation/baseline_check_20260805_120104/fine_005/mtf_result.json"
   day9_baseline_sha256: "FD06952286B70748397F013C3B6825F1FE41A0F67E39E8D41B7A5F82655DFC8D"

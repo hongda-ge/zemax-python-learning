@@ -43,7 +43,7 @@ source:
   day71_review: "outputs/day71_day70_license_failure_review/review_20260819_212743/day70_license_failure_review.json"
   day71_review_sha256: "75361C81A4795FC4985A67645BB7EEFF4FE1D077C015077D5A8C4B6528221324"
   expected_day71_task: "day71_day70_license_failure_review_generation"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   historical_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
   historical_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"

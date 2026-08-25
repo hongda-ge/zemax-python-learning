@@ -1,0 +1,113 @@
+{
+  "task": "day72_recovery_baseline_retry_approval_generation",
+  "status": "success",
+  "time_local": "2026-08-19T21:37:02.060714+08:00",
+  "decision_id": "AP-DAY72-001",
+  "decision_status": "DAY27_RECOVERY_BASELINE_RETRY_APPROVED_FOR_ONE_ZERO_CONTROL_ATTEMPT",
+  "decision_is_teaching_record": true,
+  "source_day71_review": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day71_day70_license_failure_review\\review_20260819_212743\\day70_license_failure_review.json",
+    "sha256": "75361C81A4795FC4985A67645BB7EEFF4FE1D077C015077D5A8C4B6528221324",
+    "verified": true
+  },
+  "source_day70_failure": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\execution_20260819_211252\\recovery_control_000\\recovery_baseline_control_result.json",
+    "sha256": "97DCAEDF2FCFD716E447119E5AD89BF6B8A505BF3DDDA5A3AE2043EF3E21A0DB",
+    "verified": true
+  },
+  "original_authorization_consumption": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\approval_AC6C95BA_consumed.json",
+    "sha256": "DD64E9528306520020E177DCB90AC882189DB46DBB68D218964BC4048F32CC67",
+    "verified": true,
+    "consumed_once": true,
+    "reusable": false
+  },
+  "day70_config": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\configs\\day70_approved_recovery_baseline_control.yaml",
+    "sha256": "77E7FD0395B8D5179C44AFB5B30D46CBC81C5352A48FD416889ADF5554B7C15D",
+    "verified": true
+  },
+  "focused_model": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day8_local_fine_scan\\fine_scan_20260805_104603\\fine_005_6p008\\fine_005_surface2_6p008_focused.zmx",
+    "sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "verified": true
+  },
+  "historical_zero_control": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day59_slot4_day25_baseline_control_execution\\execution_20260819_201858\\boundary_control_000\\slot4_baseline_control_result.json",
+    "sha256": "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07",
+    "verified": true
+  },
+  "approved_execution_contract": {
+    "recovery_stage": "stage_01_zero_control_retry_01",
+    "day": 27,
+    "execution_class": "uses_zosapi",
+    "approved_case_id": "recovery_control_000",
+    "approved_offset_mm": 0.0,
+    "target_image_distance_mm": 42.207788473485415,
+    "maximum_execution_count": 1,
+    "maximum_active_zosapi_connections": 1,
+    "maximum_working_copy_count": 1,
+    "required_entrypoint": "scripts/demos/day73_execute_approved_recovery_baseline_retry.py",
+    "approved_output_root": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day72_day27_recovery_baseline_retry_execution",
+    "allow_standard_spot": true,
+    "allow_fft_mtf": true,
+    "allow_quick_focus": false,
+    "allow_optimization": false,
+    "allow_save_as": false,
+    "allow_seven_recovery_cases": false,
+    "require_historical_reproduction": true,
+    "require_balanced_acceptance_pass": true,
+    "require_authorization_consumed_before_connection": true,
+    "require_stop_after_execution_or_failure": true,
+    "stop_checkpoint": "CP09_retry_gate"
+  },
+  "license_state_at_approval": {
+    "operator_gui_recovery_observed": true,
+    "standalone_zosapi_license_reverified": false,
+    "day73_retry_is_the_authorized_api_verification_attempt": true
+  },
+  "decision": {
+    "approved_capabilities": [
+      "execute_one_new_zero_offset_retry_attempt",
+      "create_one_isolated_working_copy",
+      "connect_one_standalone_zosapi_session",
+      "export_one_standard_spot_and_one_fft_mtf_if_connection_succeeds",
+      "write_one_isolated_success_or_failure_result"
+    ],
+    "forbidden_capabilities": [
+      "reuse_consumed_day69_approval",
+      "execute_more_than_one_retry_attempt",
+      "execute_seven_recovery_cases",
+      "run_quick_focus_or_optimization_or_save_as",
+      "recalculate_day27_or_release_slot_06",
+      "modify_official_config_or_frozen_model",
+      "claim_license_recovery_before_day73_or_engineering_change"
+    ],
+    "next_required_gate": "Day73只可执行一次新零偏移重试；无论成功或再次失败，均须停在CP09接受人工审核。"
+  },
+  "permissions": {
+    "one_zero_control_retry_attempt_released": true,
+    "one_zosapi_connection_attempt_released": true,
+    "one_working_copy_released": true,
+    "spot_and_mtf_analysis_if_connected_released": true,
+    "original_authorization_reuse_released": false,
+    "additional_retry_released": false,
+    "seven_point_batch_execution_released": false,
+    "day27_recalculation_released": false,
+    "quick_focus_released": false,
+    "optimization_released": false,
+    "save_as_released": false,
+    "source_modification_released": false,
+    "slot_06_released": false,
+    "engineering_change_released": false
+  },
+  "approval_record_generated": true,
+  "approved_retry_executed_by_day72": false,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "existing_source_modified": false,
+  "seven_recovery_cases_released": false,
+  "day27_recalculated": false,
+  "slot6_released": false,
+  "engineering_change_approved": false
+}

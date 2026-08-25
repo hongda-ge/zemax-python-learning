@@ -1,0 +1,8 @@
+﻿case_id,offset_mm,target_image_distance_mm,required_by_candidates,standard_spot_planned,fft_mtf_planned,quick_focus_planned,execution_released
+recovery_001,-0.012,42.195788473485415,command_001,True,True,False,False
+recovery_002,0.008,42.21578847348542,command_003,True,True,False,False
+recovery_003,0.012,42.219788473485416,command_001,True,True,False,False
+recovery_004,0.018,42.225788473485416,command_004,True,True,False,False
+recovery_005,0.022,42.229788473485414,command_002,True,True,False,False
+recovery_006,0.032,42.23978847348541,command_003,True,True,False,False
+recovery_007,0.042,42.24978847348542,command_004,True,True,False,False

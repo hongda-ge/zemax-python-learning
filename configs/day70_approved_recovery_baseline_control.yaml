@@ -43,7 +43,7 @@ source:
   expected_day69_status: "DAY27_RECOVERY_BASELINE_APPROVED_FOR_ZERO_CONTROL_EXECUTION"
   day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
   day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   historical_zero_control: "outputs/day59_slot4_day25_baseline_control_execution/execution_20260819_201858/boundary_control_000/slot4_baseline_control_result.json"
   historical_zero_control_sha256: "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07"

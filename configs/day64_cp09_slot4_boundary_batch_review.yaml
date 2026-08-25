@@ -38,7 +38,7 @@ source:
   day62_approval: "outputs/day62_slot4_day25_boundary_batch_approval/approval_20260819_202930/slot4_boundary_batch_approval.json"
   day62_approval_sha256: "68A7DB966A221C577AEFE3FAE92D0D31CE950B038147F937C7EAB2292D868DFB"
   expected_day62_task: "day62_slot4_day25_boundary_batch_approval_generation"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   historical_boundary_batch: "outputs/day25_balanced_acceptance_boundary_scan/boundary_batch_20260807_151801/boundary_scan_batch_report.json"
   historical_boundary_batch_sha256: "767D6964EB1850885C44D2C1101E4EE839715537A3198C2CD9FEB1C2E0F7ABEE"

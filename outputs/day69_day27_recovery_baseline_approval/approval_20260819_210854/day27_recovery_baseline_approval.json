@@ -1,0 +1,97 @@
+{
+  "task": "day69_day27_recovery_baseline_approval_generation",
+  "status": "success",
+  "time_local": "2026-08-19T21:08:54.914902+08:00",
+  "decision_id": "AP-DAY69-001",
+  "decision_status": "DAY27_RECOVERY_BASELINE_APPROVED_FOR_ZERO_CONTROL_EXECUTION",
+  "decision_is_teaching_record": true,
+  "source_day68_plan": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day68_day27_evidence_recovery_plan\\plan_20260819_210455\\day27_evidence_recovery_plan.json",
+    "sha256": "9375831889BC26B3435305DEADF7C24422D53669EDB83C33F5A69CAB89274544",
+    "verified": true
+  },
+  "recovery_case_csv": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day68_day27_evidence_recovery_plan\\plan_20260819_210455\\day27_recovery_case_plan.csv",
+    "sha256": "9132B205C14FA29EDA34E74A45A8582F7A262C38DE5388F0522C34F4276F4FDA",
+    "verified": true
+  },
+  "day25_config": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\configs\\day25_balanced_acceptance_boundary_scan.yaml",
+    "sha256": "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E",
+    "verified": true
+  },
+  "focused_model": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day8_local_fine_scan\\fine_scan_20260805_104603\\fine_005_6p008\\fine_005_surface2_6p008_focused.zmx",
+    "sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "verified": true
+  },
+  "historical_zero_control": {
+    "path": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day59_slot4_day25_baseline_control_execution\\execution_20260819_201858\\boundary_control_000\\slot4_baseline_control_result.json",
+    "sha256": "54FBE207B4FC7DD9CFEBF41EB01EE0C44C287F7D48BD115427C1D12351847A07",
+    "verified": true
+  },
+  "approved_execution_contract": {
+    "recovery_stage": "stage_01_zero_control",
+    "day": 27,
+    "execution_class": "uses_zosapi",
+    "approved_case_id": "recovery_control_000",
+    "approved_offset_mm": 0.0,
+    "target_image_distance_mm": 42.207788473485415,
+    "maximum_execution_count": 1,
+    "maximum_active_zosapi_connections": 1,
+    "maximum_working_copy_count": 1,
+    "required_entrypoint": "scripts/demos/day70_execute_approved_recovery_baseline_control.py",
+    "approved_output_root": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution",
+    "allow_standard_spot": true,
+    "allow_fft_mtf": true,
+    "allow_quick_focus": false,
+    "allow_optimization": false,
+    "allow_save_as": false,
+    "allow_seven_recovery_cases": false,
+    "require_historical_reproduction": true,
+    "require_balanced_acceptance_pass": true,
+    "require_stop_after_execution": true,
+    "stop_checkpoint": "CP09_baseline_gate"
+  },
+  "decision": {
+    "approved_capabilities": [
+      "execute_one_zero_offset_recovery_control",
+      "create_one_isolated_working_copy",
+      "connect_one_standalone_zosapi_session",
+      "export_one_standard_spot_and_one_fft_mtf",
+      "write_isolated_recovery_control_result"
+    ],
+    "forbidden_capabilities": [
+      "execute_seven_recovery_cases",
+      "run_quick_focus_or_optimization",
+      "save_modified_model",
+      "recalculate_day27_or_release_slot_06",
+      "modify_official_config_or_frozen_model",
+      "claim_continuous_tolerance_or_engineering_change"
+    ],
+    "next_required_gate": "Day70只可执行一次零偏移控制；完成后必须停在CP09，七点恢复批次仍需另行审批。"
+  },
+  "permissions": {
+    "recovery_zero_control_execution_released": true,
+    "one_zosapi_connection_released": true,
+    "one_working_copy_released": true,
+    "spot_and_mtf_analysis_released": true,
+    "seven_point_batch_execution_released": false,
+    "day27_recalculation_released": false,
+    "quick_focus_released": false,
+    "optimization_released": false,
+    "save_as_released": false,
+    "source_modification_released": false,
+    "slot_06_released": false,
+    "engineering_change_released": false
+  },
+  "approval_record_generated": true,
+  "approved_task_executed_by_day69": false,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "existing_source_modified": false,
+  "recovery_cases_executed": false,
+  "day27_recalculated": false,
+  "slot6_released": false,
+  "engineering_change_approved": false
+}

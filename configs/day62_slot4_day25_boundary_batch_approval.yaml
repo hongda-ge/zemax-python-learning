@@ -36,7 +36,7 @@ source:
   expected_day60_task: "day60_approved_day25_baseline_control_execution"
   day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
   day25_config_sha256: "5E5D16C2E942BC87A9062825BD3443276A40E836C87F3A686A35F639D9E4B18E"
-  focused_model: "outputs/day8_local_fine_scan/fine_scan_20260805_104603/fine_005_6p008/fine_005_surface2_6p008_focused.zmx"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
   focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
   historical_boundary_batch: "outputs/day25_balanced_acceptance_boundary_scan/boundary_batch_20260807_151801/boundary_scan_batch_report.json"
   historical_boundary_batch_sha256: "767D6964EB1850885C44D2C1101E4EE839715537A3198C2CD9FEB1C2E0F7ABEE"

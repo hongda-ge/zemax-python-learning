@@ -1,0 +1,27 @@
+{
+  "task": "day70_approved_recovery_baseline_control_execution",
+  "status": "failed",
+  "time_local": "2026-08-19T21:12:52.626360+08:00",
+  "case": {
+    "case_id": "recovery_control_000",
+    "offset_mm": 0.0,
+    "target_image_distance_mm": 42.207788473485415,
+    "is_control": true
+  },
+  "input_model": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day8_local_fine_scan\\fine_scan_20260805_104603\\fine_005_6p008\\fine_005_surface2_6p008_focused.zmx",
+  "working_copy": "L:\\Projects\\Optical_Agent_Project\\02_zosapi_python\\outputs\\day69_day27_recovery_baseline_execution\\execution_20260819_211252\\recovery_control_000\\recovery_control_000_working.zmx",
+  "input_sha256_before": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "working_sha256_before": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "connection_closed": false,
+  "quick_focus_used": false,
+  "optimization_used": false,
+  "save_as_used": false,
+  "error": {
+    "type": "ZemaxConnectionError",
+    "message": "The current OpticStudio license is not valid for ZOS-API."
+  },
+  "input_sha256_after": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "working_sha256_after": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "input_model_unchanged": true,
+  "working_copy_unchanged": true
+}
