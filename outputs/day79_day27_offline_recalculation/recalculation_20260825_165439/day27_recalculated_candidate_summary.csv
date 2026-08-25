@@ -1,0 +1,5 @@
+﻿candidate_id,command_offset_mm,teaching_positioning_uncertainty_mm,sampled_state_count,passed_sampled_state_count,failed_sampled_state_count,sampled_envelope_pass,failed_state_ids,failed_measured_offsets_mm,continuous_interval_pass_claimed
+command_001,0.0,0.012,3,2,1,False,negative_endpoint,-0.012,False
+command_002,0.01,0.012,3,3,0,True,,,False
+command_003,0.02,0.012,3,3,0,True,,,False
+command_004,0.03,0.012,3,2,1,False,positive_endpoint,+0.042,False

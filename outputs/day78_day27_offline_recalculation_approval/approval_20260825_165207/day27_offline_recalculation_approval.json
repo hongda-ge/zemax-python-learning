@@ -1,0 +1,76 @@
+{
+  "task": "day78_day27_offline_recalculation_approval_generation",
+  "status": "success",
+  "time_local": "2026-08-25T16:52:07.729383+08:00",
+  "decision_id": "AP-DAY78-001",
+  "decision_status": "DAY27_OFFLINE_RECALCULATION_APPROVED_FOR_ONE_23_POINT_EVALUATION",
+  "approved_by": "project_owner_low_risk_auto_approval",
+  "frozen_sources": {
+    "day77_review": {
+      "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day77_cp09_seven_point_recovery_batch_review\\review_20260825_164904\\cp09_seven_point_recovery_batch_review.json",
+      "sha256": "3AB30F1A30665C02684B724055D42E02B49726CEF9A1B0C6A1CDC991FCC5BD08",
+      "verified": true
+    },
+    "day76_batch": {
+      "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\seven_point_recovery_batch_result.json",
+      "sha256": "68F90D21BE0A8EC36F9943D341B60DEE8E2DCA667320C1CBD57CB1DC13978D01",
+      "verified": true
+    },
+    "day68_plan": {
+      "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day68_day27_evidence_recovery_plan\\plan_20260819_210455\\day27_evidence_recovery_plan.json",
+      "sha256": "9375831889BC26B3435305DEADF7C24422D53669EDB83C33F5A69CAB89274544",
+      "verified": true
+    },
+    "recovery_case_csv": {
+      "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day68_day27_evidence_recovery_plan\\plan_20260819_210455\\day27_recovery_case_plan.csv",
+      "sha256": "9132B205C14FA29EDA34E74A45A8582F7A262C38DE5388F0522C34F4276F4FDA",
+      "verified": true
+    },
+    "day25_report": {
+      "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day25_balanced_acceptance_boundary_scan\\offline_analysis_20260807_152301\\boundary_analysis_report.json",
+      "sha256": "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C",
+      "verified": true
+    }
+  },
+  "approved_recalculation_contract": {
+    "execution_class": "offline_only",
+    "required_entrypoint": "scripts/demos/day79_execute_approved_day27_offline_recalculation.py",
+    "maximum_execution_count": 1,
+    "original_measured_point_count": 16,
+    "recovered_measured_point_count": 7,
+    "combined_measured_point_count": 23,
+    "teaching_positioning_uncertainty_mm": 0.012,
+    "candidate_command_offsets_mm": [
+      0.0,
+      0.01,
+      0.02,
+      0.03
+    ],
+    "relative_positions_mm": [
+      -0.012,
+      0.0,
+      0.012
+    ],
+    "require_exact_measured_states": true,
+    "require_all_three_sampled_states_pass": true,
+    "interpolation_allowed": false,
+    "extrapolation_allowed": false,
+    "curve_fit_allowed": false,
+    "continuous_interval_claim_allowed": false,
+    "unique_engineering_winner_allowed": false,
+    "allow_zosapi_connection": false,
+    "post_execution_gate": "CP09_day27_recalculation_gate"
+  },
+  "permissions": {
+    "one_day27_offline_recalculation_released": true,
+    "zosapi_execution_released": false,
+    "new_optical_calculation_released": false,
+    "interpolation_released": false,
+    "continuous_tolerance_claim_released": false,
+    "slot6_released": false
+  },
+  "recalculation_executed_by_day78": false,
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "reusable": false
+}

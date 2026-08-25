@@ -1,0 +1,13 @@
+﻿candidate_id,command_offset_mm,state_id,relative_offset_mm,measured_offset_mm,source_day,source_case_id,evidence_source,spot_mean_rms_um,spot_worst_rms_um,mtf30_minimum,mtf50_minimum,sampled_state_pass,failed_metrics
+command_001,0.0,negative_endpoint,-0.012,-0.012,76,recovery_001,day76_recovery,11.14120965,16.3012516,0.156208,0.047899,False,mtf30_minimum;mtf50_minimum
+command_001,0.0,command_center,0.0,0.0,23,defocus_004,day25_original,11.033051383333332,16.0807172,0.183562,0.061982,True,
+command_001,0.0,positive_endpoint,0.012,0.012,76,recovery_003,day76_recovery,11.000853753333333,15.9064378,0.213822,0.070984,True,
+command_002,0.01,negative_endpoint,-0.012,-0.002,25,boundary_negative_004,day25_original,11.046039493333332,16.1143072,0.178802,0.059356,True,
+command_002,0.01,command_center,0.0,0.01,23,defocus_005,day25_original,11.00058164,15.9322028,0.208578,0.072265,True,
+command_002,0.01,positive_endpoint,0.012,0.022,76,recovery_005,day76_recovery,11.037847776666666,15.7976553,0.199221,0.06482,True,
+command_003,0.02,negative_endpoint,-0.012,0.008,76,recovery_002,day76_recovery,11.002614369999998,15.9592897,0.203413,0.073563,True,
+command_003,0.02,command_center,0.0,0.02,23,defocus_006,day25_original,11.025613513333333,15.8167205,0.203992,0.066022,True,
+command_003,0.02,positive_endpoint,0.012,0.032,76,recovery_006,day76_recovery,11.13595806,15.7227542,0.175526,0.059028,True,
+command_004,0.03,negative_endpoint,-0.012,0.018,76,recovery_004,day76_recovery,11.01581848,15.8371367,0.208769,0.067239,True,
+command_004,0.03,command_center,0.0,0.03,25,boundary_positive_002,day25_original,11.111402696666666,15.7349975,0.180236,0.060157,True,
+command_004,0.03,positive_endpoint,0.012,0.042,76,recovery_007,day76_recovery,11.295136426666666,15.6822202,0.152326,0.053615,False,mtf30_minimum

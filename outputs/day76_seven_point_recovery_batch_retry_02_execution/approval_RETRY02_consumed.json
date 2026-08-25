@@ -1,0 +1,10 @@
+{
+  "task": "day76_seven_point_batch_authorization_consumption",
+  "status": "consumed_before_first_zosapi_connection",
+  "time_local": "2026-08-25T16:46:18.568756+08:00",
+  "approval_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_retry_approval\\approval_20260825_164500\\seven_point_recovery_batch_retry_approval.json",
+  "approval_sha256": "19EDEAEEE43096514C6B03EA1E79479D50B0F668826248E0E775CE7D16C4B295",
+  "decision_id": "AP-DAY76-RETRY-002",
+  "run_directory": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618",
+  "reusable": false
+}

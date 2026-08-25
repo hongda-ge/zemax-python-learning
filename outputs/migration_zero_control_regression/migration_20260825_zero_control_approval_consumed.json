@@ -1,0 +1,10 @@
+{
+  "task": "migration_zero_control_authorization_consumption",
+  "status": "consumed_before_zosapi_connection",
+  "time_local": "2026-08-25T16:28:51.195331+08:00",
+  "decision_id": "AP-MIGRATION-20260825-001",
+  "config_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\configs\\migration_zero_control_regression_request.yaml",
+  "config_sha256": "1D4051CBCD106D17FB7429492A3C659C385344EBEA698F70B23F8B4D4F914B03",
+  "run_directory": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\migration_zero_control_regression\\execution_20260825_162851",
+  "reusable": false
+}

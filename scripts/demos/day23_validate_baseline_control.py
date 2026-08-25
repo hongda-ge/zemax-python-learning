@@ -20,6 +20,7 @@ from modules.zemax.analysis_ops import (  # noqa: E402
 )
 from modules.zemax.connection import StandaloneZemaxConnection  # noqa: E402
 from modules.zemax.model_ops import (  # noqa: E402
+    copy_baseline_model,
     copy_output_model,
     open_working_model,
     read_surface,
@@ -233,13 +234,20 @@ def execute_case(
     model_file,
     task_name,
     report_name,
+    model_source_kind="output",
 ):
     """Run one isolated residual-defocus observation with a complete audit."""
 
     case_dir.mkdir(parents=True, exist_ok=False)
     result_file = case_dir / report_name
     input_hash_before = sha256_file(model_file).upper()
-    copy_info = copy_output_model(
+    copy_model = {
+        "output": copy_output_model,
+        "baseline": copy_baseline_model,
+    }.get(model_source_kind)
+    if copy_model is None:
+        raise ValueError("Unsupported model_source_kind: {0}".format(model_source_kind))
+    copy_info = copy_model(
         model_file,
         case_dir,
         working_name=f"{case['case_id']}_working.zmx",

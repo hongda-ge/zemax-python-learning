@@ -1,0 +1,41 @@
+schema_version: "cp09_day27_recalculation_review/v1"
+case:
+  id: "day80_cp09_day27_recalculation_review_v1"
+  status: "approved_for_offline_review"
+execution:
+  enabled: false
+  allow_offline_review: true
+  allow_review_record_generation: true
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_day27_recalculation: false
+  allow_slot6_release: false
+source:
+  day79_result: "outputs/day79_day27_offline_recalculation/recalculation_20260825_165439/day27_offline_recalculation_result.json"
+  day79_result_sha256: "E193E513FD27C35FBD9DAFB62A1625D6ECA1773EDA280C95777073C5161A73F6"
+  detail_csv: "outputs/day79_day27_offline_recalculation/recalculation_20260825_165439/day27_recalculated_sample_details.csv"
+  detail_csv_sha256: "61B2D5733B452BDD759A3953B76381096D0C7B6C9E799B3E4F4026B5C488DC8E"
+  summary_csv: "outputs/day79_day27_offline_recalculation/recalculation_20260825_165439/day27_recalculated_candidate_summary.csv"
+  summary_csv_sha256: "4B9023A360EF514F4AEDAA2E099EFC873ADEA1DC140CA3CD5913281483E01D12"
+  authorization_marker: "outputs/day79_day27_offline_recalculation/approval_CA77C207_consumed.json"
+  authorization_marker_sha256: "85593CE86240597D200EF8225DB8BA17FEC7891EDFE9879BB0C2C55EC9020953"
+  day78_approval: "outputs/day78_day27_offline_recalculation_approval/approval_20260825_165207/day27_offline_recalculation_approval.json"
+  day78_approval_sha256: "CA77C207A35CDB88CD435607E6518841AB60ED0A3FD7EF520B0FF9AD386D32E5"
+review_criteria:
+  expected_combined_point_count: 23
+  expected_detail_state_count: 12
+  expected_candidate_count: 4
+  expected_pass_candidates: ["command_002", "command_003"]
+  expected_fail_candidates: ["command_001", "command_004"]
+  expected_failed_states:
+    command_001: {state_id: "negative_endpoint", measured_offset_mm: -0.012, failed_metrics: ["mtf30_minimum", "mtf50_minimum"]}
+    command_004: {state_id: "positive_endpoint", measured_offset_mm: 0.042, failed_metrics: ["mtf30_minimum"]}
+decision:
+  decision_id: "RV-DAY80-001"
+  pass_status: "DAY79_RECALCULATION_REVIEW_PASSED_SLOT6_RELEASE_REQUEST_ELIGIBLE"
+  slot6_release_request_eligible: true
+  slot6_released: false
+output:
+  root: "outputs/day80_cp09_day27_recalculation_review"
+  json: "cp09_day27_recalculation_review.json"
+  markdown: "CP09_DAY27_RECALCULATION_REVIEW.md"

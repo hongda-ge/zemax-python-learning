@@ -1,0 +1,80 @@
+# Day 75 is approval preparation only. It must not connect to ZOS-API.
+schema_version: "seven_point_recovery_batch_approval/v1"
+
+case:
+  id: "day75_seven_point_recovery_batch_approval_v1"
+  status: "draft_waiting_for_manual_approval"
+
+execution:
+  enabled: false
+  allow_plan_evaluation: true
+  allow_approval_record_generation: true
+  allow_zosapi_connection: false
+  allow_model_copy: false
+  allow_optical_analysis: false
+  allow_batch_execution: false
+  allow_day27_recalculation: false
+  allow_slot6_release: false
+  allow_source_modification: false
+
+source:
+  day74_review: "outputs/day74_cp09_recovery_retry_review/review_20260819_215308/cp09_recovery_retry_review.json"
+  day74_review_sha256: "0F21335A90F7985D1E8A62E1C1F3706C6A21A10F351370D343F3B82F78C5BE97"
+  migration_review: "outputs/migration_zero_control_regression_retry_02/execution_20260825_163417/MIGRATION_ZERO_CONTROL_REVIEW.json"
+  migration_review_sha256: "EA52284EB7E643AD6CF20AC916326D9EA320D18EA6BA46561495D21C669DE0E3"
+  migration_result: "outputs/migration_zero_control_regression_retry_02/execution_20260825_163417/migration_control_000/migration_zero_control_result.json"
+  migration_result_sha256: "752369179B3C5CB02A5664C4AEAA0CC078DFFCF6CE30B42DDD23C84B3B35FC6C"
+  day68_plan: "outputs/day68_day27_evidence_recovery_plan/plan_20260819_210455/day27_evidence_recovery_plan.json"
+  day68_plan_sha256: "9375831889BC26B3435305DEADF7C24422D53669EDB83C33F5A69CAB89274544"
+  recovery_case_csv: "outputs/day68_day27_evidence_recovery_plan/plan_20260819_210455/day27_recovery_case_plan.csv"
+  recovery_case_csv_sha256: "9132B205C14FA29EDA34E74A45A8582F7A262C38DE5388F0522C34F4276F4FDA"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "7ABED8A4FE616D2A17E8EC23827C9D1BA786D59376C5540970FE78F1D02BF75D"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+
+proposed_execution_contract:
+  recovery_stage: "stage_02_seven_point_batch"
+  execution_class: "uses_zosapi"
+  maximum_batch_execution_count: 1
+  maximum_case_execution_count: 7
+  maximum_active_zosapi_connections: 1
+  required_entrypoint: "scripts/demos/day76_execute_approved_seven_point_recovery_batch.py"
+  approved_output_root: "outputs/day75_seven_point_recovery_batch_execution"
+  run_sequentially: true
+  independent_working_copy_per_case: true
+  independent_connection_lifecycle_per_case: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_zero_control_rerun: false
+  stop_on_first_unexpected_execution_failure: true
+  acceptance_failure_stops_batch: false
+  require_every_connection_closed: true
+  require_input_model_unchanged: true
+  require_every_working_copy_unchanged: true
+  post_execution_gate: "CP09_recovery_batch_gate"
+
+approved_cases:
+  - {case_id: "recovery_001", offset_mm: -0.012, target_image_distance_mm: 42.195788473485415}
+  - {case_id: "recovery_002", offset_mm:  0.008, target_image_distance_mm: 42.21578847348542}
+  - {case_id: "recovery_003", offset_mm:  0.012, target_image_distance_mm: 42.219788473485416}
+  - {case_id: "recovery_004", offset_mm:  0.018, target_image_distance_mm: 42.225788473485416}
+  - {case_id: "recovery_005", offset_mm:  0.022, target_image_distance_mm: 42.229788473485414}
+  - {case_id: "recovery_006", offset_mm:  0.032, target_image_distance_mm: 42.23978847348541}
+  - {case_id: "recovery_007", offset_mm:  0.042, target_image_distance_mm: 42.24978847348542}
+
+decision:
+  decision_id: "AP-DAY75-001"
+  proposed_status: "DAY27_SEVEN_POINT_RECOVERY_BATCH_APPROVED_FOR_ONE_EXECUTION"
+  approver_role: "project_owner"
+  execution_released_by_this_draft: false
+  day27_recalculation_released: false
+  slot6_released: false
+
+output:
+  root: "outputs/day75_seven_point_recovery_batch_approval"
+  json: "seven_point_recovery_batch_approval.json"
+  markdown: "SEVEN_POINT_RECOVERY_BATCH_APPROVAL.md"

@@ -1,0 +1,80 @@
+schema_version: "migration_zero_control_regression_request/v1"
+
+case:
+  id: "migration_20260825_zero_control_regression_retry_02"
+  status: "approved_for_one_migration_regression"
+  purpose: "Retry after repairing the pre-connection baseline-copy routing defect."
+
+execution:
+  enabled: true
+  maximum_execution_count: 1
+  maximum_active_zosapi_connections: 1
+  maximum_working_copy_count: 1
+  allow_zosapi_connection: true
+  allow_model_copy: true
+  allow_zero_offset_surface6_write: true
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_source_modification: false
+  allow_day73_rerun: false
+  allow_seven_point_batch: false
+  allow_day27_recalculation: false
+  allow_slot6_release: false
+
+environment:
+  expected_python: "3.8.20"
+  expected_pythonnet: "2.5.2"
+  current_zosapi_version: "24.1 SP0"
+  historical_zosapi_version: "24.1 SP3"
+  install_dir: "E:\\Program Files\\Ansys Zemax OpticStudio 2024 R1.00"
+
+source:
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  historical_day73_result: "outputs/day72_day27_recovery_baseline_retry_execution/execution_20260819_214147/recovery_control_000/recovery_baseline_retry_result.json"
+  historical_day73_result_sha256: "53CEA0061E528D80BAC6D2A90C12655DDB1533604B4875AF10146CCEFEEE648D"
+  historical_spot: "outputs/day72_day27_recovery_baseline_retry_execution/execution_20260819_214147/recovery_control_000/recovery_control_000_standard_spot.txt"
+  historical_spot_sha256: "92FB8A2B69D346DB0CE71F2639C3881110ABB77D892C90F6AC3873BFBC278383"
+  historical_mtf: "outputs/day72_day27_recovery_baseline_retry_execution/execution_20260819_214147/recovery_control_000/recovery_control_000_fft_mtf.txt"
+  historical_mtf_sha256: "1642157AA602F3D19BFAB9C4B3C3A2FE92CABABF88FC4F389C422C284339CE84"
+
+approved_control:
+  case_id: "migration_control_000"
+  offset_mm: 0.0
+  target_image_distance_mm: 42.207788473485415
+  standard_spot_export_count: 1
+  fft_mtf_export_count: 1
+
+acceptance:
+  maximum_spot_summary_difference_um: 0.000001
+  maximum_mtf_summary_difference: 0.000001
+  require_balanced_acceptance_pass: true
+  require_input_model_unchanged: true
+  require_disk_working_copy_unchanged: true
+  require_connection_closed: true
+  forbid_automatic_tolerance_relaxation: true
+  version_difference_requires_explicit_diagnosis_on_failure: true
+
+post_execution:
+  gate: "CP_MIGRATION_ZERO_CONTROL_REVIEW"
+  require_manual_review: true
+  release_day75_on_pass: false
+  release_additional_retry_on_failure: false
+  release_seven_point_batch: false
+
+output:
+  root: "outputs/migration_zero_control_regression_retry_02"
+  authorization_marker: "migration_20260825_zero_control_retry_02_approval_consumed.json"
+
+approval:
+  decision_id: "AP-MIGRATION-20260825-002"
+  approved_by: "project_owner"
+  approved_date: "2026-08-25"
+  maximum_execution_count: 1
+  reusable: false
+  predecessor_failure_review: "outputs/migration_zero_control_regression/execution_20260825_162851/migration_pre_connection_failure_review.json"
+  predecessor_failure_review_sha256: "374EBC14E09ABD83268A032E01FF71C2633A168C5598D4597EEE255F2D39D8CD"

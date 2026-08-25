@@ -1,0 +1,50 @@
+schema_version: "approved_day27_offline_recalculation/v1"
+case:
+  id: "day79_approved_day27_offline_recalculation_v1"
+  status: "approved_for_one_execution"
+execution:
+  enabled: true
+  maximum_execution_count: 1
+  allow_offline_recalculation: true
+  allow_zosapi_connection: false
+  allow_new_optical_calculation: false
+  allow_model_copy: false
+  allow_interpolation: false
+  allow_extrapolation: false
+  allow_curve_fit: false
+  allow_continuous_interval_claim: false
+  allow_slot6_release: false
+source:
+  approval: "outputs/day78_day27_offline_recalculation_approval/approval_20260825_165207/day27_offline_recalculation_approval.json"
+  approval_sha256: "CA77C207A35CDB88CD435607E6518841AB60ED0A3FD7EF520B0FF9AD386D32E5"
+  day25_report: "outputs/day25_balanced_acceptance_boundary_scan/offline_analysis_20260807_152301/boundary_analysis_report.json"
+  day25_report_sha256: "1C4B457607E046C954D84AF9BA57EC3B52CCCA4FD649B2526BB904B0C2E0067C"
+  day76_batch: "outputs/day76_seven_point_recovery_batch_retry_02_execution/execution_20260825_164618/seven_point_recovery_batch_result.json"
+  day76_batch_sha256: "68F90D21BE0A8EC36F9943D341B60DEE8E2DCA667320C1CBD57CB1DC13978D01"
+recalculation:
+  teaching_positioning_uncertainty_mm: 0.012
+  candidate_command_offsets_mm: [0.000, 0.010, 0.020, 0.030]
+  relative_positions:
+    - {state_id: "negative_endpoint", relative_offset_mm: -0.012}
+    - {state_id: "command_center", relative_offset_mm: 0.000}
+    - {state_id: "positive_endpoint", relative_offset_mm: 0.012}
+  original_point_count: 16
+  recovered_point_count: 7
+  combined_point_count: 23
+  require_all_three_states_pass: true
+  balanced_limits:
+    spot_mean_rms_um_max: 11.3
+    spot_worst_rms_um_max: 16.5
+    mtf30_minimum_min: 0.16
+    mtf50_minimum_min: 0.05
+guardrails:
+  required_entrypoint: "scripts/demos/day79_execute_approved_day27_offline_recalculation.py"
+  post_execution_gate: "CP09_day27_recalculation_gate"
+  require_exact_measured_states: true
+  forbid_unique_engineering_winner: true
+output:
+  root: "outputs/day79_day27_offline_recalculation"
+  authorization_marker: "approval_CA77C207_consumed.json"
+  detail_csv: "day27_recalculated_sample_details.csv"
+  summary_csv: "day27_recalculated_candidate_summary.csv"
+  report: "day27_offline_recalculation_result.json"

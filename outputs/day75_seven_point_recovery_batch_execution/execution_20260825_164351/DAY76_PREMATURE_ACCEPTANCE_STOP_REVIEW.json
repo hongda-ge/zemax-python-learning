@@ -1,0 +1,21 @@
+{
+  "task": "day76_premature_acceptance_stop_review",
+  "status": "PASS_SAFE_FAILURE_RETRY_ELIGIBLE",
+  "review_date": "2026-08-25",
+  "failed_batch_result_sha256": "E4154F9D8408B5D9799F6DF7DAE43940F723E95266277E46E363A8A61C3F7B18",
+  "first_case_result_sha256": "A7EA088DD3EBED638CE2931A788390CEDC8AD9408C030CBDC2FAF6E2C143F9FC",
+  "consumption_marker_sha256": "1AD83464DB6186750368EFCCCC536B2B595BAB78502C11321622CBC4AF437375",
+  "failure_class": "CONTROL_FLOW_POLICY_MISMATCH_BEFORE_CASE_SUMMARY_RECORDING",
+  "zosapi_failure": false,
+  "model_safety_failure": false,
+  "case_001_optical_exports_complete": true,
+  "case_001_connection_closed": true,
+  "case_001_input_and_working_copy_unchanged": true,
+  "remaining_cases_executed": false,
+  "root_cause": "The zero-control enforcement helper raised on a legitimate nonzero-case teaching acceptance failure.",
+  "required_fix": "Use a non-throwing balanced-check helper for batch cases while preserving strict zero-control behavior.",
+  "old_approval_reusable": false,
+  "new_one_shot_approval_required": true,
+  "day27_recalculation_released": false,
+  "slot6_released": false
+}

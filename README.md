@@ -2,6 +2,26 @@
 
 > 使用 Python 与真实 ZOS-API，把一次性的手动光学试验转化为安全、可重复、可审计的参数研究与候选决策流程。
 
+## 当前面试展示检查点
+
+项目已完成到 **Day 80**。当前冻结检查点包含：
+
+- 在新电脑上重建 Python 3.8.20 / Python.NET 2.5.2 环境；
+- 验证 OpticStudio 24.1 SP0 的 Standalone 许可证、连接与安全关闭；
+- 用零偏移 Spot/FFT MTF 回归确认 SP0 与历史 SP3 汇总指标一致；
+- 通过一次性审批串行执行七个真实 ZOS-API 恢复案例；
+- 将原 16 点与新 7 点合并为 23 个精确实测状态；
+- 使用 `±0.012 mm` 教学定位误差复核四个离散候选包络；
+- 完成 Day 80 CP09 科学复核，保留两个通过候选，不宣称连续公差或唯一工程赢家。
+
+一条命令验证面试检查点中的冻结证据：
+
+```powershell
+.\.conda_zosapi38\python.exe scripts/validation/interview_demo_summary.py
+```
+
+该命令只读取并校验已冻结的 JSON/SHA256，不连接 ZOS-API，也不生成新输出。完整演示讲稿与命令见 [INTERVIEW_DEMO.md](INTERVIEW_DEMO.md)。
+
 ## 项目定位
 
 传统 Zemax 优化通常给出某套评价函数下的一个低值解，但工程设计还需要回答更多问题：
@@ -101,7 +121,7 @@ Python 可以在受控范围内系统改变光学参数，记录完整性能剖�
 5. 主动参数、依赖 Solve、焦移和安全边界全部记录；
 6. 意外失败立即停止后续案例；
 7. `CalculateMeritFunction()` 与执行优化严格区分；
-8. 原始输出保存在本地 `outputs/`，不直接提交到 GitHub；
+8. 原始输出默认保存在本地 `outputs/`；仅选择性提交面试复核直接依赖的冻结非模型证据；
 9. mock、placeholder 或无法追溯的数据不得进入正式光学结论；
 10. AI/Agent 不能绕过配置授权和安全检查修改模型。
 
@@ -203,6 +223,29 @@ python scripts/demos/day11_requirement_scenario_plan.py
 - 当前尚未加入真实探测器、成本、材料批次、热环境和装调误差；
 - 当前结论只对冻结的模型、配置、视场、波长和分析设置有效；
 - 仓库不包含 OpticStudio、许可证或 Ansys 专有程序文件。
+- `modules/backends/zemax_backend.py` 仍是占位实现；真实能力集中在 `modules/zemax/` 与受控 Day 脚本中，不能宣称统一 Backend 已完成。
+- Day 80 只释放后续 Slot 6 审批申请资格；面试版 V1 在此冻结，不继续扩展新的光学批次。
+
+## 面试版快速验证
+
+```powershell
+# 1. 离线单元测试
+.\.conda_zosapi38\python.exe -m unittest discover -s tests -v
+
+# 2. Python、依赖与本机 ZOS-API DLL 体检（不占许可证）
+.\.conda_zosapi38\python.exe scripts/validation/D59_check_environment.py
+
+# 3. 冻结证据摘要（不连接 Zemax）
+.\.conda_zosapi38\python.exe scripts/validation/interview_demo_summary.py
+```
+
+可选的真实连接演示会启动并关闭一个 Standalone 实例：
+
+```powershell
+.\.conda_zosapi38\python.exe scripts/demos/D59_zemax_connection_demo.py
+```
+
+不要在面试演示中重新运行 Day 73、Day 76 或 Day 79 的一次性入口；其审批已经消费，正式证据应通过只读摘要展示。
 
 ## 后续路线
 

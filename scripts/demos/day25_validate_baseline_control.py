@@ -110,16 +110,21 @@ def compare_control(config, expected, observed):
     return rows
 
 
-def evaluate_balanced(config, observed):
-    """Confirm that the reproduced zero-offset point still passes Day 24."""
-
+def evaluate_balanced_checks(config, observed):
+    """Return the four balanced checks without enforcing control-point PASS."""
     limits = config["balanced_acceptance"]["limits"]
-    checks = {
+    return {
         "spot_mean": observed["spot_mean_rms_um"] <= limits["spot_mean_rms_um_max"],
         "spot_worst": observed["spot_worst_rms_um"] <= limits["spot_worst_rms_um_max"],
         "mtf30_minimum": observed["mtf30_minimum"] >= limits["mtf30_minimum_min"],
         "mtf50_minimum": observed["mtf50_minimum"] >= limits["mtf50_minimum_min"],
     }
+
+
+def evaluate_balanced(config, observed):
+    """Confirm that the reproduced zero-offset point still passes Day 24."""
+
+    checks = evaluate_balanced_checks(config, observed)
     if not all(checks.values()):
         raise ValueError("Reproduced zero-offset control failed balanced acceptance.")
     return checks

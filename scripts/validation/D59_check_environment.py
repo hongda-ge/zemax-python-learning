@@ -12,7 +12,13 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ZEMAX_INSTALL_DIR = Path(r"L:\Program Files\Zemax2024 R1.03")
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from modules.zemax.install_paths import DEFAULT_ZEMAX_INSTALL_DIR  # noqa: E402
+
+
+ZEMAX_INSTALL_DIR = DEFAULT_ZEMAX_INSTALL_DIR
 
 EXPECTED_PYTHON = (3, 8)
 REQUIRED_IMPORTS = {

@@ -78,12 +78,18 @@ VS Code 会缓存曾经选择过的解释器。重新执行 `Python: Select Inte
 
 ### ZOS-API DLL 找不到
 
-确认以下文件存在：
+项目会优先读取环境变量 `ZEMAX_INSTALL_DIR`，否则在常见安装目录中寻找同时包含三个 API DLL 的 OpticStudio 安装。可在当前 PowerShell 会话中覆盖：
 
-```text
-L:\Program Files\Zemax2024 R1.03\ZOSAPI_NetHelper.dll
-L:\Program Files\Zemax2024 R1.03\ZOSAPI.dll
-L:\Program Files\Zemax2024 R1.03\ZOSAPI_Interfaces.dll
+```powershell
+$env:ZEMAX_INSTALL_DIR = "D:\Program Files\Zemax OpticStudio"
 ```
 
-如果 OpticStudio 安装位置不同，后续应通过项目配置修改路径，不要在多个脚本中分别写死。
+确认所选目录中以下文件存在：
+
+```text
+ZOSAPI_NetHelper.dll
+ZOSAPI.dll
+ZOSAPI_Interfaces.dll
+```
+
+如果自动发现失败，请设置 `ZEMAX_INSTALL_DIR`，不要在多个脚本中分别写死路径。

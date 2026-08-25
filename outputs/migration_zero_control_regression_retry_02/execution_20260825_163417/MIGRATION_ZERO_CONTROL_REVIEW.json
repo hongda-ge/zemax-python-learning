@@ -1,0 +1,45 @@
+{
+  "task": "migration_zero_control_regression_offline_review",
+  "status": "PASS",
+  "decision_status": "MIGRATION_SP0_COMPATIBILITY_REVERIFIED_DAY75_STILL_LOCKED",
+  "review_date": "2026-08-25",
+  "execution_result": {
+    "path": "outputs/migration_zero_control_regression_retry_02/execution_20260825_163417/migration_control_000/migration_zero_control_result.json",
+    "sha256": "752369179B3C5CB02A5664C4AEAA0CC078DFFCF6CE30B42DDD23C84B3B35FC6C"
+  },
+  "environment": {
+    "historical_zosapi_version": "24.1 SP3",
+    "current_zosapi_version": "24.1 SP0",
+    "license_valid": true,
+    "connection_closed": true
+  },
+  "optical_reproduction": {
+    "maximum_spot_summary_difference_um": 0.0,
+    "maximum_mtf_summary_difference": 0.0,
+    "balanced_acceptance_pass": true,
+    "summary_metrics_identical": true
+  },
+  "raw_exports": {
+    "spot_sha256": "D1FDECF3237ABB065CC6AFA13F465F99BB2C0C400E748B677BB7B7C378B03A1A",
+    "mtf_sha256": "F3876719F519193E76DC3A38DC75D2DF014CB03C5AB61995B4E0C9D679B36BBB",
+    "raw_hashes_identical_to_history": false,
+    "difference_diagnosis": "Export path and date changed. Spot also contains a sign-level image-coordinate difference of about 3.45e-20; parsed Spot and MTF metrics are identical."
+  },
+  "model_safety": {
+    "original_model_sha256": "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585",
+    "focused_model_sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "input_model_unchanged": true,
+    "working_copy_unchanged": true,
+    "quick_focus_used": false,
+    "optimization_used": false,
+    "save_as_used": false
+  },
+  "permissions": {
+    "migration_environment_verified": true,
+    "day75_released": false,
+    "seven_point_batch_released": false,
+    "day27_recalculation_released": false,
+    "slot6_released": false
+  },
+  "next_gate": "Prepare and manually review the Day75 seven-point recovery batch approval request."
+}

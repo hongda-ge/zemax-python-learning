@@ -1,0 +1,29 @@
+{
+  "task": "day76_approved_seven_point_recovery_batch_execution",
+  "status": "failed_stopped_on_unexpected_execution_error",
+  "time_local": "2026-08-25T16:44:00.269667+08:00",
+  "approval": {
+    "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day75_seven_point_recovery_batch_approval\\approval_20260825_164112\\seven_point_recovery_batch_approval.json",
+    "sha256": "FC65B77F773D779B9B9E8B3F3305754EBD5773489E74B5572824BAE1A7D97C59",
+    "consumed_once": true,
+    "reusable": false
+  },
+  "planned_case_count": 7,
+  "completed_case_count": 0,
+  "rows": [],
+  "failure": {
+    "case_id": "recovery_001",
+    "type": "ValueError",
+    "message": "Reproduced zero-offset control failed balanced acceptance."
+  },
+  "all_cases_completed": false,
+  "all_connections_closed": true,
+  "all_model_safety_checks_passed": true,
+  "quick_focus_used": false,
+  "optimization_used": false,
+  "save_as_used": false,
+  "post_execution_gate": "CP09_recovery_batch_gate",
+  "cp09_manual_review_required": true,
+  "day27_recalculation_released": false,
+  "slot6_released": false
+}

@@ -1,0 +1,284 @@
+{
+  "task": "day77_cp09_seven_point_recovery_batch_review_generation",
+  "status": "success",
+  "time_local": "2026-08-25T16:49:04.399821+08:00",
+  "decision_id": "RV-DAY77-001",
+  "decision_status": "DAY76_BATCH_REVIEW_PASSED_DAY27_RECALCULATION_REQUEST_ELIGIBLE",
+  "source_batch": {
+    "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\seven_point_recovery_batch_result.json",
+    "sha256": "68F90D21BE0A8EC36F9943D341B60DEE8E2DCA667320C1CBD57CB1DC13978D01",
+    "verified": true
+  },
+  "cp09_review": {
+    "task_review_status": "PASS",
+    "completed_case_count": 7,
+    "acceptance_pass_count": 5,
+    "acceptance_fail_count": 2,
+    "rows": [
+      {
+        "case_id": "recovery_001",
+        "offset_mm": -0.012,
+        "target_image_distance_mm": 42.195788473485415,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_001\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.14120965,
+          "spot_worst_rms_um": 16.3012516,
+          "mtf30_mean": 0.4282173333333334,
+          "mtf30_minimum": 0.156208,
+          "mtf50_mean": 0.19412016666666668,
+          "mtf50_minimum": 0.047899
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": false,
+          "mtf50_minimum": false
+        },
+        "balanced_acceptance_pass": false,
+        "connection_closed": true,
+        "model_safety_pass": true
+      },
+      {
+        "case_id": "recovery_002",
+        "offset_mm": 0.008,
+        "target_image_distance_mm": 42.21578847348542,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_002\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.002614369999998,
+          "spot_worst_rms_um": 15.9592897,
+          "mtf30_mean": 0.4247258333333333,
+          "mtf30_minimum": 0.203413,
+          "mtf50_mean": 0.22412200000000002,
+          "mtf50_minimum": 0.073563
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": true,
+          "mtf50_minimum": true
+        },
+        "balanced_acceptance_pass": true,
+        "connection_closed": true,
+        "model_safety_pass": true
+      },
+      {
+        "case_id": "recovery_003",
+        "offset_mm": 0.012,
+        "target_image_distance_mm": 42.219788473485416,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_003\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.000853753333333,
+          "spot_worst_rms_um": 15.9064378,
+          "mtf30_mean": 0.4235434999999999,
+          "mtf30_minimum": 0.213822,
+          "mtf50_mean": 0.23015649999999999,
+          "mtf50_minimum": 0.070984
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": true,
+          "mtf50_minimum": true
+        },
+        "balanced_acceptance_pass": true,
+        "connection_closed": true,
+        "model_safety_pass": true
+      },
+      {
+        "case_id": "recovery_004",
+        "offset_mm": 0.018,
+        "target_image_distance_mm": 42.225788473485416,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_004\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.01581848,
+          "spot_worst_rms_um": 15.8371367,
+          "mtf30_mean": 0.4214896666666667,
+          "mtf30_minimum": 0.208769,
+          "mtf50_mean": 0.23902216666666667,
+          "mtf50_minimum": 0.067239
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": true,
+          "mtf50_minimum": true
+        },
+        "balanced_acceptance_pass": true,
+        "connection_closed": true,
+        "model_safety_pass": true
+      },
+      {
+        "case_id": "recovery_005",
+        "offset_mm": 0.022,
+        "target_image_distance_mm": 42.229788473485414,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_005\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.037847776666666,
+          "spot_worst_rms_um": 15.7976553,
+          "mtf30_mean": 0.41994083333333326,
+          "mtf30_minimum": 0.199221,
+          "mtf50_mean": 0.24474783333333336,
+          "mtf50_minimum": 0.06482
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": true,
+          "mtf50_minimum": true
+        },
+        "balanced_acceptance_pass": true,
+        "connection_closed": true,
+        "model_safety_pass": true
+      },
+      {
+        "case_id": "recovery_006",
+        "offset_mm": 0.032,
+        "target_image_distance_mm": 42.23978847348541,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.13595806,
+          "spot_worst_rms_um": 15.7227542,
+          "mtf30_mean": 0.4154793333333333,
+          "mtf30_minimum": 0.175526,
+          "mtf50_mean": 0.25813366666666665,
+          "mtf50_minimum": 0.059028
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": true,
+          "mtf50_minimum": true
+        },
+        "balanced_acceptance_pass": true,
+        "connection_closed": true,
+        "model_safety_pass": true
+      },
+      {
+        "case_id": "recovery_007",
+        "offset_mm": 0.042,
+        "target_image_distance_mm": 42.24978847348542,
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_007\\recovery_case_result.json",
+        "summary_metrics": {
+          "spot_mean_rms_um": 11.295136426666666,
+          "spot_worst_rms_um": 15.6822202,
+          "mtf30_mean": 0.41024900000000003,
+          "mtf30_minimum": 0.152326,
+          "mtf50_mean": 0.26977066666666666,
+          "mtf50_minimum": 0.053615
+        },
+        "balanced_acceptance_checks": {
+          "spot_mean": true,
+          "spot_worst": true,
+          "mtf30_minimum": false,
+          "mtf50_minimum": true
+        },
+        "balanced_acceptance_pass": false,
+        "connection_closed": true,
+        "model_safety_pass": true
+      }
+    ],
+    "all_connections_closed": true,
+    "all_model_safety_checks_passed": true,
+    "raw_evidence": [
+      {
+        "case_id": "recovery_001",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_001\\recovery_case_result.json",
+        "result_sha256": "DADBA0E7E5982C2D5292983FDF56F6AD755469AFEF16FE43C8F161167E4D1C68",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_001\\recovery_001_standard_spot.txt",
+        "spot_sha256": "75664CB598532B73FE5E7F3EDA35145BC15346EED43CE1933393E23DB94FA6B1",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_001\\recovery_001_fft_mtf.txt",
+        "mtf_sha256": "F7EB9FC524444173FAB91A64E1C1F3CA5ACB6F6E6801D9F403E6F8BBDB098038"
+      },
+      {
+        "case_id": "recovery_002",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_002\\recovery_case_result.json",
+        "result_sha256": "D744E5527569263C99C8F33ED66E1A5A98B5145B17EA4B9C74590C6570D50B2F",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_002\\recovery_002_standard_spot.txt",
+        "spot_sha256": "11A9ECB906A035654342F97697AB2CE1ECA7A7BD595E1DB4E1AB5F4FD4E85EB1",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_002\\recovery_002_fft_mtf.txt",
+        "mtf_sha256": "1996C3E0BD6BC7A4A13C6655128D6EE8CE3C4B763A4C2C75F7AAB030FE71B424"
+      },
+      {
+        "case_id": "recovery_003",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_003\\recovery_case_result.json",
+        "result_sha256": "6EA2B6CFA3F0CBF67E21E4229AE642F100A6D3E423081B28084BB35ABCA2E900",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_003\\recovery_003_standard_spot.txt",
+        "spot_sha256": "EEFE484DFC24662F922D731FA1553AEDD1ACE6C6080D2BF03F68F9D1DF7CB834",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_003\\recovery_003_fft_mtf.txt",
+        "mtf_sha256": "005D2D3DA85B30B7190235A6FB356AA0CEDE327B9DE1D1A44966B932D89E012B"
+      },
+      {
+        "case_id": "recovery_004",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_004\\recovery_case_result.json",
+        "result_sha256": "CFE55B5DA447034C14150A9FBBF49D0A6FEF4E82021F444F804EC1C38BA871E2",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_004\\recovery_004_standard_spot.txt",
+        "spot_sha256": "3D0C02FBE87DD924D315BD6B6D301B5BC6304DBA26BE965F33104AC650AD3966",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_004\\recovery_004_fft_mtf.txt",
+        "mtf_sha256": "05983AFA685D0733D896A40F6508BC2C2AA5665635EF5ED9FF550DE14BBAB747"
+      },
+      {
+        "case_id": "recovery_005",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_005\\recovery_case_result.json",
+        "result_sha256": "90C5495B81B8B7BE8FFA7141E63604965F865046B55A3BEAC8CD587F2E38A097",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_005\\recovery_005_standard_spot.txt",
+        "spot_sha256": "CEBECFE1DF161EAEC32A7CCA566DB4C20AB3A4FAC5BFEC13CB71D5E26C4B3AD0",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_005\\recovery_005_fft_mtf.txt",
+        "mtf_sha256": "522527884B1B1AEC00F1D9DA09E7A3B5F77BDB904A1302D821D3641BBF49D2F1"
+      },
+      {
+        "case_id": "recovery_006",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_case_result.json",
+        "result_sha256": "B07411EEC46739F4B9AD0027827E7C4F89BD850E7ED56E9EE7CE28C22CB138FB",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_standard_spot.txt",
+        "spot_sha256": "19A5BEFB268CFDF75CC60F626BDC659C86F8CF3EDCE5D27235BC58A976B10C2E",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_fft_mtf.txt",
+        "mtf_sha256": "1B6A2B9D476A46F4E6A3D1B243177476E5B25BBEB6808C9678B2DC757813E6D8"
+      },
+      {
+        "case_id": "recovery_007",
+        "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_007\\recovery_case_result.json",
+        "result_sha256": "5828FAF08B84E526B8B8D7285A3089C44CB9A28DAA03B3CED1762FCC8445C840",
+        "spot_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_007\\recovery_007_standard_spot.txt",
+        "spot_sha256": "F3EFFFE0BBF2B850814EF3071E200E331EF763E440FAA0EEA62C9B62F2E417E4",
+        "mtf_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_007\\recovery_007_fft_mtf.txt",
+        "mtf_sha256": "9F6552F276BA84271E00ECBD0C3BA869C01CA84ECD5C053EDDE24AB305D47D71"
+      }
+    ]
+  },
+  "checks": {
+    "batch_result_exists": true,
+    "batch_result_sha256": true,
+    "authorization_marker_exists": true,
+    "authorization_marker_sha256": true,
+    "retry_approval_exists": true,
+    "retry_approval_sha256": true,
+    "day25_config_exists": true,
+    "day25_config_sha256": true,
+    "focused_model_exists": true,
+    "focused_model_sha256": true,
+    "batch_success": true,
+    "all_cases_completed": true,
+    "case_count": true,
+    "case_ids": true,
+    "offsets": true,
+    "acceptance_pattern": true,
+    "connections_closed": true,
+    "model_safety": true,
+    "forbidden_actions_unused": true,
+    "approval_consumed_once": true,
+    "approval_scope": true,
+    "cp09_pending": true,
+    "downstream_locked": true,
+    "raw_evidence_count": true
+  },
+  "permissions": {
+    "day76_batch_review_completed": true,
+    "day27_recalculation_request_eligible": true,
+    "day27_recalculation_released": false,
+    "slot6_released": false,
+    "additional_zosapi_execution_released": false
+  },
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "day27_recalculated": false
+}

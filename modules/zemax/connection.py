@@ -10,8 +10,8 @@ from typing import Any, Dict, Optional, Union
 
 import clr
 
+from modules.zemax.install_paths import DEFAULT_ZEMAX_INSTALL_DIR
 
-DEFAULT_ZEMAX_INSTALL_DIR = Path(r"L:\Program Files\Zemax2024 R1.03")
 
 
 class ZemaxConnectionError(RuntimeError):

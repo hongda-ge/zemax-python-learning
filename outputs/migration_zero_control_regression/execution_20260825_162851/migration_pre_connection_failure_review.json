@@ -1,0 +1,32 @@
+{
+  "task": "migration_zero_control_regression_pre_connection_failure_review",
+  "status": "FAILED_SAFELY_BEFORE_ZOSAPI_CONNECTION",
+  "time_local": "2026-08-25T16:28:51+08:00",
+  "decision_id": "AP-MIGRATION-20260825-001",
+  "authorization_consumed": true,
+  "authorization_reusable": false,
+  "zosapi_connection_attempted": false,
+  "optical_analysis_started": false,
+  "spot_export_created": false,
+  "fft_mtf_export_created": false,
+  "failure": {
+    "type": "ModelOperationError",
+    "stage": "working_copy_creation",
+    "message": "The reused Day23 execution path accepts source models only from outputs, while the migrated focused baseline is stored under models/baselines."
+  },
+  "source_model": {
+    "path": "models/baselines/cooke_surface2_6p008_focused.zmx",
+    "sha256": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+    "unchanged": true
+  },
+  "original_model": {
+    "path": "models/Cooke 40 degree field.zmx",
+    "sha256": "A3F4BAA1433F36C7F363BBB1C7721D972854F2EC842E916EFC17DE2FF9A77585",
+    "unchanged": true
+  },
+  "connection_cleanup_required": false,
+  "additional_retry_released": false,
+  "day75_released": false,
+  "seven_point_batch_released": false,
+  "next_required_action": "Repair and plan-review a migration-specific working-copy path, then obtain a new one-shot approval before any retry."
+}

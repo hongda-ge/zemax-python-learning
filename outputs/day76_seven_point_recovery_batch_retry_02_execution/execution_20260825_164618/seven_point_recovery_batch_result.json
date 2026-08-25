@@ -1,0 +1,187 @@
+{
+  "task": "day76_approved_seven_point_recovery_batch_execution",
+  "status": "success",
+  "time_local": "2026-08-25T16:46:56.375333+08:00",
+  "approval": {
+    "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_retry_approval\\approval_20260825_164500\\seven_point_recovery_batch_retry_approval.json",
+    "sha256": "19EDEAEEE43096514C6B03EA1E79479D50B0F668826248E0E775CE7D16C4B295",
+    "consumed_once": true,
+    "reusable": false
+  },
+  "planned_case_count": 7,
+  "completed_case_count": 7,
+  "rows": [
+    {
+      "case_id": "recovery_001",
+      "offset_mm": -0.012,
+      "target_image_distance_mm": 42.195788473485415,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_001\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.14120965,
+        "spot_worst_rms_um": 16.3012516,
+        "mtf30_mean": 0.4282173333333334,
+        "mtf30_minimum": 0.156208,
+        "mtf50_mean": 0.19412016666666668,
+        "mtf50_minimum": 0.047899
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": false,
+        "mtf50_minimum": false
+      },
+      "balanced_acceptance_pass": false,
+      "connection_closed": true,
+      "model_safety_pass": true
+    },
+    {
+      "case_id": "recovery_002",
+      "offset_mm": 0.008,
+      "target_image_distance_mm": 42.21578847348542,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_002\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.002614369999998,
+        "spot_worst_rms_um": 15.9592897,
+        "mtf30_mean": 0.4247258333333333,
+        "mtf30_minimum": 0.203413,
+        "mtf50_mean": 0.22412200000000002,
+        "mtf50_minimum": 0.073563
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": true,
+        "mtf50_minimum": true
+      },
+      "balanced_acceptance_pass": true,
+      "connection_closed": true,
+      "model_safety_pass": true
+    },
+    {
+      "case_id": "recovery_003",
+      "offset_mm": 0.012,
+      "target_image_distance_mm": 42.219788473485416,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_003\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.000853753333333,
+        "spot_worst_rms_um": 15.9064378,
+        "mtf30_mean": 0.4235434999999999,
+        "mtf30_minimum": 0.213822,
+        "mtf50_mean": 0.23015649999999999,
+        "mtf50_minimum": 0.070984
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": true,
+        "mtf50_minimum": true
+      },
+      "balanced_acceptance_pass": true,
+      "connection_closed": true,
+      "model_safety_pass": true
+    },
+    {
+      "case_id": "recovery_004",
+      "offset_mm": 0.018,
+      "target_image_distance_mm": 42.225788473485416,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_004\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.01581848,
+        "spot_worst_rms_um": 15.8371367,
+        "mtf30_mean": 0.4214896666666667,
+        "mtf30_minimum": 0.208769,
+        "mtf50_mean": 0.23902216666666667,
+        "mtf50_minimum": 0.067239
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": true,
+        "mtf50_minimum": true
+      },
+      "balanced_acceptance_pass": true,
+      "connection_closed": true,
+      "model_safety_pass": true
+    },
+    {
+      "case_id": "recovery_005",
+      "offset_mm": 0.022,
+      "target_image_distance_mm": 42.229788473485414,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_005\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.037847776666666,
+        "spot_worst_rms_um": 15.7976553,
+        "mtf30_mean": 0.41994083333333326,
+        "mtf30_minimum": 0.199221,
+        "mtf50_mean": 0.24474783333333336,
+        "mtf50_minimum": 0.06482
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": true,
+        "mtf50_minimum": true
+      },
+      "balanced_acceptance_pass": true,
+      "connection_closed": true,
+      "model_safety_pass": true
+    },
+    {
+      "case_id": "recovery_006",
+      "offset_mm": 0.032,
+      "target_image_distance_mm": 42.23978847348541,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.13595806,
+        "spot_worst_rms_um": 15.7227542,
+        "mtf30_mean": 0.4154793333333333,
+        "mtf30_minimum": 0.175526,
+        "mtf50_mean": 0.25813366666666665,
+        "mtf50_minimum": 0.059028
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": true,
+        "mtf50_minimum": true
+      },
+      "balanced_acceptance_pass": true,
+      "connection_closed": true,
+      "model_safety_pass": true
+    },
+    {
+      "case_id": "recovery_007",
+      "offset_mm": 0.042,
+      "target_image_distance_mm": 42.24978847348542,
+      "result_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_007\\recovery_case_result.json",
+      "summary_metrics": {
+        "spot_mean_rms_um": 11.295136426666666,
+        "spot_worst_rms_um": 15.6822202,
+        "mtf30_mean": 0.41024900000000003,
+        "mtf30_minimum": 0.152326,
+        "mtf50_mean": 0.26977066666666666,
+        "mtf50_minimum": 0.053615
+      },
+      "balanced_acceptance_checks": {
+        "spot_mean": true,
+        "spot_worst": true,
+        "mtf30_minimum": false,
+        "mtf50_minimum": true
+      },
+      "balanced_acceptance_pass": false,
+      "connection_closed": true,
+      "model_safety_pass": true
+    }
+  ],
+  "failure": null,
+  "all_cases_completed": true,
+  "all_connections_closed": true,
+  "all_model_safety_checks_passed": true,
+  "quick_focus_used": false,
+  "optimization_used": false,
+  "save_as_used": false,
+  "post_execution_gate": "CP09_recovery_batch_gate",
+  "cp09_manual_review_required": true,
+  "day27_recalculation_released": false,
+  "slot6_released": false
+}

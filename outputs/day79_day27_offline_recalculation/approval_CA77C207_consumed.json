@@ -1,0 +1,10 @@
+{
+  "task": "day79_offline_recalculation_authorization_consumption",
+  "status": "consumed_before_offline_recalculation",
+  "time_local": "2026-08-25T16:54:39.624921+08:00",
+  "approval_path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day78_day27_offline_recalculation_approval\\approval_20260825_165207\\day27_offline_recalculation_approval.json",
+  "approval_sha256": "CA77C207A35CDB88CD435607E6518841AB60ED0A3FD7EF520B0FF9AD386D32E5",
+  "decision_id": "AP-DAY78-001",
+  "run_directory": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day79_day27_offline_recalculation\\recalculation_20260825_165439",
+  "reusable": false
+}

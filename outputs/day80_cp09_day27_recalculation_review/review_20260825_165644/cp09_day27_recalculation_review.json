@@ -1,0 +1,68 @@
+{
+  "task": "day80_cp09_day27_recalculation_review_generation",
+  "status": "success",
+  "time_local": "2026-08-25T16:56:44.146137+08:00",
+  "decision_id": "RV-DAY80-001",
+  "decision_status": "DAY79_RECALCULATION_REVIEW_PASSED_SLOT6_RELEASE_REQUEST_ELIGIBLE",
+  "source_day79_result": {
+    "path": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day79_day27_offline_recalculation\\recalculation_20260825_165439\\day27_offline_recalculation_result.json",
+    "sha256": "E193E513FD27C35FBD9DAFB62A1625D6ECA1773EDA280C95777073C5161A73F6",
+    "verified": true
+  },
+  "cp09_review": {
+    "task_review_status": "PASS",
+    "combined_measured_point_count": 23,
+    "exact_sample_state_count": 12,
+    "candidate_count": 4,
+    "pass_candidates": [
+      "command_002",
+      "command_003"
+    ],
+    "fail_candidates": [
+      "command_001",
+      "command_004"
+    ],
+    "scientific_boundary_preserved": true
+  },
+  "checks": {
+    "day79_result_exists": true,
+    "day79_result_sha256": true,
+    "detail_csv_exists": true,
+    "detail_csv_sha256": true,
+    "summary_csv_exists": true,
+    "summary_csv_sha256": true,
+    "authorization_marker_exists": true,
+    "authorization_marker_sha256": true,
+    "day78_approval_exists": true,
+    "day78_approval_sha256": true,
+    "result_success": true,
+    "approval_consumed_once": true,
+    "approval_valid": true,
+    "combined_count": true,
+    "detail_count_json": true,
+    "detail_count_csv": true,
+    "summary_count_json": true,
+    "summary_count_csv": true,
+    "pass_candidates": true,
+    "fail_candidates": true,
+    "failed_states_and_metrics": true,
+    "measured_only": true,
+    "no_new_optics": true,
+    "no_inference": true,
+    "no_continuous_claim": true,
+    "no_unique_winner": true,
+    "cp09_pending": true,
+    "slot6_locked": true
+  },
+  "permissions": {
+    "day79_recalculation_review_completed": true,
+    "slot6_release_request_eligible": true,
+    "slot6_released": false,
+    "new_zosapi_execution_released": false,
+    "engineering_change_released": false,
+    "continuous_tolerance_claim_released": false
+  },
+  "new_zosapi_connection_created": false,
+  "new_optical_metric_calculated": false,
+  "slot6_release_performed": false
+}

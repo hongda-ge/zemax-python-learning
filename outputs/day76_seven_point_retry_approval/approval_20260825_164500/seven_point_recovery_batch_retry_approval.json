@@ -1,0 +1,28 @@
+{
+  "task": "day76_seven_point_recovery_batch_retry_approval_generation",
+  "status": "success",
+  "time_local": "2026-08-25T16:45:00+08:00",
+  "decision_id": "AP-DAY76-RETRY-002",
+  "decision_status": "SEVEN_POINT_BATCH_APPROVED_FOR_ONE_RETRY_AFTER_PRE_CONNECTION_POLICY_FIX",
+  "approved_by": "project_owner_low_risk_auto_approval",
+  "predecessor_day75_approval_sha256": "FC65B77F773D779B9B9E8B3F3305754EBD5773489E74B5572824BAE1A7D97C59",
+  "predecessor_failure_review": "outputs/day75_seven_point_recovery_batch_execution/execution_20260825_164351/DAY76_PREMATURE_ACCEPTANCE_STOP_REVIEW.json",
+  "approved_scope": "one_complete_seven_point_batch_retry",
+  "maximum_batch_execution_count": 1,
+  "maximum_case_execution_count": 7,
+  "approved_cases": [
+    {"case_id": "recovery_001", "offset_mm": -0.012, "target_image_distance_mm": 42.195788473485415},
+    {"case_id": "recovery_002", "offset_mm": 0.008, "target_image_distance_mm": 42.21578847348542},
+    {"case_id": "recovery_003", "offset_mm": 0.012, "target_image_distance_mm": 42.219788473485416},
+    {"case_id": "recovery_004", "offset_mm": 0.018, "target_image_distance_mm": 42.225788473485416},
+    {"case_id": "recovery_005", "offset_mm": 0.022, "target_image_distance_mm": 42.229788473485414},
+    {"case_id": "recovery_006", "offset_mm": 0.032, "target_image_distance_mm": 42.23978847348541},
+    {"case_id": "recovery_007", "offset_mm": 0.042, "target_image_distance_mm": 42.24978847348542}
+  ],
+  "old_approval_reusable": false,
+  "reusable": false,
+  "acceptance_failure_stops_batch": false,
+  "unexpected_execution_failure_stops_batch": true,
+  "day27_recalculation_released": false,
+  "slot6_released": false
+}

@@ -1,0 +1,307 @@
+{
+  "task": "day76_approved_seven_point_recovery_case",
+  "status": "success",
+  "time_local": "2026-08-25T16:46:46.413661+08:00",
+  "case": {
+    "case_id": "recovery_006",
+    "offset_mm": 0.032,
+    "target_image_distance_mm": 42.23978847348541,
+    "is_control": false,
+    "batch_index": 6
+  },
+  "input_model": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\models\\baselines\\cooke_surface2_6p008_focused.zmx",
+  "working_copy": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_working.zmx",
+  "input_sha256_before": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "working_sha256_before": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "connection_closed": true,
+  "quick_focus_used": false,
+  "optimization_used": false,
+  "save_as_used": false,
+  "connection": {
+    "backend": "zemax",
+    "simulation_mode": false,
+    "connected": true,
+    "version": "24.1 SP0",
+    "license_valid": true,
+    "license_status": "5",
+    "primary_system_available": true,
+    "install_dir": "E:\\Program Files\\Ansys Zemax OpticStudio 2024 R1.00",
+    "zosapi_dir": "E:\\Program Files\\Ansys Zemax OpticStudio 2024 R1.00"
+  },
+  "surface2_before": {
+    "surface_id": 2,
+    "surface_count": 8,
+    "radius": -435.76043616830793,
+    "thickness": 6.0075511,
+    "material": "",
+    "comment": ""
+  },
+  "surface6_before": {
+    "surface_id": 6,
+    "surface_count": 8,
+    "radius": -18.395332603040327,
+    "thickness": 42.207788473485415,
+    "material": "",
+    "comment": ""
+  },
+  "focus_surface_write": {
+    "surface_id": 6,
+    "old_thickness": 42.207788473485415,
+    "requested_thickness": 42.23978847348541,
+    "actual_thickness": 42.2397884734854
+  },
+  "surface6_after": {
+    "surface_id": 6,
+    "surface_count": 8,
+    "radius": -18.395332603040327,
+    "thickness": 42.2397884734854,
+    "material": "",
+    "comment": ""
+  },
+  "spot_text": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_standard_spot.txt",
+  "spot_metrics": {
+    "source_text": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_standard_spot.txt",
+    "reference": "质心",
+    "field_count": 3,
+    "fields": [
+      {
+        "field_x_degree": 0.0,
+        "field_y_degree": 0.0,
+        "rms_radius_um": 4.50031138,
+        "rms_unit": "µm",
+        "maximum_radius_um": 7.54993869,
+        "maximum_unit": "µm"
+      },
+      {
+        "field_x_degree": 0.0,
+        "field_y_degree": 14.0,
+        "rms_radius_um": 15.7227542,
+        "rms_unit": "µm",
+        "maximum_radius_um": 35.8703441,
+        "maximum_unit": "µm"
+      },
+      {
+        "field_x_degree": 0.0,
+        "field_y_degree": 20.0,
+        "rms_radius_um": 13.1848086,
+        "rms_unit": "µm",
+        "maximum_radius_um": 22.2716678,
+        "maximum_unit": "µm"
+      }
+    ]
+  },
+  "spot_summary": {
+    "fields": [
+      {
+        "field_x_degree": 0.0,
+        "field_y_degree": 0.0,
+        "rms_radius_um": 4.50031138,
+        "rms_unit": "µm",
+        "maximum_radius_um": 7.54993869,
+        "maximum_unit": "µm"
+      },
+      {
+        "field_x_degree": 0.0,
+        "field_y_degree": 14.0,
+        "rms_radius_um": 15.7227542,
+        "rms_unit": "µm",
+        "maximum_radius_um": 35.8703441,
+        "maximum_unit": "µm"
+      },
+      {
+        "field_x_degree": 0.0,
+        "field_y_degree": 20.0,
+        "rms_radius_um": 13.1848086,
+        "rms_unit": "µm",
+        "maximum_radius_um": 22.2716678,
+        "maximum_unit": "µm"
+      }
+    ],
+    "equal_field_mean_rms_um": 11.13595806,
+    "worst_field_rms_um": 15.7227542
+  },
+  "mtf_text": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_fft_mtf.txt",
+  "mtf_metrics": {
+    "source_text": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\execution_20260825_164618\\recovery_006\\recovery_006_fft_mtf.txt",
+    "field_count": 3,
+    "target_frequencies_cyc_per_mm": [
+      30.0,
+      50.0
+    ],
+    "fields": [
+      {
+        "field_y_degree": 0.0,
+        "sample_count": 101,
+        "evaluations": [
+          {
+            "target_frequency_cyc_per_mm": 30.0,
+            "sample_frequency_cyc_per_mm": 30.0,
+            "tangential_mtf": 0.772444,
+            "sagittal_mtf": 0.772444,
+            "mean_mtf": 0.772444,
+            "direction_gap": 0.0
+          },
+          {
+            "target_frequency_cyc_per_mm": 50.0,
+            "sample_frequency_cyc_per_mm": 50.0,
+            "tangential_mtf": 0.561348,
+            "sagittal_mtf": 0.561348,
+            "mean_mtf": 0.561348,
+            "direction_gap": 0.0
+          }
+        ]
+      },
+      {
+        "field_y_degree": 14.0,
+        "sample_count": 101,
+        "evaluations": [
+          {
+            "target_frequency_cyc_per_mm": 30.0,
+            "sample_frequency_cyc_per_mm": 30.0,
+            "tangential_mtf": 0.270528,
+            "sagittal_mtf": 0.276531,
+            "mean_mtf": 0.2735295,
+            "direction_gap": 0.006003000000000036
+          },
+          {
+            "target_frequency_cyc_per_mm": 50.0,
+            "sample_frequency_cyc_per_mm": 50.0,
+            "tangential_mtf": 0.11938,
+            "sagittal_mtf": 0.124195,
+            "mean_mtf": 0.12178749999999999,
+            "direction_gap": 0.004815
+          }
+        ]
+      },
+      {
+        "field_y_degree": 20.0,
+        "sample_count": 101,
+        "evaluations": [
+          {
+            "target_frequency_cyc_per_mm": 30.0,
+            "sample_frequency_cyc_per_mm": 30.0,
+            "tangential_mtf": 0.175526,
+            "sagittal_mtf": 0.225403,
+            "mean_mtf": 0.2004645,
+            "direction_gap": 0.049877000000000005
+          },
+          {
+            "target_frequency_cyc_per_mm": 50.0,
+            "sample_frequency_cyc_per_mm": 50.0,
+            "tangential_mtf": 0.059028,
+            "sagittal_mtf": 0.123503,
+            "mean_mtf": 0.0912655,
+            "direction_gap": 0.064475
+          }
+        ]
+      }
+    ]
+  },
+  "mtf_summary": {
+    "fields": [
+      {
+        "field_y_degree": 0.0,
+        "sample_count": 101,
+        "evaluations": [
+          {
+            "target_frequency_cyc_per_mm": 30.0,
+            "sample_frequency_cyc_per_mm": 30.0,
+            "tangential_mtf": 0.772444,
+            "sagittal_mtf": 0.772444,
+            "mean_mtf": 0.772444,
+            "direction_gap": 0.0
+          },
+          {
+            "target_frequency_cyc_per_mm": 50.0,
+            "sample_frequency_cyc_per_mm": 50.0,
+            "tangential_mtf": 0.561348,
+            "sagittal_mtf": 0.561348,
+            "mean_mtf": 0.561348,
+            "direction_gap": 0.0
+          }
+        ]
+      },
+      {
+        "field_y_degree": 14.0,
+        "sample_count": 101,
+        "evaluations": [
+          {
+            "target_frequency_cyc_per_mm": 30.0,
+            "sample_frequency_cyc_per_mm": 30.0,
+            "tangential_mtf": 0.270528,
+            "sagittal_mtf": 0.276531,
+            "mean_mtf": 0.2735295,
+            "direction_gap": 0.006003000000000036
+          },
+          {
+            "target_frequency_cyc_per_mm": 50.0,
+            "sample_frequency_cyc_per_mm": 50.0,
+            "tangential_mtf": 0.11938,
+            "sagittal_mtf": 0.124195,
+            "mean_mtf": 0.12178749999999999,
+            "direction_gap": 0.004815
+          }
+        ]
+      },
+      {
+        "field_y_degree": 20.0,
+        "sample_count": 101,
+        "evaluations": [
+          {
+            "target_frequency_cyc_per_mm": 30.0,
+            "sample_frequency_cyc_per_mm": 30.0,
+            "tangential_mtf": 0.175526,
+            "sagittal_mtf": 0.225403,
+            "mean_mtf": 0.2004645,
+            "direction_gap": 0.049877000000000005
+          },
+          {
+            "target_frequency_cyc_per_mm": 50.0,
+            "sample_frequency_cyc_per_mm": 50.0,
+            "tangential_mtf": 0.059028,
+            "sagittal_mtf": 0.123503,
+            "mean_mtf": 0.0912655,
+            "direction_gap": 0.064475
+          }
+        ]
+      }
+    ],
+    "frequencies": [
+      {
+        "frequency_cyc_per_mm": 30.0,
+        "overall_mean_mtf": 0.4154793333333333,
+        "minimum_mtf": 0.175526,
+        "maximum_direction_gap": 0.049877000000000005
+      },
+      {
+        "frequency_cyc_per_mm": 50.0,
+        "overall_mean_mtf": 0.25813366666666665,
+        "minimum_mtf": 0.059028,
+        "maximum_direction_gap": 0.064475
+      }
+    ]
+  },
+  "input_sha256_after": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "working_sha256_after": "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF",
+  "input_model_unchanged": true,
+  "working_copy_unchanged": true,
+  "authorization_marker": "E:\\Study_Job\\zemax_python_zosapi\\02_zosapi_python\\outputs\\day76_seven_point_recovery_batch_retry_02_execution\\approval_RETRY02_consumed.json",
+  "summary_metrics": {
+    "spot_mean_rms_um": 11.13595806,
+    "spot_worst_rms_um": 15.7227542,
+    "mtf30_mean": 0.4154793333333333,
+    "mtf30_minimum": 0.175526,
+    "mtf50_mean": 0.25813366666666665,
+    "mtf50_minimum": 0.059028
+  },
+  "balanced_acceptance_checks": {
+    "spot_mean": true,
+    "spot_worst": true,
+    "mtf30_minimum": true,
+    "mtf50_minimum": true
+  },
+  "balanced_acceptance_pass": true,
+  "post_execution_gate": "CP09_recovery_batch_gate",
+  "day27_recalculation_released": false,
+  "slot6_released": false
+}

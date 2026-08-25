@@ -1,0 +1,44 @@
+schema_version: "approved_seven_point_recovery_batch/v1"
+case:
+  id: "day76_approved_seven_point_recovery_batch_retry_02"
+  status: "approved_for_one_execution"
+execution:
+  enabled: true
+  maximum_batch_execution_count: 1
+  maximum_case_execution_count: 7
+  maximum_active_zosapi_connections: 1
+  run_sequentially: true
+  stop_on_first_unexpected_execution_failure: true
+  acceptance_failure_stops_batch: false
+  allow_standard_spot: true
+  allow_fft_mtf: true
+  allow_quick_focus: false
+  allow_optimization: false
+  allow_save_as: false
+  allow_zero_control_rerun: false
+  allow_day27_recalculation: false
+  allow_slot6_release: false
+  allow_source_modification: false
+source:
+  approval: "outputs/day76_seven_point_retry_approval/approval_20260825_164500/seven_point_recovery_batch_retry_approval.json"
+  approval_sha256: "19EDEAEEE43096514C6B03EA1E79479D50B0F668826248E0E775CE7D16C4B295"
+  day25_config: "configs/day25_balanced_acceptance_boundary_scan.yaml"
+  day25_config_sha256: "7ABED8A4FE616D2A17E8EC23827C9D1BA786D59376C5540970FE78F1D02BF75D"
+  focused_model: "models/baselines/cooke_surface2_6p008_focused.zmx"
+  focused_model_sha256: "9B01CC4E0F6C02961E332D635DC18A76F4663D791F346535083339F65BA439FF"
+guardrails:
+  required_entrypoint: "scripts/demos/day76_execute_approved_seven_point_recovery_batch.py"
+  post_execution_gate: "CP09_recovery_batch_gate"
+  require_authorization_consumption_before_zosapi: true
+  require_every_connection_closed: true
+  require_input_model_unchanged: true
+  require_every_working_copy_unchanged: true
+output:
+  root: "outputs/day76_seven_point_recovery_batch_retry_02_execution"
+  authorization_marker: "approval_RETRY02_consumed.json"
+  batch_report: "seven_point_recovery_batch_result.json"
+approval:
+  decision_id: "EX-DAY76-RETRY-002"
+  approved_by: "project_owner_low_risk_auto_approval"
+  approved_date: "2026-08-25"
+  reusable: false
