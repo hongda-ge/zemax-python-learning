@@ -70,7 +70,21 @@ Python 可以在受控范围内系统改变光学参数，记录完整性能剖�
 
 学习过程按照“计划检查 → 单案例验证 → 小批量执行 → 结果解释”推进。每个阶段都有中文学习记录，适合光学背景、编程经验较少的学习者理解 ZOS-API 的真实工作流程。
 
-## 当前 V1 实验
+## 工程案例
+
+### Day06：双高斯可见光—850 nm 安防镜头
+
+该案例采用约 `6 mm`、`F/2.0` 的双高斯镜头，在固定像面、无 Quick Focus 条件下，通过真实 ZOS-API 对 `K9 × R10` 完成 `5 × 5` 双参数扫描。25 组案例覆盖 6 个视场/波长状态，在实际采样频率 `79.866 lp/mm` 处保留 300 个 T/S MTF 数值；另附 100 次 OpticStudio GUI Monte Carlo 初步公差直方图。
+
+- [完整技术说明](docs/cases/DAY06_DOUBLE_GAUSS.md)
+- [25 组扫描 CSV](results/day06_double_gauss/scan_fft_mtf.csv)
+- [可见光 FFT MTF 随视场](figures/day06/day06_visible_fft_mtf_vs_field.png)
+- [850 nm 边缘视场 T-MTF 双参数热图](figures/day06/day06_ir850_t_mtf_heatmap.png)
+- [GUI Monte Carlo RMS 光斑半径直方图](figures/day06/day06_gui_monte_carlo_rms_spot_histogram.png)
+
+其中 Monte Carlo 为 GUI 计算，不是 ZOS-API 公差自动化；双高斯案例也不代表统一 `ZemaxBackend` 已完成。
+
+## Cooke Triplet 主研究链（Day80 冻结）
 
 当前主线使用 Zemax 示例 Cooke Triplet，研究 LDE 面 2 的 `Thickness`：
 
@@ -134,6 +148,9 @@ Python 可以在受控范围内系统改变光学参数，记录完整性能剖�
 ├─ modules/zemax/           # 连接、模型、对焦、分析和 MFE 通用操作
 ├─ scripts/demos/           # 当前真实实验与教学步骤
 ├─ scripts/legacy/          # 早期 D16–D20 探索脚本，仅作历史参考
+├─ results/day06_double_gauss/ # Day06 选择性冻结的非模型数值证据
+├─ figures/day06/           # Day06 既有性能与初步公差图
+├─ docs/cases/              # 独立工程案例技术说明
 ├─ docs/project_plan/       # 项目章程、基准定义和功能边界
 ├─ docs/learning_notes/     # 分阶段中文学习记录
 ├─ outputs/                 # 本地运行产物，默认不进入 Git
@@ -210,26 +227,27 @@ python scripts/demos/day11_requirement_scenario_plan.py
 
 ## 推荐阅读顺序
 
-1. [项目章程](docs/project_plan/PROJECT_CHARTER.md)
-2. [Cooke 基准实验定义](docs/project_plan/BASELINE_DEFINITION.md)
-3. [Day 8：局部稳健性](docs/learning_notes/DAY8_LOCAL_ROBUSTNESS.md)
-4. [Day 9：Spot/MTF 交叉验证](docs/learning_notes/DAY9_SPOT_MTF_CROSS_VALIDATION.md)
-5. [Day 10：Merit Function 验证](docs/learning_notes/DAY10_MERIT_FUNCTION_VALIDATION.md)
-6. [Day 11：需求驱动决策](docs/learning_notes/DAY11_REQUIREMENT_DRIVEN_DECISION.md)
-7. [Day 12：决策门槛敏感性分析](docs/learning_notes/DAY12_DECISION_SENSITIVITY.md)
-8. [Day 13：候选局部邻域稳健性](docs/learning_notes/DAY13_LOCAL_NEIGHBORHOOD_ROBUSTNESS.md)
-9. [Day 14：LDE Solve 只读审计](docs/learning_notes/DAY14_LDE_SOLVE_AUDIT.md)
-10. [Day 15：保留 Solve 与冻结曲率的双分支验证](docs/learning_notes/DAY15_SOLVE_BRANCH_VALIDATION.md)
-11. [Day 16：Solve 双分支的 Quick Focus 与 Spot 比较](docs/learning_notes/DAY16_SOLVE_BRANCH_SPOT_COMPARISON.md)
-12. [Day 17：Solve 双分支的局部区间趋势](docs/learning_notes/DAY17_SOLVE_BRANCH_TREND.md)
+1. [Day06 双高斯固定像面工程案例](docs/cases/DAY06_DOUBLE_GAUSS.md)
+2. [项目章程](docs/project_plan/PROJECT_CHARTER.md)
+3. [Cooke 基准实验定义](docs/project_plan/BASELINE_DEFINITION.md)
+4. [Day 8：局部稳健性](docs/learning_notes/DAY8_LOCAL_ROBUSTNESS.md)
+5. [Day 9：Spot/MTF 交叉验证](docs/learning_notes/DAY9_SPOT_MTF_CROSS_VALIDATION.md)
+6. [Day 10：Merit Function 验证](docs/learning_notes/DAY10_MERIT_FUNCTION_VALIDATION.md)
+7. [Day 11：需求驱动决策](docs/learning_notes/DAY11_REQUIREMENT_DRIVEN_DECISION.md)
+8. [Day 12：决策门槛敏感性分析](docs/learning_notes/DAY12_DECISION_SENSITIVITY.md)
+9. [Day 13：候选局部邻域稳健性](docs/learning_notes/DAY13_LOCAL_NEIGHBORHOOD_ROBUSTNESS.md)
+10. [Day 14：LDE Solve 只读审计](docs/learning_notes/DAY14_LDE_SOLVE_AUDIT.md)
+11. [Day 15：保留 Solve 与冻结曲率的双分支验证](docs/learning_notes/DAY15_SOLVE_BRANCH_VALIDATION.md)
+12. [Day 16：Solve 双分支的 Quick Focus 与 Spot 比较](docs/learning_notes/DAY16_SOLVE_BRANCH_SPOT_COMPARISON.md)
+13. [Day 17：Solve 双分支的局部区间趋势](docs/learning_notes/DAY17_SOLVE_BRANCH_TREND.md)
 
 ## 当前边界
 
-- 当前只完成一个真实模型、一个外层参数的研究链路；
-- 当前补偿动作为 Quick Focus，尚未形成受限变量的完整内层再优化实验；
+- 当前包含两条真实模型案例：Cooke Triplet 完成单一空气间隔的完整研究/复核链；Day06 双高斯完成固定像面的 `K9 × R10` 25 组局部扫描；
+- Cooke 主线的补偿动作为 Quick Focus；Day06 双高斯不做 Quick Focus。两条案例均尚未形成受限变量的完整内层再优化实验；
 - 5% 近优平台和 2% 均衡门槛均为公开的项目教学规则，不是加工公差；
 - MTF 当前从 Zemax 原始文本中解析，而不是直接读取全部 DataSeries；
-- 当前尚未加入真实探测器、成本、材料批次、热环境和装调误差；
+- 当前尚未加入真实探测器、成本、材料批次和热环境；Day06 的 100 次 GUI Monte Carlo 仅为初步公差证据，尚未形成 ZOS-API 公差自动化或正式公差验收链；
 - 当前结论只对冻结的模型、配置、视场、波长和分析设置有效；
 - 仓库不包含 OpticStudio、许可证或 Ansys 专有程序文件。
 - `modules/backends/zemax_backend.py` 仍是占位实现；真实能力集中在 `modules/zemax/` 与受控 Day 脚本中，不能宣称统一 Backend 已完成。
@@ -238,7 +256,7 @@ python scripts/demos/day11_requirement_scenario_plan.py
 ## 后续路线
 
 1. 引入探测器像元和目标空间频率，将教学门槛升级为工程验收规则；
-2. 加入制造公差与 Monte Carlo，验证候选区域的真实稳健性；
+2. 冻结公差操作数、分布、补偿器和逐次样本，并将 Day06 的 GUI 初步公差扩展为可审计的自动化公差链；
 3. 在每个外层参数案例中授权少量内层变量再优化，并审计变量边界；
 4. 从单参数扩展到经过筛选的少量关键参数，而不是直接进行无约束高维穷举；
 5. 建立统一的任务配置、执行器、报告和恢复机制；
